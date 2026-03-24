@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>성창민 | Developer Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent: #F37321;
+    --accent2: #1a3a5c;
+    --muted: #6b6560;
+    --line: rgba(13,13,13,0.12);
+    --gold: #b8860b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-name {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .75rem; letter-spacing: .2em; color: var(--muted);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  section { padding: 7rem 0; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+  /* ── PAGE 1 : HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  .hero-bg-text {
+    position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+    font-family: 'Pretendard', sans-serif;
+    font-size: clamp(8rem, 18vw, 18rem);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(13,13,13,0.07);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .hero-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+    width: 100%;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: end; gap: 4rem;
+  }
+  .hero-label {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .7rem; letter-spacing: .25em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-label::before { content: '// '; opacity: .5; }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-pitch {
+    font-size: 1rem; line-height: 1.75;
+    color: var(--muted);
+    max-width: 640px;
+    margin-bottom: 2.5rem;
+    border-left: 2px solid var(--accent);
+    padding-left: 1.25rem;
+    word-break: keep-all; /* 한글, 영어 등 모두 단어 기준으로 줄바꿈 */
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: .6rem;
+    background: var(--ink); color: var(--paper);
+    padding: .85rem 1.8rem;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s, transform .2s;
+  }
+  .hero-cta:hover { background: var(--accent); transform: translateY(-2px); }
+  .hero-meta {
+    display: flex; flex-direction: column; gap: .6rem; align-items: flex-start;
+    padding-bottom: .5rem;
+  }
+  .meta-item {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .7rem; color: var(--muted); letter-spacing: .1em;
+  }
+  .meta-item span { color: var(--ink); font-weight: 500; }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .4rem;
+    font-family: 'Pretendard', sans-serif; font-size: .6rem;
+    letter-spacing: .2em; color: var(--muted);
+    animation: nudge 2s ease-in-out infinite;
+  }
+  .hero-scroll::after {
+    content: ''; display: block; width: 1px; height: 40px;
+    background: var(--muted); animation: grow 2s ease-in-out infinite;
+  }
+  @keyframes nudge { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+  @keyframes grow { 0%,100%{transform:scaleY(1);transform-origin:top} 50%{transform:scaleY(.4);transform-origin:top} }
+
+  /* ── PAGE 2 : KEYWORDS ── */
+  #keywords {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .section-eyebrow {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.1; margin-bottom: 3.5rem;
+  }
+  .keywords-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+  .keyword-card {
+    padding: 3rem 2.5rem;
+    border: 1px solid rgba(245,240,232,0.1);
+    position: relative; overflow: hidden;
+    transition: background .3s;
+  }
+  .keyword-card:hover { background: rgba(200,65,10,.15); }
+  .keyword-num {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 5rem; color: rgba(245,240,232,.04);
+    position: absolute; top: -.5rem; right: 1rem;
+    line-height: 1; pointer-events: none;
+  }
+  .keyword-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--paper);
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    padding: .3rem .8rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Pretendard', sans-serif;
+  }
+  .keyword-title {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 1.8rem; margin-bottom: 1rem;
+    color: var(--paper);
+  }
+  .keyword-desc {
+    font-size: .85rem; line-height: 1.8; color: rgba(245,240,232,.65);
+  }
+
+  /* ── PAGE 3 : RESUME ── */
+  #resume { background: var(--paper); }
+  .resume-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem;
+    align-items: start;
+  }
+  .resume-left {}
+  .profile-block { margin-bottom: 3rem; }
+  .profile-name {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 2.8rem; line-height: 1.1; margin-bottom: .3rem;
+    font-weight: 700;
+  }
+  .profile-sub {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .72rem; color: var(--muted); letter-spacing: .18em;
+  }
+  .resume-divider {
+    width: 3rem; height: 2px; background: var(--accent); margin: 1.5rem 0;
+  }
+  .info-row {
+    display: flex; align-items: baseline; gap: .8rem;
+    margin-bottom: .5rem;
+  }
+  .info-label {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .65rem; letter-spacing: .15em; color: var(--accent);
+    min-width: 5rem; text-transform: uppercase;
+  }
+  .info-val { font-size: .85rem; color: var(--ink); }
+  .info-val a { color: var(--accent2); text-decoration: none; }
+  .info-val a:hover { text-decoration: underline; }
+
+  .resume-block-title {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* Skills */
+  .skills-section { margin-bottom: 3rem; }
+  .skill-row { margin-bottom: 1rem; }
+  .skill-cat {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .65rem; color: var(--accent); letter-spacing: .12em;
+    margin-bottom: .35rem;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .pill {
+    background: rgba(13,13,13,.06);
+    border: 1px solid var(--line);
+    padding: .25rem .75rem;
+    font-size: .75rem;
+    color: var(--ink);
+    font-family: 'Pretendard', sans-serif;
+    transition: background .2s, border-color .2s;
+  }
+  .pill:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+  /* Career */
+  .career-item { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .career-item:last-child { border-bottom: none; }
+  .career-company {
+    font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: .3rem;
+  }
+  .career-role { font-size: .8rem; color: var(--muted); margin-bottom: .3rem; line-height: 1.6; }
+  .career-period {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .68rem; color: var(--accent);
+  }
+
+  /* Awards */
+  .award-item { margin-bottom: 1.4rem; }
+  .award-name { font-size: .9rem; font-weight: 500; color: var(--ink); }
+  .award-meta {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .65rem; color: var(--muted); margin-top: .2rem;
+  }
+
+  /* Projects list */
+  .proj-table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
+  .proj-table tr { border-bottom: 1px solid var(--line); }
+  .proj-table td { padding: .75rem .5rem; vertical-align: top; }
+  .proj-table td:first-child { font-size: .85rem; font-weight: 500; color: var(--ink); width: 60%; }
+  .proj-table td:last-child {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .65rem; color: var(--muted); text-align: right;
+  }
+  .role-badge {
+    display: inline-block; font-size: .6rem; letter-spacing: .1em;
+    border: 1px solid var(--accent); color: var(--accent);
+    background: rgba(243,115,33,.08);
+    padding: .15rem .5rem; margin-top: .3rem;
+    text-transform: uppercase; font-family: 'Pretendard', sans-serif;
+  }
+  .role-badge.fullstack {
+    border-color: #d86a1f;
+    color: #b85817;
+    background: rgba(243,115,33,.14);
+  }
+  .role-badge.backend {
+    border-color: #6e8fae;
+    color: #3f6384;
+    background: rgba(110,143,174,.15);
+  }
+  .role-badge.android {
+    border-color: #6ea75f;
+    color: #3e7b32;
+    background: rgba(110,167,95,.16);
+  }
+
+  /* ── PROJECTS DETAIL ── */
+  #projects { background: #f0ebe0; }
+  .projects-header { margin-bottom: 4rem; }
+  .project-card {
+    display: grid; grid-template-columns: 2.5fr 1fr;
+    gap: 3rem; align-items: start;
+    padding: 3.5rem 0;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .project-card:last-child { border-bottom: 1px solid var(--line); }
+
+  .proj-index {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 5rem; color: rgba(13,13,13,.06);
+    position: absolute; top: 2rem; right: 0;
+    line-height: 1; pointer-events: none;
+  }
+
+  .proj-header { margin-bottom: 1.5rem; }
+  .proj-name {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 1.75rem; color: var(--ink); margin-bottom: .4rem;
+  }
+  .proj-summary {
+    font-size: .85rem; line-height: 1.75; color: var(--muted);
+    margin-bottom: 1.5rem;
+    word-break: keep-all;
+  }
+  .proj-section-label {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .65rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .5rem; margin-top: 1.2rem;
+  }
+  .proj-text { font-size: .85rem; line-height: 1.8; color: var(--ink); }
+  .proj-text ul { margin-left: 1.2rem; }
+  .proj-text li { margin-bottom: .3rem; }
+
+  .proj-sidebar { padding-top: .4rem; }
+  .proj-meta-block { margin-bottom: 1.5rem; }
+  .proj-meta-label {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: .5rem;
+  }
+  .proj-period {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .75rem; color: var(--ink);
+  }
+  .stack-list { display: flex; flex-direction: column; gap: .3rem; }
+  .stack-item {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .7rem; color: var(--ink);
+    background: rgba(13,13,13,.06);
+    padding: .2rem .6rem;
+    display: inline-block;
+  }
+  .result-badge {
+    background: var(--ink); color: var(--paper);
+    padding: 1rem 1.2rem; margin-top: .5rem;
+  }
+  .result-badge .rb-label {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .6rem; letter-spacing: .15em; color: var(--accent); margin-bottom: .5rem;
+  }
+  .result-badge .rb-text { font-size: .78rem; line-height: 1.7; }
+
+  /* ── CLOSING ── */
+  #closing {
+    background: var(--ink); color: var(--paper);
+    text-align: center;
+    padding: 9rem 0;
+    position: relative; overflow: hidden;
+  }
+  .closing-bg {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    font-family: 'Pretendard', sans-serif;
+    font-size: 28vw; color: transparent;
+    -webkit-text-stroke: 1px rgba(245,240,232,.04);
+    white-space: nowrap; pointer-events: none;
+  }
+  .closing-eyebrow {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 2rem;
+  }
+  .closing-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .closing-title em { font-style: italic; color: var(--accent); }
+  .closing-desc {
+    font-size: .9rem; line-height: 1.9; color: rgba(245,240,232,.6);
+    max-width: 560px; margin: 0 auto 3rem;
+  }
+  .closing-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .clink {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .75rem; letter-spacing: .12em;
+    padding: .75rem 1.6rem;
+    text-decoration: none; text-transform: uppercase;
+    transition: all .2s;
+  }
+  .clink-primary { background: var(--accent); color: var(--paper); }
+  .clink-primary:hover { background: #e04d0d; }
+  .clink-ghost { border: 1px solid rgba(245,240,232,.3); color: rgba(245,240,232,.7); }
+  .clink-ghost:hover { border-color: var(--paper); color: var(--paper); }
+
+  footer {
+    background: #070707; color: rgba(245,240,232,.3);
+    text-align: center; padding: 1.5rem;
+    font-family: 'Pretendard', sans-serif; font-size: .65rem; letter-spacing: .12em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: none; }
+
+  @media(max-width:900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-meta { display: none; }
+    .keywords-grid { grid-template-columns: 1fr; }
+    .resume-grid { grid-template-columns: 1fr; }
+    .project-card { grid-template-columns: 1fr; }
+    .proj-sidebar { padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-name">SCM // PORTFOLIO</span>
+  <ul class="nav-links">
+    <li><a href="#keywords">About</a></li>
+    <li><a href="#resume">Resume</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#closing">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══ PAGE 1 : HERO ══ -->
+<section id="hero">
+  <div class="hero-bg-text">DEV</div>
+  <div class="hero-inner">
+    <div>
+      <p class="hero-label">Developer Portfolio 2026</p>
+      <h1 class="hero-title">
+        사용자를 먼저<br>생각하는 개발자,<br><em>성창민</em>입니다.
+      </h1>
+      <p class="hero-pitch">
+        개발자의 시선을 넘어 실제 사용자의 입장에서 불편함을 발견하고,<br>
+        비효율적인 구조를 근본적으로 개선해 팀 전체의 생산성을 높이는
+        풀스택 개발자입니다.
+      </p>
+      <a class="hero-cta" href="#projects">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        프로젝트 보기
+      </a>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">E-MAIL <span>hys1693359@gmail.com</span></div>
+      <div class="meta-item">PHONE <span>010-8207-6120</span></div>
+      <div class="meta-item">GITHUB <a href="https://github.com/indaegu" target="_blank" 
+      style="text-decoration-line: none; color: #0d0d0d; font-weight: 500;">github.com/indaegu</a></div>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ══ PAGE 2 : KEYWORDS ══ -->
+<section id="keywords">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-eyebrow">// 나를 정의하는 세 가지</p>
+      <h2 class="section-title">What defines me</h2>
+    </div>
+    <div class="keywords-grid fade-up">
+      <div class="keyword-card">
+        <div class="keyword-num">01</div>
+        <div class="keyword-tag">User-Friendly</div>
+        <h3 class="keyword-title">사용자<br>친화적인</h3>
+        <p class="keyword-desc">개발자의 시선을 넘어 실제 사용자의 입장에서 불편함을 찾아내고, 더 나은 사용성을 제공하기 위한 개선안을 끊임없이 고민하고 주도적으로 개선해 나갑니다.</p>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-num">02</div>
+        <div class="keyword-tag">Efficient</div>
+        <h3 class="keyword-title">효율적인</h3>
+        <p class="keyword-desc">단순히 기능이 동작하는 것을 넘어, 비효율적인 레거시 코드와 반복되는 업무 프로세스를 근본적으로 개선하여 프로젝트의 생산성을 높입니다.</p>
+      </div>
+      <div class="keyword-card">
+        <div class="keyword-num">03</div>
+        <div class="keyword-tag">Documenting</div>
+        <h3 class="keyword-title">문서화하는</h3>
+        <p class="keyword-desc">반복적으로 발생하는 프로세스와 해결 경험을 체계적으로 문서화하여 개인의 경험을 팀 전체의 자산으로 만듭니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PAGE 3 : RESUME ══ -->
+<section id="resume">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom:4rem">
+      <p class="section-eyebrow">// 이력서</p>
+      <h2 class="section-title" style="color:var(--ink)">Resume</h2>
+    </div>
+    <div class="resume-grid fade-up">
+
+      <!-- LEFT -->
+      <div class="resume-left">
+        <div class="profile-block">
+          <div class="profile-name">성창민</div>
+          <div class="profile-sub">FULLSTACK DEVELOPER</div>
+          <div class="resume-divider"></div>
+          <div class="info-row"><span class="info-label">Birth</span><span class="info-val">1999.03.25</span></div>
+          <div class="info-row"><span class="info-label">Phone</span><span class="info-val">010-8207-6120</span></div>
+          <div class="info-row"><span class="info-label">E-Mail</span><span class="info-val"><a href="mailto:hys1693359@gmail.com">hys1693359@gmail.com</a></span></div>
+          <div class="info-row"><span class="info-label">GitHub</span><span class="info-val"><a href="https://github.com/indaegu" target="_blank">github.com/indaegu</a></span></div>
+        </div>
+
+        <div class="skills-section">
+          <div class="resume-block-title">Tech Stack</div>
+          <div class="skill-row">
+            <div class="skill-cat">Languages</div>
+            <div class="skill-pills">
+              <span class="pill">Java</span><span class="pill">JavaScript</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-cat">Framework / Library</div>
+            <div class="skill-pills">
+              <span class="pill">Vue.js</span><span class="pill">React</span><span class="pill">Spring</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-cat">Database</div>
+            <div class="skill-pills">
+              <span class="pill">PostgreSQL</span><span class="pill">MySQL</span><span class="pill">Oracle</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-cat">CI/CD · DevOps</div>
+            <div class="skill-pills">
+              <span class="pill">Docker</span><span class="pill">Jenkins</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="resume-block-title">Awards</div>
+          <div class="award-item">
+            <div class="award-name">ICT&디지털혁신본부 2025 상반기 우수직원</div>
+            <div class="award-meta">하나저축은행 · 2025-07-31</div>
+          </div>
+          <div class="award-item">
+            <div class="award-name">한국정보산업연합회장상</div>
+            <div class="award-meta">과학기술정보통신부 · 2023-12-07</div>
+          </div>
+          <div class="award-item">
+            <div class="award-name">마이크로소프트 클라우드 AI 모델 경진대회</div>
+            <div class="award-meta">한국마이크로소프트 트레이닝 파트너 엘릭서 · 2024-10-28</div>
+          </div>
+          <div class="award-item">
+            <div class="award-name">프로젝트 최우수상</div>
+            <div class="award-meta">한국소프트웨어기술진흥협회 · 2023-12-29</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="resume-right">
+        <div style="margin-bottom:3rem">
+          <div class="resume-block-title">Career</div>
+          <div class="career-item">
+            <div class="career-company">하나금융티아이</div>
+            <div class="career-role">하나저축은행 스마트뱅킹 비대면 채널계,<br>백오피스 개발 및 운영 담당</div>
+            <div class="career-period">2024.11.15 ~ 현재</div>
+          </div>
+          <div class="career-item">
+            <div class="career-company">한국전자통신연구원 (ETRI)</div>
+            <div class="career-role">복합 측위 데이터 수집 및 분석,<br>복합 측위 기술 알고리즘 분석 및 비교</div>
+            <div class="career-period">2023.01.01 ~ 2023.02.28</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="resume-block-title">Projects</div>
+          <table class="proj-table">
+            <tr>
+              <td>모바일 신분증 도입 프로젝트<br><span class="role-badge fullstack">Fullstack</span></td>
+              <td>25.09 ~ 25.10</td>
+            </tr>
+            <tr>
+              <td>운영자 페이지 자체개선<br><span class="role-badge fullstack">Fullstack</span></td>
+              <td>26.02 ~ 26.03</td>
+            </tr>
+            <tr>
+              <td>카드 혜택 극대화 서비스 "HANARO"<br><span class="role-badge fullstack">Fullstack</span></td>
+              <td>25.08 ~ 25.11</td>
+            </tr>
+            <tr>
+              <td>통합 여행 플랫폼 "Journey Mate"<br><span class="role-badge backend">Backend</span></td>
+              <td>23.04 ~ 23.11</td>
+            </tr>
+            <tr>
+              <td>CNN 폰트 찾기 & 추천 웹<br><span class="role-badge fullstack">Fullstack</span></td>
+              <td>23.09 ~ 23.11</td>
+            </tr>
+            <tr>
+              <td>물물교환 서비스 "가치잇솝"<br><span class="role-badge backend">Backend</span></td>
+              <td>23.11 ~ 23.12</td>
+            </tr>
+            <tr>
+              <td>OCR 간편 계좌이체 서비스<br><span class="role-badge android">Android</span></td>
+              <td>23.08 ~ 23.12</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ PAGES 4~6 : PROJECT DETAIL ══ -->
+<section id="projects">
+  <div class="container">
+    <div class="projects-header fade-up">
+      <p class="section-eyebrow">// 주요 프로젝트</p>
+      <h2 class="section-title" style="color:var(--ink)">Selected Work</h2>
+    </div>
+
+    <!-- PROJECT 1 -->
+    <div class="project-card fade-up">
+      <div class="proj-index">01</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2025.09.15 → 2025.10.21 · Fullstack Developer</div>
+          <h3 class="proj-name">모바일 신분증 도입 프로젝트</h3>
+        </div>
+        <p class="proj-summary">
+          하나저축은행 원큐앱 내부에 모바일 신분증을 이용한 인증 방식을 추가 도입하는 개발.
+          기존 실물 신분증 단독 방식에서 확장하여 고객 편의성을 높이는 인증 채널을 구축했습니다.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>기존 인증 방식이 실물 신분증 하나로 제한되어 고객 불편을 야기</li>
+            <li>App2App 방식은 네이티브 개발자 2명 공수 필요, 앱 심사로 운영 배포에 제약 발생</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>개발 공수·운영 유연성·대응속도를 고려해 App2App 대신 <strong>Web2App 방식을 자처하여 구현</strong></li>
+            <li>OS별로 상이하게 동작하는 브릿지를 각 OS 네이티브 개발자와 협력하여 통합</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>앱 심사 없이 즉각 대응 가능한 운영 배포 환경 구성</li>
+            <li>네이티브 2명의 공수 없이 웹 개발자 1명으로 운영 개발 가능</li>
+            <li>인증·개발 흐름을 웹으로 통일해 개발 난이도 낮춤</li>
+            <li>개발 기간 내 모바일 신분증 프로젝트 완성적으로 도입 완료</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2025.09.15<br>→ 2025.10.21</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Vue.js</span>
+            <span class="stack-item">Spring Boot</span>
+            <span class="stack-item">JavaScript</span>
+            <span class="stack-item">Java</span>
+            <span class="stack-item">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">✦ Key Outcome</div>
+          <div class="rb-text">웹 개발자 1명으로<br>전체 운영 개발 가능한<br>구조 확보</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="project-card fade-up">
+      <div class="proj-index">02</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2026.02.23 → 2026.03.10 · Fullstack Developer</div>
+          <h3 class="proj-name">운영자 페이지 (백오피스) 자체개선</h3>
+        </div>
+        <p class="proj-summary">
+          채널별로 각각 작성해야 했던 공지사항·팝업 등록 방식을 공통 템플릿 구조로 개선해,
+          현업의 반복 업무를 줄이고 운영 효율을 높인 프로젝트.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>공지사항·팝업 등록 시 채널마다 작성 방식이 달라, 같은 내용을 각각 반복 입력해야 함</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>채널별 분리된 등록 방식을 분석해 <strong>하나의 데이터로 전 채널 공통 반영</strong>되는 구조 설계</li>
+            <li>클래스명·채널 분기 처리로 모바일웹, 인터넷 PC, 모바일앱 화면에 각각 맞게 렌더링</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>한 번의 작성으로 전체 채널 반영 가능 → 반복 입력 횟수 대폭 감소</li>
+            <li>배운 점: 기능 추가보다 <em>반복 업무를 줄이는 방향</em>으로 문제를 바라봐야 더 큰 개선 효과</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2026.02.23<br>→ 2026.03.10</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Vue.js</span>
+            <span class="stack-item">Spring Boot</span>
+            <span class="stack-item">JavaScript</span>
+            <span class="stack-item">Java</span>
+            <span class="stack-item">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">✦ Key Outcome</div>
+          <div class="rb-text">1회 작성으로<br>전 채널 동시 반영<br>운영 효율 극대화</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="project-card fade-up">
+      <div class="proj-index">03</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2025.08.12 → 2025.11.14 · Fullstack Developer</div>
+          <h3 class="proj-name">카드 혜택 극대화 서비스 "HANARO"</h3>
+        </div>
+        <p class="proj-summary">
+          사용자의 실제 소비 패턴을 분석해 결제 시점마다 최적 카드를 추천하고,
+          카드별 혜택과 실적을 한눈에 관리할 수 있는 웹 기반 통합 카드 혜택 관리 서비스.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>카드마다 상이한 혜택 조건(전월 실적·한도·가맹점)을 매번 비교 연산해야 함</li>
+            <li>애플리케이션 단에서 대용량 처리 시 응답 속도 저하</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>핵심 혜택 계산 로직을 <strong>Oracle 프로시저·함수 (PL/SQL)</strong>로 구현</li>
+            <li>DB와 애플리케이션 간 네트워크 I/O 최소화 → 대용량 연산 속도 확보</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li><strong>결제처 기반 최적 카드 추천 로직 및 실적 조회 응답 속도 80% 개선</strong></li>
+            <li>배운 점: '어디서 연산하는 것이 아키텍처 관점에서 가장 효율적인가'에 대한 전체 최적화의 중요성</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2025.08.12<br>→ 2025.11.14</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Java / Spring Boot</span>
+            <span class="stack-item">React</span>
+            <span class="stack-item">Oracle / PL/SQL</span>
+            <span class="stack-item">Redis · Nginx · SSL</span>
+            <span class="stack-item">Prometheus · Grafana</span>
+            <span class="stack-item">GCP · GitHub</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">✦ Key Outcome</div>
+          <div class="rb-text">응답 속도<br><span style="font-size:1.4rem;font-family:'Pretendard',sans-serif;">80%</span><br>개선</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ CLOSING ══ -->
+<section id="closing">
+  <div class="closing-bg">SCM</div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="fade-up">
+      <p class="closing-eyebrow">// Let's build something great</p>
+      <h2 class="closing-title">
+        더 나은 서비스를 위해<br><em>끊임없이 고민</em>하겠습니다.
+      </h2>
+      <p class="closing-desc">
+        사용자 친화적인 시각, 효율을 향한 실행력, 그리고 팀의 자산이 되는 문서화 습관으로
+        함께하는 모든 조직의 성장에 기여하는 개발자가 되겠습니다.
+        새로운 기회와 협업에 항상 열려 있습니다.
+      </p>
+      <div class="closing-links">
+        <a class="clink clink-primary" href="#" id="copy-email-btn" data-email="hys1693359@gmail.com">이메일 복사하기</a>
+        <a class="clink clink-ghost" href="https://github.com/indaegu" target="_blank">GitHub 방문하기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 성창민 · FULLSTACK DEVELOPER</footer>
+
+<script>
+  // Scroll-triggered fade-up
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Copy email address from closing CTA.
+  const copyEmailBtn = document.getElementById('copy-email-btn');
+  if (copyEmailBtn) {
+    copyEmailBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const email = copyEmailBtn.dataset.email || '';
+      if (!email) return;
+
+      try {
+        await navigator.clipboard.writeText(email);
+        copyEmailBtn.textContent = '이메일 복사 완료!';
+        setTimeout(() => { copyEmailBtn.textContent = '이메일 복사하기'; }, 1500);
+      } catch (error) {
+        window.prompt('아래 이메일을 복사해 주세요.', email);
+      }
+    });
+  }
+</script>
+</body>
+</html>
