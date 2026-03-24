@@ -89,10 +89,14 @@
   .hero-label::before { content: '// '; opacity: .5; }
   .hero-title {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-size: clamp(3.5rem, 4.5vw, 6.5rem);
     line-height: 1.05;
     color: var(--ink);
     margin-bottom: 1rem;
+  }
+  .hero-title .line {
+    display: block;
+    white-space: nowrap;
   }
   .hero-title em { font-style: italic; color: var(--accent); }
   .hero-pitch {
@@ -451,7 +455,9 @@
     <div>
       <p class="hero-label">Developer Portfolio 2026</p>
       <h1 class="hero-title">
-        사용자를 먼저<br>생각하는 개발자,<br><em>성창민</em>입니다.
+        <span class="line">사용자를 먼저</span>
+        <span class="line">생각하는 개발자,</span>
+        <span class="line"><em>성창민</em>입니다.</span>
       </h1>
       <p class="hero-pitch">
         개발자의 시선을 넘어 실제 사용자의 입장에서 불편함을 발견하고,<br>
