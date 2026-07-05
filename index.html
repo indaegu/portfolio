@@ -4,20 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>성창민 | Fullstack Developer Portfolio</title>
-<meta name="description" content="사용자를 먼저 생각하는 풀스택 개발자 포트폴리오. Vue, React, Spring Boot 기반 금융 스마트뱅킹 서비스 개발과 공공마이데이터, 전자서명 통합, 사내 최초 React 채널 아키텍처 설계 경험.">
+<meta name="description" content="금융 스마트뱅킹 WebView 환경의 풀스택 개발자 포트폴리오. 공공마이데이터 연동, 전자서명 통합 인증, 사내 최초 React/TypeScript 채널 아키텍처 설계, Webpack 풀빌드 시간 약 80% 단축.">
 <meta name="theme-color" content="#0b1020">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230b1020'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='6'%20fill='%232e5fff'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 
 <!-- Open Graph / Social -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="성창민 | Fullstack Developer">
-<meta property="og:description" content="사용자를 먼저 생각하는 풀스택 개발자 포트폴리오. 금융 스마트뱅킹 서비스 개발과 아키텍처 설계 경험.">
+<meta property="og:description" content="금융 스마트뱅킹 WebView 환경의 풀스택 개발자. 공공마이데이터, 전자서명 통합 인증, 사내 최초 React/TypeScript 채널 아키텍처 설계 경험.">
 <!-- 배포 도메인이 정해지면 아래 두 줄의 주석을 해제하세요 -->
 <!-- <meta property="og:url" content="https://your-domain/"> -->
 <!-- <meta property="og:image" content="https://your-domain/og-image.png"> (1200x630 권장) -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="성창민 | Fullstack Developer">
-<meta name="twitter:description" content="사용자를 먼저 생각하는 풀스택 개발자 포트폴리오. 금융 스마트뱅킹 서비스 개발과 아키텍처 설계 경험.">
+<meta name="twitter:description" content="금융 스마트뱅킹 WebView 환경의 풀스택 개발자. 공공마이데이터, 전자서명 통합 인증, 사내 최초 React/TypeScript 채널 아키텍처 설계 경험.">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 <style>
@@ -44,6 +45,24 @@
     word-break: keep-all; /* 한글은 단어(어절) 기준으로 줄바꿈 */
   }
 
+  /* 접근성: 키보드 포커스 표시 (마우스 클릭 시에는 표시하지 않음) */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* 접근성: 본문 바로가기 링크 (키보드 탐색 시에만 노출) */
+  .skip-link {
+    position: fixed; top: -100%; left: 1rem; z-index: 200;
+    background: var(--ink); color: var(--paper);
+    padding: .6rem 1.1rem;
+    font-size: .78rem; letter-spacing: .06em;
+    text-decoration: none;
+    transition: top .2s;
+  }
+  .skip-link:focus { top: 1rem; }
+
   /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
@@ -54,8 +73,10 @@
     border-bottom: 1px solid var(--line);
   }
   .nav-name {
-    font-family: 'Pretendard', sans-serif;
-    font-size: .82rem; letter-spacing: .16em; color: var(--ink); font-weight: 700;
+    display: inline-flex; align-items: center;
+  }
+  .nav-name img {
+    height: 20px; width: auto; display: block;
   }
   .nav-links { display: flex; gap: 1.8rem; list-style: none; }
   .nav-links a {
@@ -66,7 +87,7 @@
   .nav-links a:hover { color: var(--accent); }
 
   /* ── SECTIONS ── */
-  section { padding: 6.5rem 0; }
+  section { padding: 6.5rem 0; scroll-margin-top: 4.2rem; /* 고정 nav에 제목이 가려지지 않도록 */ }
 
   .container { max-width: 1080px; margin: 0 auto; padding: 0 3rem; }
 
@@ -122,6 +143,7 @@
     border-left: 2px solid var(--accent);
     padding-left: 1.2rem;
   }
+  .hero-pitch strong { color: var(--ink); font-weight: 600; }
   .hero-cta {
     display: inline-flex; align-items: center; gap: .6rem;
     background: var(--ink); color: var(--paper);
@@ -385,6 +407,20 @@
   }
   .result-badge .rb-text { font-size: .76rem; line-height: 1.7; }
 
+  /* ── HOW I WORK ── */
+  /* JD 공통 요구(코드 리뷰, 지식 공유, 생성형 AI 활용)에 대응하는 일하는 방식 섹션 */
+  #workstyle { background: var(--paper); }
+  .work-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4rem;
+  }
+  .work-item { border-top: 2px solid var(--accent); padding-top: 1.3rem; }
+  .work-item h3 {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 1.02rem; font-weight: 700; color: var(--ink);
+    margin-bottom: .7rem; word-break: keep-all;
+  }
+  .work-item p { font-size: .8rem; line-height: 1.9; color: var(--muted); }
+
   /* ── CLOSING ── */
   #closing {
     background: var(--ink); color: var(--paper);
@@ -424,6 +460,7 @@
     padding: .72rem 1.5rem;
     text-decoration: none; text-transform: uppercase;
     transition: all .2s;
+    border: 0; cursor: pointer; /* button 요소로도 쓰이므로 초기화 */
   }
   .clink-primary { background: var(--accent); color: #fff; }
   .clink-primary:hover { background: #1f47d6; }
@@ -437,11 +474,21 @@
   }
 
   /* ── ANIMATIONS ── */
-  .fade-up {
+  /* JS가 없는 환경에서도 콘텐츠가 보이도록, 페이드 효과는 html.js에서만 적용 */
+  .fade-up { opacity: 1; transform: none; }
+  html.js .fade-up {
     opacity: 0; transform: translateY(28px);
     transition: opacity .7s ease, transform .7s ease;
   }
-  .fade-up.visible { opacity: 1; transform: none; }
+  html.js .fade-up.visible { opacity: 1; transform: none; }
+
+  /* 접근성: 사용자 설정에서 동작 줄이기를 켠 경우 애니메이션 제거 */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html.js .fade-up { opacity: 1; transform: none; transition: none; }
+    .hero-scroll, .hero-scroll::after { animation: none; }
+    .hero-cta:hover { transform: none; }
+  }
 
   /* ── RESPONSIVE ── */
   @media(max-width:900px) {
@@ -460,6 +507,7 @@
     .project-card { grid-template-columns: 1fr; gap: 1.6rem; padding: 2.6rem 0; }
     .proj-sidebar { padding-top: 0; }
     .proj-index { font-size: 2.3rem; top: 1.1rem; }
+    .work-grid { grid-template-columns: 1fr; gap: 2rem; }
     .closing-bg { display: none; }
     #closing { padding: 5rem 0; }
   }
@@ -472,8 +520,10 @@
 </head>
 <body>
 
-<nav>
-  <span class="nav-name">성창민</span>
+<a class="skip-link" href="#main">본문 바로가기</a>
+
+<nav aria-label="주요 메뉴">
+  <a class="nav-name" href="#top" aria-label="홈으로"><img src="logo.png" alt="성창민 포트폴리오 로고"></a>
   <ul class="nav-links">
     <li><a href="#keywords">About</a></li>
     <li><a href="#resume">Resume</a></li>
@@ -482,21 +532,25 @@
   </ul>
 </nav>
 
+<main id="main">
+
 <!-- ══ PAGE 1 : HERO ══ -->
 <section id="hero">
   <div class="hero-bg-text" aria-hidden="true">DEV</div>
   <div class="hero-inner">
     <div>
-      <p class="hero-label">Developer Portfolio 2026</p>
+      <p class="hero-label">Fullstack Developer Portfolio 2026</p>
       <h1 class="hero-title">
-        <span class="line">사용자를 먼저</span>
-        <span class="line">생각하는 개발자,</span>
-        <span class="line"><em>성창민</em>입니다.</span>
+        <span class="line">사용자 경험과</span>
+        <span class="line">금융의 신뢰를 함께 만드는</span>
+        <span class="line">개발자, <em>성창민</em>입니다.</span>
       </h1>
       <p class="hero-pitch">
-        실제 사용자의 불편과 팀의 반복 비효율을 근본 원인까지 파고들어 개선하는 풀스택 개발자입니다.
-        금융 스마트뱅킹 현장에서 전자서명과 인증 보안 구조를 설계하고, 확장 가능한 채널 아키텍처를
-        주도하며 오너십으로 문제를 끝까지 책임집니다.
+      <p class="hero-pitch">
+        개발 제약이 많은 폐쇄망 금융권환경에서 개발하고 있습니다.
+        그 안에서 5분짜리 빌드과정을 <strong>1분대로</strong> 줄였고,
+        <strong>사내 최초 React/TypeScript 채널</strong> 도입을 추진하고 있습니다.
+        제약이 많은 환경일수록, 되게 만드는 방법을 찾고자 합니다.
       </p>
       <a class="hero-cta" href="#projects">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
@@ -507,11 +561,11 @@
     </div>
     <div class="hero-meta">
       <div class="meta-item">E-MAIL <span>hys1693359@gmail.com</span></div>
-      <div class="meta-item">GITHUB <a href="https://github.com/indaegu" target="_blank"
+      <div class="meta-item">GITHUB <a href="https://github.com/indaegu" target="_blank" rel="noopener noreferrer"
       style="text-decoration-line: none; color: #0b1020; font-weight: 500;">github.com/indaegu</a></div>
     </div>
   </div>
-  <div class="hero-scroll">SCROLL</div>
+  <div class="hero-scroll" aria-hidden="true">SCROLL</div>
 </section>
 
 <!-- ══ PAGE 2 : KEYWORDS ══ -->
@@ -523,22 +577,22 @@
     </div>
     <div class="keywords-grid fade-up">
       <div class="keyword-card">
-        <div class="keyword-num">01</div>
+        <div class="keyword-num" aria-hidden="true">01</div>
         <div class="keyword-tag">Ownership</div>
         <h3 class="keyword-title">끝까지 책임지는</h3>
-        <p class="keyword-desc">방식 선택부터 설계와 구현, 운영 배포까지 스스로 자처하고 주도합니다. 사내 최초 React/TypeScript 채널 아키텍처 도입과 인증 방식 전환을 팀 전체의 생산성 관점에서 정당화하고 끝까지 책임진 경험이 있습니다.</p>
+        <p class="keyword-desc">구현 방식 선택부터 설계와 구현, 운영 배포까지 스스로 자처하고 주도합니다. 사내 최초 React/TypeScript 채널 아키텍처 도입과 모바일 신분증 Web2App 방식 전환을 팀 전체의 생산성 관점에서 설득하고 끝까지 책임진 경험이 있습니다.</p>
       </div>
       <div class="keyword-card">
-        <div class="keyword-num">02</div>
+        <div class="keyword-num" aria-hidden="true">02</div>
         <div class="keyword-tag">Fintech Security</div>
         <h3 class="keyword-title">금융 보안에 강한</h3>
-        <p class="keyword-desc">폐쇄망 스마트뱅킹 환경에서 전자서명(PKCS7) 백엔드 재검증 구조와 공동, 금융, 간편 3종 인증 통합을 설계했습니다. 편의성과 검증 신뢰를 함께 설계해야 실질적 개선이 된다는 금융 도메인 감각을 갖췄습니다.</p>
+        <p class="keyword-desc">폐쇄망 스마트뱅킹 환경에서 전자서명(PKCS7) 백엔드 재검증 구조와 공동, 금융, 간편 3종 인증 통합을 설계했습니다. 토큰 저장 구조의 취약점을 선제적으로 찾아 보완하는 등, 편의성과 검증 신뢰를 함께 설계해야 실질적 개선이 된다는 금융 도메인 감각을 갖췄습니다.</p>
       </div>
       <div class="keyword-card">
-        <div class="keyword-num">03</div>
+        <div class="keyword-num" aria-hidden="true">03</div>
         <div class="keyword-tag">Impact-Driven</div>
         <h3 class="keyword-title">근본을 개선하는</h3>
-        <p class="keyword-desc">기능 동작을 넘어 병목의 근본 원인을 찾습니다. 번들러의 동작 원리까지 파고들어 빌드 시간을 약 80% 단축하고, 반복되는 운영 업무를 공통 구조로 추상화해 효율을 끌어올립니다.</p>
+        <p class="keyword-desc">기능이 동작하는 수준을 넘어 병목의 근본 원인을 찾습니다. 번들러의 동작 원리까지 파고들어 빌드 시간을 약 80% 단축하고, 수기로 반복되던 운영 업무를 공통 구조와 자동화로 바꿔 팀 전체의 효율을 끌어올립니다.</p>
       </div>
     </div>
   </div>
@@ -560,7 +614,7 @@
           <div class="profile-sub">FULLSTACK DEVELOPER</div>
           <div class="resume-divider"></div>
           <div class="info-row"><span class="info-label">E-Mail</span><span class="info-val"><a href="mailto:hys1693359@gmail.com">hys1693359@gmail.com</a></span></div>
-          <div class="info-row"><span class="info-label">GitHub</span><span class="info-val"><a href="https://github.com/indaegu" target="_blank">github.com/indaegu</a></span></div>
+          <div class="info-row"><span class="info-label">GitHub</span><span class="info-val"><a href="https://github.com/indaegu" target="_blank" rel="noopener noreferrer">github.com/indaegu</a></span></div>
         </div>
 
         <div class="skills-section">
@@ -574,7 +628,7 @@
           <div class="skill-row">
             <div class="skill-cat">Framework / Library</div>
             <div class="skill-pills">
-              <span class="pill">Vue.js</span><span class="pill">React</span><span class="pill">Spring Boot</span><span class="pill">Spring Cloud</span>
+              <span class="pill">Vue.js</span><span class="pill">React</span><span class="pill">Spring Boot</span><span class="pill">Spring Cloud</span><span class="pill">MSW</span>
             </div>
           </div>
           <div class="skill-row">
@@ -604,12 +658,12 @@
             <div class="award-meta">하나저축은행, 2025.07</div>
           </div>
           <div class="award-item">
-            <div class="award-name">한국정보산업연합회장상</div>
-            <div class="award-meta">과학기술정보통신부, 2023.12</div>
-          </div>
-          <div class="award-item">
             <div class="award-name">마이크로소프트 클라우드 AI 모델 경진대회</div>
             <div class="award-meta">한국마이크로소프트 트레이닝 파트너 엘릭서, 2024.10</div>
+          </div>
+          <div class="award-item">
+            <div class="award-name">한국정보산업연합회장상</div>
+            <div class="award-meta">과학기술정보통신부, 2023.12</div>
           </div>
           <div class="award-item">
             <div class="award-name">프로젝트 최우수상</div>
@@ -624,7 +678,7 @@
           <div class="resume-block-title">Career</div>
           <div class="career-item">
             <div class="career-company">하나금융티아이</div>
-            <div class="career-role">하나저축은행 스마트뱅킹 비대면 채널 웹/서버 풀스택 개발 및 운영<br>공공마이데이터, 네이버페이 채널, 백오피스 등 채널 서비스 개발 담당</div>
+            <div class="career-role">하나저축은행 스마트뱅킹 비대면 채널 웹/서버 풀스택 개발 및 운영<br>공공마이데이터, 네이버페이 채널, 모바일 신분증, 백오피스, 웹 접근성 개선 등 채널 서비스 개발과 운영 장애 대응 담당</div>
             <div class="career-period">2024.11 ~ 현재</div>
           </div>
           <div class="career-item">
@@ -639,6 +693,14 @@
           <table class="proj-table">
             <tr>
               <td>네이버페이 채널 신설 (React/TS, 모노레포)<br><span class="role-badge fullstack">Fullstack</span></td>
+              <td>진행 중</td>
+            </tr>
+            <tr>
+              <td>전 채널 웹 접근성 진단 및 개선<br><span class="role-badge">Frontend</span></td>
+              <td>진행 중</td>
+            </tr>
+            <tr>
+              <td>레거시 API 점진 리팩토링 (Strangler 패턴)<br><span class="role-badge">Backend</span></td>
               <td>진행 중</td>
             </tr>
             <tr>
@@ -683,7 +745,7 @@
 
     <!-- PROJECT 1 : 네이버페이 -->
     <div class="project-card fade-up">
-      <div class="proj-index">01</div>
+      <div class="proj-index" aria-hidden="true">01</div>
       <div>
         <div class="proj-header">
           <div class="proj-section-label">진행 중 &nbsp; Fullstack Developer</div>
@@ -744,7 +806,7 @@
 
     <!-- PROJECT 2 : 공공마이데이터 -->
     <div class="project-card fade-up">
-      <div class="proj-index">02</div>
+      <div class="proj-index" aria-hidden="true">02</div>
       <div>
         <div class="proj-header">
           <div class="proj-section-label">2026.04 ~ 2026.06 &nbsp; Fullstack Developer</div>
@@ -767,6 +829,7 @@
           <ul>
             <li>공동, 금융, 간편 3종 인증서 경로를 <strong>공통 인터페이스로 추상화</strong>해 하나의 통합 인증 플로우로 정리</li>
             <li>전자서명(PKCS7) 결과를 <strong>백엔드에서 재검증하는 서버 사이드 라운드트립 구조</strong>로 설계해 위변조 방지와 신뢰 검증을 아키텍처 수준에서 보장</li>
+            <li>운영 배포 전 보안 점검을 주도해 로그에 남던 토큰과 개인정보를 마스킹 처리하고, <strong>공용 기기에서의 토큰 교차 사용 가능성을 선제 식별</strong>해 사용자 식별 요소를 포함한 저장 키 구조로 보완</li>
             <li>공공마이데이터로 수집한 정보를 수신/여신 상품 가입 페이지에 연동해 고객 입력 부담 최소화</li>
           </ul>
         </div>
@@ -783,7 +846,7 @@
       <div class="proj-sidebar">
         <div class="proj-meta-block">
           <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2026.04 ~<br>2026.06</div>
+          <div class="proj-period">2026.04 ~ 2026.06</div>
         </div>
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
@@ -804,7 +867,7 @@
 
     <!-- PROJECT 3 : 운영자 페이지 -->
     <div class="project-card fade-up">
-      <div class="proj-index">03</div>
+      <div class="proj-index" aria-hidden="true">03</div>
       <div>
         <div class="proj-header">
           <div class="proj-section-label">2026.02 ~ 2026.03 &nbsp; Fullstack Developer</div>
@@ -818,6 +881,7 @@
         <div class="proj-text">
           <ul>
             <li>공지사항과 팝업 등록 시 채널마다 작성 방식이 달라, 같은 내용을 각각 반복 입력해야 함</li>
+            <li>요청받은 개선 범위는 아니었지만, 운영을 지원하며 현업의 반복 비효율을 직접 관찰하고 개선 과제로 발굴</li>
           </ul>
         </div>
         <div class="proj-section-label">Solution / Process</div>
@@ -839,7 +903,7 @@
       <div class="proj-sidebar">
         <div class="proj-meta-block">
           <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2026.02 ~<br>2026.03</div>
+          <div class="proj-period">2026.02 ~ 2026.03</div>
         </div>
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
@@ -860,7 +924,7 @@
 
     <!-- PROJECT 4 : 모바일 신분증 -->
     <div class="project-card fade-up">
-      <div class="proj-index">04</div>
+      <div class="proj-index" aria-hidden="true">04</div>
       <div>
         <div class="proj-header">
           <div class="proj-section-label">2025.09 ~ 2025.10 &nbsp; Fullstack Developer</div>
@@ -881,7 +945,7 @@
         <div class="proj-text">
           <ul>
             <li>개발 공수와 운영 유연성, 대응 속도를 고려해 App2App 대신 <strong>Web2App(웹뷰) 방식을 자처하여 구현</strong></li>
-            <li>OS별로 상이하게 동작하는 브릿지를 각 OS 네이티브 개발자와 협업해 통합</li>
+            <li>iOS와 Android에서 상이하게 동작하는 <strong>네이티브 브릿지의 콜백 시점과 데이터 규격 차이</strong>를 각 OS 네이티브 개발자와 협업해 통합</li>
           </ul>
         </div>
         <div class="proj-section-label">Result</div>
@@ -897,14 +961,14 @@
       <div class="proj-sidebar">
         <div class="proj-meta-block">
           <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2025.09 ~<br>2025.10</div>
+          <div class="proj-period">2025.09 ~ 2025.10</div>
         </div>
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
             <span class="stack-item">Vue.js</span>
+            <span class="stack-item">WebView Bridge</span>
             <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">JavaScript</span>
             <span class="stack-item">Java</span>
             <span class="stack-item">PostgreSQL</span>
           </div>
@@ -918,7 +982,7 @@
 
     <!-- PROJECT 5 : Webpack 빌드 최적화 -->
     <div class="project-card fade-up">
-      <div class="proj-index">05</div>
+      <div class="proj-index" aria-hidden="true">05</div>
       <div>
         <div class="proj-header">
           <div class="proj-section-label">2025.04 ~ 2025.05 &nbsp; Fullstack Developer</div>
@@ -947,7 +1011,7 @@
         <div class="proj-text">
           <ul>
             <li>정적 분석이 가능해져 필요한 파일만 빌드하고, 캐시 적중률 상승으로 재빌드 시간 감소</li>
-            <li><strong>풀빌드 시간 약 80% 단축 (5분대에서 1분대로)</strong></li>
+            <li><strong>풀빌드 시간 약 80% 단축 (5분대에서 1분대로)</strong>, 하루 수차례 배포하는 팀 전체의 대기 시간 절감</li>
             <li>배운 점: 번들러의 동작 원리(context 모듈, 정적 분석)를 이해하고 근본 원인을 제거하면 큰 성능 개선으로 이어진다는 점</li>
           </ul>
         </div>
@@ -955,7 +1019,7 @@
       <div class="proj-sidebar">
         <div class="proj-meta-block">
           <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2025.04 ~<br>2025.05</div>
+          <div class="proj-period">2025.04 ~ 2025.05</div>
         </div>
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
@@ -984,7 +1048,7 @@
     </div>
 
     <div class="project-card side fade-up">
-      <div class="proj-index">S</div>
+      <div class="proj-index" aria-hidden="true">S</div>
       <div>
         <div class="proj-header">
           <span class="side-tag">Side Project (사내 CoP)</span>
@@ -1023,7 +1087,7 @@
       <div class="proj-sidebar">
         <div class="proj-meta-block">
           <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2026.04 ~<br>진행 중</div>
+          <div class="proj-period">2026.04 ~ 진행 중</div>
         </div>
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
@@ -1045,6 +1109,30 @@
   </div>
 </section>
 
+<!-- ══ HOW I WORK ══ -->
+<section id="workstyle">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom:3rem">
+      <p class="section-eyebrow">// 일하는 방식</p>
+      <h2 class="section-title" style="color:var(--ink)">How I work</h2>
+    </div>
+    <div class="work-grid fade-up">
+      <div class="work-item">
+        <h3>기록을 팀의 자산으로</h3>
+        <p>파트 정기회의 회의록과 플랫폼 아키텍처 문서를 도맡아 작성하고 관리합니다. 흩어진 맥락을 문서로 남겨, 누가 봐도 같은 그림을 그릴 수 있는 팀을 만듭니다.</p>
+      </div>
+      <div class="work-item">
+        <h3>AI로 반복 업무를 자동화</h3>
+        <p>회의록 정리처럼 반복되는 문서 작업을 AI 도구로 파이프라인화해 팀의 문서 작업 시간을 줄였습니다. 새 도구는 팀 생산성 관점에서 검증하고 도입합니다.</p>
+      </div>
+      <div class="work-item">
+        <h3>함께 성장하는 개발 문화</h3>
+        <p>사내 CoP 팀장으로 브랜치 전략과 커밋, PR 규칙을 세우고 코드 리뷰를 진행합니다. 좋은 컨벤션이 좋은 코드보다 오래 남는다고 믿습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══ CLOSING ══ -->
 <section id="closing">
   <div class="closing-bg" aria-hidden="true">Dev</div>
@@ -1055,32 +1143,42 @@
         더 나은 서비스를 위해<br><em>끊임없이 고민</em>하겠습니다.
       </h2>
       <p class="closing-desc">
-        사용자 친화적인 시각, 문제를 근본까지 개선하는 오너십, 그리고 팀의 자산이 되는 문서화 습관으로
-        함께하는 모든 조직의 성장에 기여하는 개발자가 되겠습니다.
+        사용자 친화적인 시각, 문제를 근본까지 개선하는 오너십, 그리고 기록과 자동화로
+        팀의 자산을 만드는 습관으로 함께하는 조직의 성장에 기여하겠습니다.
         새로운 기회와 협업에 항상 열려 있습니다.
       </p>
       <div class="closing-links">
-        <a class="clink clink-primary" href="#" id="copy-email-btn" data-email="hys1693359@gmail.com">이메일 복사하기</a>
-        <a class="clink clink-ghost" href="https://github.com/indaegu" target="_blank">GitHub 방문하기</a>
+        <button type="button" class="clink clink-primary" id="copy-email-btn" data-email="hys1693359@gmail.com">이메일 복사하기</button>
+        <a class="clink clink-ghost" href="https://github.com/indaegu" target="_blank" rel="noopener noreferrer">GitHub 방문하기</a>
       </div>
     </div>
   </div>
 </section>
 
+</main>
+
 <footer>© 2026 성창민, Fullstack Developer</footer>
 
 <script>
-  // Scroll-triggered fade-up
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  // JS 활성 여부 표시: JS가 없는 환경에서는 fade-up 요소가 항상 보이도록 CSS와 짝을 이룸
+  document.documentElement.classList.add('js');
+
+  // Scroll-triggered fade-up (동작 줄이기 설정 시 즉시 표시)
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    fadeEls.forEach(el => el.classList.add('visible'));
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+  }
 
   // Copy email address from closing CTA.
   const copyEmailBtn = document.getElementById('copy-email-btn');
   if (copyEmailBtn) {
-    copyEmailBtn.addEventListener('click', async (event) => {
-      event.preventDefault();
+    copyEmailBtn.addEventListener('click', async () => {
       const email = copyEmailBtn.dataset.email || '';
       if (!email) return;
 
