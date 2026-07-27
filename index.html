@@ -404,11 +404,6 @@
   .proj-text { font-size: .92rem; line-height: 1.85; color: var(--ink); }
   .proj-text ul { margin-left: 1.1rem; }
   .proj-text li { margin-bottom: .4rem; }
-  .proj-text .est {
-    display: inline-block; font-size: .76rem; color: var(--muted);
-    border: 1px solid var(--line); padding: 0 .35rem; margin-left: .2rem;
-    vertical-align: middle;
-  }
 
   .proj-sidebar { padding-top: .3rem; }
   .proj-meta-block { margin-bottom: 1.4rem; }
@@ -724,7 +719,7 @@
             <div class="skill-row">
               <div class="skill-cat">Data / Infra</div>
               <div class="skill-pills">
-                <span class="pill">PostgreSQL</span><span class="pill">Redis</span><span class="pill">Jenkins</span><span class="pill">GitLab</span><span class="pill">Docker</span>
+                <span class="pill">PostgreSQL</span><span class="pill">Redis</span><span class="pill">Nginx</span><span class="pill">Jenkins</span><span class="pill">GitLab</span><span class="pill">Docker</span>
               </div>
             </div>
           </div>
@@ -789,7 +784,7 @@
           <ul class="proj-list" role="list">
             <li>
               <span class="pl-name">스마트뱅킹 웹 접근성(KWCAG) 개선<br><span class="role-badge">Frontend</span></span>
-              <span class="pl-period">2025, 2026 심사 대응<br>(2026.07 완료)</span>
+              <span class="pl-period">2025.07 ~ 2025.08 (1차)<br>2026.07 완료 (2차)</span>
             </li>
             <li>
               <span class="pl-name">운영자 페이지(백오피스) 자체개선<br><span class="role-badge fullstack">Fullstack</span></span>
@@ -797,7 +792,7 @@
             </li>
             <li>
               <span class="pl-name">레거시 API 점진 리팩토링 (Strangler 패턴)<br><span class="role-badge">Backend</span></span>
-              <span class="pl-period">2026.07 ~ 진행 중</span>
+              <span class="pl-period">2026.01 ~ 진행 중</span>
             </li>
             <li>
               <span class="pl-name">공공마이데이터 연동 및 전자서명 통합 인증<br><span class="role-badge fullstack">Fullstack</span></span>
@@ -871,7 +866,7 @@
         <div class="proj-text">
           <ul>
             <li><strong>풀빌드 시간 약 80% 단축 (5분대에서 1분대로)</strong></li>
-            <li>절대값보다 누적 효과가 큰 개선. 웹 개발자 4명이 하루 3회 빌드한다고 보면 하루 약 48분, 월 20영업일 기준 약 16시간의 대기 시간이 사라집니다 <span class="est">팀 규모와 배포 빈도 기준 추정</span></li>
+            <li>절대값보다 누적 효과가 큰 개선. Vue 개발자 2명이 하루 5회 이상 테스트 빌드를 돌리는 환경이라, 하루 약 40분, 월 20영업일 기준 약 13시간의 대기 시간이 사라졌습니다</li>
             <li>정적 분석이 가능해져 변경된 라우트만 다시 빌드되고, 해시가 안정되어 재빌드 시간도 함께 감소</li>
             <li>배운 점: 번들러의 동작 원리(context 모듈, 정적 분석)를 이해하고 원인을 제거하면, 도구를 바꾸지 않고도 큰 개선이 가능하다는 것</li>
           </ul>
@@ -889,6 +884,7 @@
             <span class="stack-item">Webpack</span>
             <span class="stack-item">Vue Router</span>
             <span class="stack-item">JavaScript</span>
+            <span class="stack-item">Nginx (빌드 산출물 서빙)</span>
           </div>
         </div>
         <div class="result-badge">
@@ -903,7 +899,7 @@
       <div class="proj-index" aria-hidden="true">02</div>
       <div>
         <div class="proj-header">
-          <div class="proj-section-label">2025, 2026 심사 대응 (2026.07 완료) &nbsp; Frontend</div>
+          <div class="proj-section-label">2025.07 ~ 2025.08, 2026.07 완료 &nbsp; Frontend</div>
           <h3 class="proj-name">스마트뱅킹 웹 접근성(KWCAG) 개선</h3>
         </div>
         <p class="proj-summary">
@@ -941,7 +937,7 @@
       <div class="proj-sidebar">
         <div class="proj-meta-block">
           <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2025, 2026 심사 대응<br>(2026.07 완료)</div>
+          <div class="proj-period">2025.07 ~ 2025.08 (1차)<br>2026.07 완료 (2차)</div>
         </div>
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
@@ -1146,7 +1142,7 @@
       <div class="proj-index" aria-hidden="true">06</div>
       <div>
         <div class="proj-header">
-          <div class="proj-section-label">2026.07 ~ 진행 중 &nbsp; Backend</div>
+          <div class="proj-section-label">2026.01 ~ 진행 중 &nbsp; Backend</div>
           <h3 class="proj-name">레거시 API 점진 리팩토링 (Strangler 패턴)</h3>
         </div>
         <p class="proj-summary">
@@ -1182,7 +1178,7 @@
       <div class="proj-sidebar">
         <div class="proj-meta-block">
           <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2026.07 ~ 진행 중</div>
+          <div class="proj-period">2026.01 ~ 진행 중</div>
         </div>
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
