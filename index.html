@@ -3,22 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>성창민 | Fullstack Developer Portfolio</title>
-<meta name="description" content="금융 스마트뱅킹 WebView 환경의 풀스택 개발자 포트폴리오. 공공마이데이터 연동, 전자서명 통합 인증, 전 채널 웹 접근성 개선, Webpack 풀빌드 시간 약 80% 단축.">
+<title>성창민 | Frontend Developer Portfolio</title>
+<meta name="description" content="폐쇄망 금융 스마트뱅킹 WebView 환경의 프론트엔드 개발자 포트폴리오. Webpack 풀빌드 약 80% 단축, 공공마이데이터 연동과 전자서명 통합 인증, 웹 접근성 심사 대응.">
 <meta name="theme-color" content="#0b1020">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 
+<!--
+  [배포 전 확인 필요]
+  아래 og:url / og:image / canonical의 도메인은 GitHub Pages 기본 규칙을 가정한 잠정값입니다.
+  실제 배포 주소가 확정되면 3곳 모두 동일하게 교체하세요.
+  og-image.png는 1200x630 크기로 저장소 루트에 함께 올려야 링크 미리보기가 뜹니다.
+-->
+<link rel="canonical" href="https://indaegu.github.io/portfolio/">
+
 <!-- Open Graph / Social -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="성창민 | Fullstack Developer">
-<meta property="og:description" content="금융 스마트뱅킹 WebView 환경의 풀스택 개발자. 공공마이데이터 연동, 전자서명 통합 인증, 웹 접근성 개선, 레거시 API 점진 리팩토링 경험.">
-<!-- 배포 도메인이 정해지면 아래 두 줄의 주석을 해제하세요 -->
-<!-- <meta property="og:url" content="https://your-domain/"> -->
-<!-- <meta property="og:image" content="https://your-domain/og-image.png"> (1200x630 권장) -->
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="성창민 포트폴리오">
+<meta property="og:title" content="성창민 | Frontend Developer">
+<meta property="og:description" content="폐쇄망 금융 스마트뱅킹 환경의 프론트엔드 개발자. 빌드 최적화, 공공마이데이터 연동, 전자서명 통합 인증, 웹 접근성 개선 경험.">
+<meta property="og:url" content="https://indaegu.github.io/portfolio/">
+<meta property="og:image" content="https://indaegu.github.io/portfolio/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="성창민 프론트엔드 개발자 포트폴리오">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="성창민 | Fullstack Developer">
-<meta name="twitter:description" content="금융 스마트뱅킹 WebView 환경의 풀스택 개발자. 공공마이데이터 연동, 전자서명 통합 인증, 웹 접근성 개선, 레거시 API 점진 리팩토링 경험.">
+<meta name="twitter:title" content="성창민 | Frontend Developer">
+<meta name="twitter:description" content="폐쇄망 금융 스마트뱅킹 환경의 프론트엔드 개발자. 빌드 최적화, 공공마이데이터 연동, 전자서명 통합 인증, 웹 접근성 개선 경험.">
+<meta name="twitter:image" content="https://indaegu.github.io/portfolio/og-image.png">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 <style>
@@ -28,7 +41,7 @@
     --accent: #2e5fff;
     --accent2: #142a6e;
     --light: #d9e2ff;
-    --muted: #56617e;
+    --muted: #4d5670;        /* 명도 대비 확보를 위해 기존 #56617e 대비 한 단계 어둡게 */
     --line: rgba(20,42,110,0.14);
   }
 
@@ -56,8 +69,8 @@
   .skip-link {
     position: fixed; top: -100%; left: 1rem; z-index: 200;
     background: var(--ink); color: var(--paper);
-    padding: .6rem 1.1rem;
-    font-size: .78rem; letter-spacing: .06em;
+    padding: .7rem 1.2rem;
+    font-size: .85rem; letter-spacing: .04em;
     text-decoration: none;
     transition: top .2s;
   }
@@ -68,26 +81,22 @@
     position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
     padding: 1.1rem 3rem;
     display: flex; justify-content: space-between; align-items: center;
-    background: rgba(242,244,248,0.9);
+    background: rgba(242,244,248,0.92);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line);
   }
-  .nav-name {
-    display: inline-flex; align-items: center;
-  }
-  .nav-name img {
-    height: 20px; width: auto; display: block;
-  }
+  .nav-name { display: inline-flex; align-items: center; }
+  .nav-name img { height: 22px; width: auto; display: block; }
   .nav-links { display: flex; gap: 1.8rem; list-style: none; }
   .nav-links a {
-    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
     color: var(--muted); text-decoration: none;
     transition: color .2s;
   }
   .nav-links a:hover { color: var(--accent); }
 
   /* ── SECTIONS ── */
-  section { padding: 6.5rem 0; scroll-margin-top: 4.2rem; /* 고정 nav에 제목이 가려지지 않도록 */ }
+  section { padding: 6.5rem 0; scroll-margin-top: 4.6rem; /* 고정 nav에 제목이 가려지지 않도록 */ }
 
   .container { max-width: 1080px; margin: 0 auto; padding: 0 3rem; }
 
@@ -118,8 +127,8 @@
   }
   .hero-label {
     font-family: 'Pretendard', sans-serif;
-    font-size: .68rem; letter-spacing: .22em;
-    color: var(--accent); text-transform: uppercase;
+    font-size: .78rem; letter-spacing: .2em;
+    color: var(--accent2); text-transform: uppercase;
     margin-bottom: 1.4rem;
   }
   .hero-label::before { content: '// '; opacity: .5; }
@@ -136,9 +145,9 @@
   .hero-title .line { display: block; }
   .hero-title em { font-style: normal; color: var(--accent); }
   .hero-pitch {
-    font-size: .95rem; line-height: 1.85;
+    font-size: 1rem; line-height: 1.9;
     color: var(--muted);
-    max-width: 600px;
+    max-width: 620px;
     margin-bottom: 2.2rem;
     border-left: 2px solid var(--accent);
     padding-left: 1.2rem;
@@ -147,26 +156,28 @@
   .hero-cta {
     display: inline-flex; align-items: center; gap: .6rem;
     background: var(--ink); color: var(--paper);
-    padding: .8rem 1.7rem;
-    font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .85rem 1.8rem;
+    font-size: .86rem; letter-spacing: .08em; text-transform: uppercase;
     text-decoration: none;
     transition: background .2s, transform .2s;
   }
   .hero-cta:hover { background: var(--accent); transform: translateY(-2px); }
   .hero-meta {
-    display: flex; flex-direction: column; gap: .55rem; align-items: flex-start;
+    display: flex; flex-direction: column; gap: .6rem; align-items: flex-start;
     padding-bottom: .5rem;
   }
   .meta-item {
     font-family: 'Pretendard', sans-serif;
-    font-size: .68rem; color: var(--muted); letter-spacing: .08em;
+    font-size: .78rem; color: var(--muted); letter-spacing: .04em;
   }
   .meta-item span { color: var(--ink); font-weight: 500; }
+  .meta-item a { color: var(--accent2); font-weight: 500; text-decoration: none; }
+  .meta-item a:hover { text-decoration: underline; }
   .hero-scroll {
     position: absolute; bottom: 2.3rem; left: 50%; transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center; gap: .4rem;
-    font-family: 'Pretendard', sans-serif; font-size: .58rem;
-    letter-spacing: .2em; color: var(--muted);
+    font-family: 'Pretendard', sans-serif; font-size: .7rem;
+    letter-spacing: .18em; color: var(--muted);
     animation: nudge 2s ease-in-out infinite;
   }
   .hero-scroll::after {
@@ -183,9 +194,13 @@
   }
   .section-eyebrow {
     font-family: 'Pretendard', sans-serif;
-    font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+    font-size: .78rem; letter-spacing: .2em; text-transform: uppercase;
     color: var(--accent); margin-bottom: .9rem;
   }
+  #resume .section-eyebrow,
+  #projects .section-eyebrow,
+  #side .section-eyebrow,
+  #workstyle .section-eyebrow { color: var(--accent2); }
   .section-title {
     font-family: 'Pretendard', sans-serif;
     font-weight: 800;
@@ -199,7 +214,7 @@
   }
   .keyword-card {
     padding: 2.6rem 2.2rem;
-    border: 1px solid rgba(242,244,248,0.1);
+    border: 1px solid rgba(242,244,248,0.14);
     position: relative; overflow: hidden;
     transition: background .3s;
   }
@@ -214,19 +229,19 @@
     display: inline-block;
     background: var(--accent);
     color: #fff;
-    font-size: .62rem; letter-spacing: .16em; text-transform: uppercase;
-    padding: .28rem .75rem;
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    padding: .3rem .8rem;
     margin-bottom: 1.3rem;
     font-family: 'Pretendard', sans-serif;
   }
   .keyword-title {
     font-family: 'Pretendard', sans-serif;
-    font-size: 1.35rem; font-weight: 700; margin-bottom: .9rem;
+    font-size: 1.4rem; font-weight: 700; margin-bottom: .9rem;
     color: var(--paper); line-height: 1.35;
     word-break: keep-all;
   }
   .keyword-desc {
-    font-size: .82rem; line-height: 1.85; color: rgba(217,226,255,.82);
+    font-size: .9rem; line-height: 1.85; color: rgba(217,226,255,.88);
   }
 
   /* ── PAGE 3 : RESUME ── */
@@ -238,32 +253,32 @@
   .profile-block { margin-bottom: 2.8rem; }
   .profile-name {
     font-family: 'Pretendard', sans-serif;
-    font-size: 2rem; line-height: 1.1; margin-bottom: .3rem;
+    font-size: 2rem; line-height: 1.1; margin-bottom: .35rem;
     font-weight: 800; letter-spacing: -0.01em;
   }
   .profile-sub {
     font-family: 'Pretendard', sans-serif;
-    font-size: .7rem; color: var(--muted); letter-spacing: .16em;
+    font-size: .78rem; color: var(--muted); letter-spacing: .14em;
   }
   .resume-divider {
     width: 3rem; height: 2px; background: var(--accent); margin: 1.4rem 0;
   }
   .info-row {
     display: flex; align-items: baseline; gap: .8rem;
-    margin-bottom: .5rem;
+    margin-bottom: .55rem;
   }
   .info-label {
     font-family: 'Pretendard', sans-serif;
-    font-size: .63rem; letter-spacing: .14em; color: var(--accent);
-    min-width: 4.5rem; text-transform: uppercase;
+    font-size: .72rem; letter-spacing: .1em; color: var(--accent2);
+    min-width: 4.8rem; text-transform: uppercase;
   }
-  .info-val { font-size: .83rem; color: var(--ink); }
+  .info-val { font-size: .9rem; color: var(--ink); }
   .info-val a { color: var(--accent2); text-decoration: none; }
   .info-val a:hover { text-decoration: underline; }
 
   .resume-block-title {
     font-family: 'Pretendard', sans-serif;
-    font-size: .63rem; letter-spacing: .18em; text-transform: uppercase;
+    font-size: .74rem; letter-spacing: .16em; text-transform: uppercase;
     color: var(--muted); margin-bottom: 1rem;
     padding-bottom: .5rem;
     border-bottom: 1px solid var(--line);
@@ -271,18 +286,26 @@
 
   /* Skills */
   .skills-section { margin-bottom: 2.8rem; }
-  .skill-row { margin-bottom: 1rem; }
+  .skill-group { margin-bottom: 1.6rem; }
+  .skill-group-title {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .76rem; font-weight: 600; color: var(--ink);
+    letter-spacing: .02em; margin-bottom: .8rem;
+    padding-left: .5rem; border-left: 2px solid var(--accent);
+  }
+  .skill-group-title span { font-weight: 400; color: var(--muted); }
+  .skill-row { margin-bottom: .9rem; }
   .skill-cat {
     font-family: 'Pretendard', sans-serif;
-    font-size: .63rem; color: var(--accent); letter-spacing: .1em;
-    margin-bottom: .35rem;
+    font-size: .74rem; color: var(--accent2); letter-spacing: .06em;
+    margin-bottom: .4rem;
   }
   .skill-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
   .pill {
     background: rgba(20,42,110,.05);
     border: 1px solid var(--line);
-    padding: .24rem .7rem;
-    font-size: .73rem;
+    padding: .26rem .72rem;
+    font-size: .82rem;
     color: var(--ink);
     font-family: 'Pretendard', sans-serif;
     transition: background .2s, border-color .2s, color .2s;
@@ -293,36 +316,40 @@
   .career-item { margin-bottom: 1.8rem; padding-bottom: 1.8rem; border-bottom: 1px solid var(--line); }
   .career-item:last-child { border-bottom: none; }
   .career-company {
-    font-size: .98rem; font-weight: 700; color: var(--ink); margin-bottom: .3rem;
+    font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: .35rem;
   }
-  .career-role { font-size: .78rem; color: var(--muted); margin-bottom: .3rem; line-height: 1.65; word-break: keep-all; }
+  .career-role { font-size: .87rem; color: var(--muted); margin-bottom: .35rem; line-height: 1.7; word-break: keep-all; }
   .career-period {
     font-family: 'Pretendard', sans-serif;
-    font-size: .66rem; color: var(--accent);
+    font-size: .78rem; color: var(--accent2);
   }
 
   /* Awards */
   .award-item { margin-bottom: 1.3rem; }
-  .award-name { font-size: .87rem; font-weight: 500; color: var(--ink); word-break: keep-all; }
+  .award-name { font-size: .92rem; font-weight: 500; color: var(--ink); word-break: keep-all; line-height: 1.5; }
+  .award-reason { font-size: .82rem; color: var(--muted); margin-top: .25rem; line-height: 1.6; }
   .award-meta {
     font-family: 'Pretendard', sans-serif;
-    font-size: .63rem; color: var(--muted); margin-top: .2rem;
+    font-size: .76rem; color: var(--muted); margin-top: .25rem;
   }
 
-  /* Projects list */
-  .proj-table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
-  .proj-table tr { border-bottom: 1px solid var(--line); }
-  .proj-table td { padding: .7rem .4rem; vertical-align: top; }
-  .proj-table td:first-child { font-size: .82rem; font-weight: 500; color: var(--ink); width: 62%; }
-  .proj-table td:last-child {
+  /* Projects list (레이아웃 목적이므로 table 대신 목록으로 마크업) */
+  .proj-list { list-style: none; margin-top: .5rem; }
+  .proj-list li {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 1.2rem;
+    padding: .8rem .2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .pl-name { font-size: .9rem; font-weight: 500; color: var(--ink); line-height: 1.55; }
+  .pl-period {
     font-family: 'Pretendard', sans-serif;
-    font-size: .64rem; color: var(--muted); text-align: right; white-space: nowrap;
+    font-size: .78rem; color: var(--muted); text-align: right; white-space: nowrap; padding-top: .15rem;
   }
   .role-badge {
-    display: inline-block; font-size: .58rem; letter-spacing: .08em;
-    border: 1px solid var(--accent); color: var(--accent);
+    display: inline-block; font-size: .7rem; letter-spacing: .06em;
+    border: 1px solid var(--accent); color: var(--accent2);
     background: rgba(46,95,255,.08);
-    padding: .14rem .5rem; margin-top: .3rem;
+    padding: .16rem .55rem; margin-top: .35rem;
     text-transform: uppercase; font-family: 'Pretendard', sans-serif;
   }
   .role-badge.fullstack {
@@ -331,9 +358,9 @@
     background: rgba(46,95,255,.14);
   }
   .earlier-note {
-    font-size: .68rem; color: var(--muted); margin-top: 1.1rem; line-height: 1.85;
+    font-size: .82rem; color: var(--muted); margin-top: 1.2rem; line-height: 1.85;
   }
-  .earlier-note b { color: var(--accent); letter-spacing: .08em; font-weight: 600; }
+  .earlier-note b { color: var(--accent2); letter-spacing: .04em; font-weight: 600; }
 
   /* ── PROJECTS DETAIL ── */
   #projects { background: #e8ecf4; }
@@ -357,44 +384,49 @@
   .proj-header { margin-bottom: 1.4rem; }
   .proj-name {
     font-family: 'Pretendard', sans-serif;
-    font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: .4rem;
+    font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: .4rem;
     line-height: 1.4; word-break: keep-all;
   }
   .proj-summary {
-    font-size: .84rem; line-height: 1.8; color: var(--muted);
+    font-size: .92rem; line-height: 1.85; color: var(--muted);
     margin-bottom: 1.4rem;
   }
   .proj-section-label {
     font-family: 'Pretendard', sans-serif;
-    font-size: .63rem; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: .5rem; margin-top: 1.2rem;
+    font-size: .74rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: .5rem; margin-top: 1.2rem;
   }
   .side-tag {
-    display: inline-block; background: var(--accent); color: #fff;
-    font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
-    padding: .16rem .5rem; margin-bottom: .55rem; font-weight: 600;
+    display: inline-block; background: var(--accent2); color: #fff;
+    font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .18rem .55rem; margin-bottom: .55rem; font-weight: 600;
   }
-  .proj-text { font-size: .84rem; line-height: 1.85; color: var(--ink); }
+  .proj-text { font-size: .92rem; line-height: 1.85; color: var(--ink); }
   .proj-text ul { margin-left: 1.1rem; }
-  .proj-text li { margin-bottom: .35rem; }
+  .proj-text li { margin-bottom: .4rem; }
+  .proj-text .est {
+    display: inline-block; font-size: .76rem; color: var(--muted);
+    border: 1px solid var(--line); padding: 0 .35rem; margin-left: .2rem;
+    vertical-align: middle;
+  }
 
   .proj-sidebar { padding-top: .3rem; }
   .proj-meta-block { margin-bottom: 1.4rem; }
   .proj-meta-label {
     font-family: 'Pretendard', sans-serif;
-    font-size: .58rem; letter-spacing: .16em; text-transform: uppercase;
+    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
     color: var(--muted); margin-bottom: .5rem;
   }
   .proj-period {
     font-family: 'Pretendard', sans-serif;
-    font-size: .74rem; color: var(--ink);
+    font-size: .84rem; color: var(--ink);
   }
-  .stack-list { display: flex; flex-direction: column; gap: .3rem; }
+  .stack-list { display: flex; flex-direction: column; gap: .3rem; align-items: flex-start; }
   .stack-item {
     font-family: 'Pretendard', sans-serif;
-    font-size: .68rem; color: var(--ink);
+    font-size: .8rem; color: var(--ink);
     background: rgba(20,42,110,.05);
-    padding: .2rem .6rem;
+    padding: .22rem .6rem;
     display: inline-block;
   }
   .result-badge {
@@ -403,12 +435,11 @@
   }
   .result-badge .rb-label {
     font-family: 'Pretendard', sans-serif;
-    font-size: .58rem; letter-spacing: .14em; color: var(--accent); margin-bottom: .5rem;
+    font-size: .72rem; letter-spacing: .12em; color: #8fa9ff; margin-bottom: .5rem;
   }
-  .result-badge .rb-text { font-size: .76rem; line-height: 1.7; }
+  .result-badge .rb-text { font-size: .86rem; line-height: 1.7; }
 
   /* ── HOW I WORK ── */
-  /* JD 공통 요구(코드 리뷰, 지식 공유, 생성형 AI 활용)에 대응하는 일하는 방식 섹션 */
   #workstyle { background: var(--paper); }
   .work-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4rem;
@@ -416,10 +447,10 @@
   .work-item { border-top: 2px solid var(--accent); padding-top: 1.3rem; }
   .work-item h3 {
     font-family: 'Pretendard', sans-serif;
-    font-size: 1.02rem; font-weight: 700; color: var(--ink);
+    font-size: 1.06rem; font-weight: 700; color: var(--ink);
     margin-bottom: .7rem; word-break: keep-all;
   }
-  .work-item p { font-size: .8rem; line-height: 1.9; color: var(--muted); }
+  .work-item p { font-size: .9rem; line-height: 1.9; color: var(--muted); }
 
   /* ── CLOSING ── */
   #closing {
@@ -437,7 +468,7 @@
   }
   .closing-eyebrow {
     font-family: 'Pretendard', sans-serif;
-    font-size: .68rem; letter-spacing: .26em; text-transform: uppercase;
+    font-size: .78rem; letter-spacing: .24em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 1.8rem;
   }
   .closing-title {
@@ -450,27 +481,28 @@
   }
   .closing-title em { font-style: normal; color: var(--accent); }
   .closing-desc {
-    font-size: .86rem; line-height: 1.95; color: rgba(217,226,255,.78);
-    max-width: 540px; margin: 0 auto 2.6rem;
+    font-size: .95rem; line-height: 1.95; color: rgba(217,226,255,.88);
+    max-width: 620px; margin: 0 auto 2.6rem;
   }
+  .closing-desc + .closing-desc { margin-top: -1.4rem; }
   .closing-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
   .clink {
     font-family: 'Pretendard', sans-serif;
-    font-size: .73rem; letter-spacing: .1em;
-    padding: .72rem 1.5rem;
+    font-size: .84rem; letter-spacing: .08em;
+    padding: .78rem 1.6rem;
     text-decoration: none; text-transform: uppercase;
     transition: all .2s;
-    border: 0; cursor: pointer; /* button 요소로도 쓰이므로 초기화 */
+    border: 0; cursor: pointer;
   }
   .clink-primary { background: var(--accent); color: #fff; }
   .clink-primary:hover { background: #1f47d6; }
-  .clink-ghost { border: 1px solid rgba(217,226,255,.3); color: rgba(217,226,255,.75); }
+  .clink-ghost { border: 1px solid rgba(217,226,255,.45); color: rgba(217,226,255,.9); }
   .clink-ghost:hover { border-color: var(--paper); color: var(--paper); }
 
   footer {
-    background: #070b16; color: rgba(217,226,255,.35);
-    text-align: center; padding: 1.4rem;
-    font-family: 'Pretendard', sans-serif; font-size: .63rem; letter-spacing: .1em;
+    background: #070b16; color: rgba(217,226,255,.6);
+    text-align: center; padding: 1.5rem;
+    font-family: 'Pretendard', sans-serif; font-size: .76rem; letter-spacing: .06em;
   }
 
   /* ── ANIMATIONS ── */
@@ -494,6 +526,7 @@
   @media(max-width:900px) {
     nav { padding: .9rem 1.3rem; }
     .nav-links { gap: 1rem; }
+    .nav-links a { font-size: .74rem; letter-spacing: .08em; }
     section { padding: 4.5rem 0; }
     .container { padding: 0 1.4rem; }
     .hero-inner { grid-template-columns: 1fr; padding: 0 1.4rem; gap: 2rem; }
@@ -514,17 +547,67 @@
   @media(max-width:480px) {
     .container { padding: 0 1.1rem; }
     .hero-inner { padding: 0 1.1rem; }
-    .proj-table td:first-child { width: 56%; }
+    .proj-list li { flex-direction: column; gap: .3rem; }
+    .pl-period { text-align: left; }
+  }
+
+  /* ── PRINT (지원 서류 출력 / PDF 저장 대응) ── */
+  @media print {
+    @page { margin: 14mm; }
+    html, body {
+      background: #fff !important; color: #000 !important;
+      font-size: 10.5pt; overflow: visible !important;
+    }
+    nav, .skip-link, .hero-scroll, .hero-bg-text, .closing-bg,
+    .hero-cta, .closing-links, .keyword-num, .proj-index { display: none !important; }
+
+    section { padding: 0 0 1.4rem !important; scroll-margin-top: 0 !important; }
+    #hero { min-height: auto !important; padding: .4rem 0 1.4rem !important; display: block !important; }
+    .hero-inner { display: block !important; padding: 0 !important; max-width: none !important; }
+    .container { max-width: none !important; padding: 0 !important; }
+
+    #keywords, #resume, #projects, #side, #workstyle, #closing {
+      background: #fff !important; color: #000 !important;
+    }
+    .keyword-title, .keyword-desc, .closing-title, .closing-desc,
+    .section-title, .closing-eyebrow, .section-eyebrow, .hero-label { color: #000 !important; }
+
+    .hero-title { font-size: 20pt !important; margin-bottom: .6rem !important; }
+    .hero-title em { color: #000 !important; }
+    .section-title { font-size: 15pt !important; margin-bottom: 1rem !important; }
+    .hero-pitch { border-left: 2px solid #999 !important; color: #333 !important; max-width: none; }
+
+    .keywords-grid { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .keyword-card { border: 1px solid #bbb !important; padding: .9rem !important; page-break-inside: avoid; }
+    .keyword-tag { background: none !important; color: #000 !important; border: 1px solid #999; }
+    .side-tag { background: none !important; color: #000 !important; border: 1px solid #999; }
+
+    .project-card { grid-template-columns: 1fr !important; gap: .8rem !important; padding: 1.2rem 0 !important; page-break-inside: avoid; }
+    .proj-sidebar { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+    .proj-meta-block { margin-bottom: .4rem; }
+    .stack-list { flex-direction: row; flex-wrap: wrap; gap: .3rem; }
+    .stack-item { background: none !important; border: 1px solid #ccc; }
+    .result-badge { background: #f2f2f2 !important; color: #000 !important; border: 1px solid #bbb; }
+    .result-badge .rb-label { color: #000 !important; }
+
+    .resume-grid { grid-template-columns: 1fr 1.2fr; gap: 1.6rem; }
+    .work-grid { grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .work-item { page-break-inside: avoid; }
+    .pill { background: none !important; border: 1px solid #ccc !important; }
+
+    .fade-up, html.js .fade-up { opacity: 1 !important; transform: none !important; transition: none !important; }
+    a { color: #000 !important; text-decoration: none !important; }
+    footer { background: #fff !important; color: #555 !important; border-top: 1px solid #ccc; }
   }
 </style>
 </head>
-<body>
+<body id="top">
 
 <a class="skip-link" href="#main">본문 바로가기</a>
 
 <nav aria-label="주요 메뉴">
-  <a class="nav-name" href="#top" aria-label="홈으로"><img src="logo.png" alt="성창민 포트폴리오 로고"></a>
-  <ul class="nav-links">
+  <a class="nav-name" href="#top"><img src="logo.png" alt="성창민 포트폴리오 홈"></a>
+  <ul class="nav-links" role="list">
     <li><a href="#keywords">About</a></li>
     <li><a href="#resume">Resume</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -535,21 +618,21 @@
 <main id="main">
 
 <!-- ══ PAGE 1 : HERO ══ -->
-<section id="hero">
+<section id="hero" aria-labelledby="hero-title">
   <div class="hero-bg-text" aria-hidden="true">DEV</div>
   <div class="hero-inner">
     <div>
-      <p class="hero-label">Fullstack Developer Portfolio 2026</p>
-      <h1 class="hero-title">
+      <p class="hero-label">Frontend Developer Portfolio 2026</p>
+      <h1 class="hero-title" id="hero-title">
         <span class="line">사용자 경험과</span>
         <span class="line">금융의 신뢰를 함께 만드는</span>
         <span class="line">개발자, <em>성창민</em>입니다.</span>
       </h1>
       <p class="hero-pitch">
-        개발 제약이 많은 폐쇄망 금융권 환경에서 개발하고 있습니다.
-        그 안에서 5분짜리 빌드 과정을 <strong>1분대로</strong> 줄였고,
-        공동, 금융, 간편 <strong>3종 인증서를 하나의 인증 플로우로</strong> 통합했습니다.
-        제약이 많은 환경일수록, 되게 만드는 방법을 찾고자 합니다.
+        제약이 많은 폐쇄망 금융권에서 스마트뱅킹 채널을 만들고 있습니다.
+        그 안에서 <strong>풀빌드 5분대를 1분대로</strong> 줄였고,
+        공동, 금융, 간편 <strong>3종 인증서를 하나의 인증 흐름으로</strong> 정리했습니다.
+        프론트엔드를 중심에 두되, 화면 뒤의 서버와 게이트웨이 구조까지 읽으며 만듭니다.
       </p>
       <a class="hero-cta" href="#projects">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
@@ -560,49 +643,48 @@
     </div>
     <div class="hero-meta">
       <div class="meta-item">E-MAIL <span>hys1693359@gmail.com</span></div>
-      <div class="meta-item">GITHUB <a href="https://github.com/indaegu" target="_blank" rel="noopener noreferrer"
-      style="text-decoration-line: none; color: #0b1020; font-weight: 500;">github.com/indaegu</a></div>
+      <div class="meta-item">GITHUB <a href="https://github.com/indaegu" target="_blank" rel="noopener noreferrer">github.com/indaegu</a></div>
     </div>
   </div>
   <div class="hero-scroll" aria-hidden="true">SCROLL</div>
 </section>
 
 <!-- ══ PAGE 2 : KEYWORDS ══ -->
-<section id="keywords">
+<section id="keywords" aria-labelledby="keywords-title">
   <div class="container">
     <div class="fade-up">
       <p class="section-eyebrow">// 나를 정의하는 세 가지</p>
-      <h2 class="section-title">What defines me</h2>
+      <h2 class="section-title" id="keywords-title">What defines me</h2>
     </div>
     <div class="keywords-grid fade-up">
       <div class="keyword-card">
         <div class="keyword-num" aria-hidden="true">01</div>
         <div class="keyword-tag">Ownership</div>
-        <h3 class="keyword-title">끝까지 책임지는</h3>
-        <p class="keyword-desc">구현 방식 선택부터 설계와 구현, 운영 배포까지 스스로 자처하고 주도합니다. 모바일 신분증의 Web2App 방식 전환과 요청받지 않았던 운영자 페이지 개선을 팀 전체의 생산성 관점에서 설득하고 끝까지 책임진 경험이 있습니다.</p>
+        <h3 class="keyword-title">끝까지 맡는</h3>
+        <p class="keyword-desc">구현 방식을 제안하는 단계부터 개발, 운영 배포, 이후 대응까지 이어서 맡습니다. 모바일 신분증을 Web2App으로 가자고 제안해 선임 검토를 거쳐 채택됐고, 요청받지 않았던 운영자 페이지 개선도 직접 발굴해 지금까지 이어오고 있습니다.</p>
       </div>
       <div class="keyword-card">
         <div class="keyword-num" aria-hidden="true">02</div>
         <div class="keyword-tag">Fintech Security</div>
-        <h3 class="keyword-title">금융 보안에 강한</h3>
-        <p class="keyword-desc">폐쇄망 스마트뱅킹 환경에서 전자서명(PKCS7) 백엔드 재검증 구조와 공동, 금융, 간편 3종 인증 통합을 설계했습니다. 토큰 저장 구조의 취약점을 선제적으로 찾아 보완하는 등, 편의성과 검증 신뢰를 함께 설계해야 실질적 개선이 된다는 금융 도메인 감각을 갖췄습니다.</p>
+        <h3 class="keyword-title">금융 보안을 아는</h3>
+        <p class="keyword-desc">폐쇄망 스마트뱅킹에서 전자서명(PKCS7) 서버 재검증 구조와 공동, 금융, 간편 3종 인증 통합을 맡았습니다. 토큰의 저장 범위와 로그 노출 정책을 배포 전 점검 항목으로 정의하는 등, 편의성과 검증 신뢰를 함께 설계해야 실질적 개선이 된다고 봅니다.</p>
       </div>
       <div class="keyword-card">
         <div class="keyword-num" aria-hidden="true">03</div>
         <div class="keyword-tag">Impact-Driven</div>
         <h3 class="keyword-title">근본을 개선하는</h3>
-        <p class="keyword-desc">기능이 동작하는 수준을 넘어 병목의 근본 원인을 찾습니다. 번들러의 동작 원리까지 파고들어 빌드 시간을 약 80% 단축하고, 수기로 반복되던 운영 업무를 공통 구조와 자동화로 바꿔 팀 전체의 효율을 끌어올립니다.</p>
+        <p class="keyword-desc">기능이 동작하는 수준을 넘어 병목의 원인을 찾습니다. 번들러의 동작 원리까지 파고들어 빌드 시간을 약 80% 단축했고, 수기로 반복되던 운영 업무를 공통 구조로 바꿔 팀과 현업의 작업량을 줄였습니다.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ══ PAGE 3 : RESUME ══ -->
-<section id="resume">
+<section id="resume" aria-labelledby="resume-title">
   <div class="container">
     <div class="fade-up" style="margin-bottom:3.5rem">
       <p class="section-eyebrow">// 이력서</p>
-      <h2 class="section-title" style="color:var(--ink)">Resume</h2>
+      <h2 class="section-title" id="resume-title" style="color:var(--ink)">Resume</h2>
     </div>
     <div class="resume-grid fade-up">
 
@@ -610,50 +692,65 @@
       <div class="resume-left">
         <div class="profile-block">
           <div class="profile-name">성창민</div>
-          <div class="profile-sub">FULLSTACK DEVELOPER</div>
+          <div class="profile-sub">FRONTEND DEVELOPER</div>
           <div class="resume-divider"></div>
           <div class="info-row"><span class="info-label">E-Mail</span><span class="info-val"><a href="mailto:hys1693359@gmail.com">hys1693359@gmail.com</a></span></div>
           <div class="info-row"><span class="info-label">GitHub</span><span class="info-val"><a href="https://github.com/indaegu" target="_blank" rel="noopener noreferrer">github.com/indaegu</a></span></div>
         </div>
 
         <div class="skills-section">
-          <div class="resume-block-title">Tech Stack</div>
-          <div class="skill-row">
-            <div class="skill-cat">Languages</div>
-            <div class="skill-pills">
-              <span class="pill">Java</span><span class="pill">JavaScript</span><span class="pill">TypeScript</span>
+          <h3 class="resume-block-title">Tech Stack</h3>
+
+          <div class="skill-group">
+            <div class="skill-group-title">실무 <span>(하나저축은행 비대면 채널)</span></div>
+            <div class="skill-row">
+              <div class="skill-cat">Language</div>
+              <div class="skill-pills">
+                <span class="pill">JavaScript</span><span class="pill">Java 8</span>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-cat">Frontend</div>
+              <div class="skill-pills">
+                <span class="pill">Vue 2</span><span class="pill">Webpack</span><span class="pill">WAI-ARIA</span>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-cat">Backend</div>
+              <div class="skill-pills">
+                <span class="pill">Spring Boot</span><span class="pill">Spring Cloud (Eureka, Zuul)</span><span class="pill">MyBatis</span>
+              </div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-cat">Data / Infra</div>
+              <div class="skill-pills">
+                <span class="pill">PostgreSQL</span><span class="pill">Redis</span><span class="pill">Jenkins</span><span class="pill">GitLab</span><span class="pill">Docker</span>
+              </div>
             </div>
           </div>
-          <div class="skill-row">
-            <div class="skill-cat">Framework / Library</div>
-            <div class="skill-pills">
-              <span class="pill">Vue.js</span><span class="pill">React</span><span class="pill">Next.js</span><span class="pill">Spring Boot</span><span class="pill">Spring Cloud</span>
+
+          <div class="skill-group">
+            <div class="skill-group-title">사이드 프로젝트, 개인 학습</div>
+            <div class="skill-row">
+              <div class="skill-cat">Frontend</div>
+              <div class="skill-pills">
+                <span class="pill">TypeScript</span><span class="pill">React</span><span class="pill">Next.js</span><span class="pill">TanStack Query</span>
+              </div>
             </div>
-          </div>
-          <div class="skill-row">
-            <div class="skill-cat">Database</div>
-            <div class="skill-pills">
-              <span class="pill">PostgreSQL</span><span class="pill">MySQL</span><span class="pill">Oracle</span><span class="pill">Redis</span>
-            </div>
-          </div>
-          <div class="skill-row">
-            <div class="skill-cat">Infra / DevOps</div>
-            <div class="skill-pills">
-              <span class="pill">Docker</span><span class="pill">Jenkins</span><span class="pill">GitLab</span><span class="pill">Nginx</span><span class="pill">Webpack</span><span class="pill">Eureka</span><span class="pill">Zuul</span>
-            </div>
-          </div>
-          <div class="skill-row">
-            <div class="skill-cat">Monitoring</div>
-            <div class="skill-pills">
-              <span class="pill">Prometheus</span><span class="pill">Grafana</span>
+            <div class="skill-row">
+              <div class="skill-cat">Data / Monitoring</div>
+              <div class="skill-pills">
+                <span class="pill">Oracle</span><span class="pill">MySQL</span><span class="pill">Prometheus</span><span class="pill">Grafana</span>
+              </div>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="resume-block-title">Awards</div>
+          <h3 class="resume-block-title">Awards</h3>
           <div class="award-item">
-            <div class="award-name">ICT&디지털혁신본부 2025 상반기 우수직원</div>
+            <div class="award-name">ICT&amp;디지털혁신본부 2025 상반기 우수직원</div>
+            <div class="award-reason">Webpack 빌드 최적화로 팀 개발 생산성을 개선한 성과로 선정</div>
             <div class="award-meta">하나저축은행, 2025.07</div>
           </div>
           <div class="award-item">
@@ -674,10 +771,10 @@
       <!-- RIGHT -->
       <div class="resume-right">
         <div style="margin-bottom:2.8rem">
-          <div class="resume-block-title">Career</div>
+          <h3 class="resume-block-title">Career</h3>
           <div class="career-item">
             <div class="career-company">하나금융티아이</div>
-            <div class="career-role">하나저축은행 스마트뱅킹 비대면 채널 웹/서버 풀스택 개발 및 운영<br>공공마이데이터, 모바일 신분증, 백오피스, 웹 접근성 개선, 레거시 API 리팩토링 등 채널 서비스 개발과 운영 장애 대응 담당</div>
+            <div class="career-role">하나저축은행 스마트뱅킹 비대면 채널 웹/서버 개발 및 운영<br>웹 접근성 개선, 공공마이데이터, 모바일 신분증, 백오피스, 레거시 API 리팩토링 등 채널 서비스 개발과 상시 운영 대응 담당</div>
             <div class="career-period">2024.11 ~ 현재</div>
           </div>
           <div class="career-item">
@@ -688,33 +785,37 @@
         </div>
 
         <div>
-          <div class="resume-block-title">Projects</div>
-          <table class="proj-table">
-            <tr>
-              <td>전 채널 웹 접근성 진단 및 개선<br><span class="role-badge">Frontend</span></td>
-              <td>진행 중</td>
-            </tr>
-            <tr>
-              <td>레거시 API 점진 리팩토링 (Strangler 패턴)<br><span class="role-badge">Backend</span></td>
-              <td>진행 중</td>
-            </tr>
-            <tr>
-              <td>공공마이데이터 연동 및 전자서명 통합 인증<br><span class="role-badge fullstack">Fullstack</span></td>
-              <td>2026.04 ~ 2026.06</td>
-            </tr>
-            <tr>
-              <td>운영자 페이지 자체개선<br><span class="role-badge fullstack">Fullstack</span></td>
-              <td>2026.02 ~ 2026.03</td>
-            </tr>
-            <tr>
-              <td>모바일 신분증 도입 프로젝트<br><span class="role-badge fullstack">Fullstack</span></td>
-              <td>2025.09 ~ 2025.10</td>
-            </tr>
-            <tr>
-              <td>Webpack 빌드 최적화 (라우터 코드 스플리팅 개선)<br><span class="role-badge fullstack">Fullstack</span></td>
-              <td>2025.04 ~ 2025.05</td>
-            </tr>
-          </table>
+          <h3 class="resume-block-title">Projects</h3>
+          <ul class="proj-list" role="list">
+            <li>
+              <span class="pl-name">스마트뱅킹 웹 접근성(KWCAG) 개선<br><span class="role-badge">Frontend</span></span>
+              <span class="pl-period">2025, 2026 심사 대응<br>(2026.07 완료)</span>
+            </li>
+            <li>
+              <span class="pl-name">운영자 페이지(백오피스) 자체개선<br><span class="role-badge fullstack">Fullstack</span></span>
+              <span class="pl-period">2026.02 ~ 진행 중</span>
+            </li>
+            <li>
+              <span class="pl-name">레거시 API 점진 리팩토링 (Strangler 패턴)<br><span class="role-badge">Backend</span></span>
+              <span class="pl-period">2026.07 ~ 진행 중</span>
+            </li>
+            <li>
+              <span class="pl-name">공공마이데이터 연동 및 전자서명 통합 인증<br><span class="role-badge fullstack">Fullstack</span></span>
+              <span class="pl-period">2026.04 ~ 2026.06</span>
+            </li>
+            <li>
+              <span class="pl-name">모바일 신분증 도입 프로젝트<br><span class="role-badge fullstack">Fullstack</span></span>
+              <span class="pl-period">2025.09 ~ 2025.10</span>
+            </li>
+            <li>
+              <span class="pl-name">Webpack 빌드 최적화 (라우터 코드 스플리팅 개선)<br><span class="role-badge fullstack">Fullstack</span></span>
+              <span class="pl-period">2025.04 ~ 2025.05</span>
+            </li>
+            <li>
+              <span class="pl-name">스마트뱅킹 채널 상시 운영 및 정책 대응<br><span class="role-badge fullstack">Fullstack</span></span>
+              <span class="pl-period">2024.11 ~ 현재</span>
+            </li>
+          </ul>
           <p class="earlier-note">
             <b>사이드 프로젝트 (사내 CoP)</b><br>
             SBOM 기반 오픈소스 취약점 관리 플랫폼 (팀장, 프론트엔드 단독, 2026.04 ~ 진행 중)
@@ -731,340 +832,48 @@
 </section>
 
 <!-- ══ PROJECT DETAIL ══ -->
-<section id="projects">
+<section id="projects" aria-labelledby="projects-title">
   <div class="container">
     <div class="projects-header fade-up">
       <p class="section-eyebrow">// 회사 주요 프로젝트</p>
-      <h2 class="section-title" style="color:var(--ink)">Selected Work</h2>
+      <h2 class="section-title" id="projects-title" style="color:var(--ink)">Selected Work</h2>
     </div>
 
-    <!-- PROJECT 1 : 웹 접근성 -->
+    <!-- PROJECT 1 : Webpack 빌드 최적화 -->
     <div class="project-card fade-up">
       <div class="proj-index" aria-hidden="true">01</div>
       <div>
         <div class="proj-header">
-          <div class="proj-section-label">진행 중 &nbsp; Frontend Developer</div>
-          <h3 class="proj-name">전 채널 웹 접근성 진단 및 개선</h3>
-        </div>
-        <p class="proj-summary">
-          스마트뱅킹 전 채널을 대상으로 웹 접근성을 진단하고, 스크린리더와 키보드만 사용하는 고객도
-          금융 거래를 끝까지 완주할 수 있도록 마크업과 공통 컴포넌트를 개선하고 있는 프로젝트.
-        </p>
-        <div class="proj-section-label">Background / Problem</div>
-        <div class="proj-text">
-          <ul>
-            <li>금융 서비스의 접근성은 선택이 아닌 법적 요구사항이지만, 채널마다 기준 적용 수준이 제각각</li>
-            <li>대체 텍스트 누락, 폼 레이블 미연결, 포커스 순서 붕괴 등으로 스크린리더 사용자가 거래 흐름 중간에 이탈</li>
-            <li>지적된 화면만 그때그때 수정하는 방식이라, 새로 만드는 화면에서 같은 결함이 반복 발생</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Solution / Process</div>
-        <div class="proj-text">
-          <ul>
-            <li>전 채널 화면을 진단해 위반 유형을 분류하고, <strong>거래 완주를 막는 항목부터 우선순위화</strong>해 순차 개선</li>
-            <li>시맨틱 마크업, 대체 텍스트, 폼 레이블 연결, 포커스 순서, 명도 대비 등 반복 위반을 <strong>개별 화면이 아닌 공통 컴포넌트 레벨에서 수정</strong>해 재발 차단</li>
-            <li>스크린리더와 키보드 단독 환경에서 주요 거래 흐름을 직접 완주해보며 실제 사용 맥락으로 검증</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Result</div>
-        <div class="proj-text">
-          <ul>
-            <li>공통 컴포넌트 단위 개선으로 동일 결함이 신규 화면에서 재발하지 않는 구조 확보</li>
-            <li>스크린리더와 키보드만으로도 주요 거래 흐름을 완주할 수 있도록 개선</li>
-            <li>개선 기준을 가이드로 정리해 화면 개발 시점부터 접근성이 적용되도록 팀에 전파</li>
-            <li>배운 점: 접근성은 나중에 덧붙이는 기능이 아니라 <em>마크업 품질의 결과</em>이며, 컴포넌트 설계 단계에서 확보하는 편이 사후 수정보다 훨씬 저렴하다</li>
-          </ul>
-        </div>
-      </div>
-      <div class="proj-sidebar">
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Period</div>
-          <div class="proj-period">진행 중</div>
-        </div>
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Tech Stack</div>
-          <div class="stack-list">
-            <span class="stack-item">Vue.js</span>
-            <span class="stack-item">JavaScript</span>
-            <span class="stack-item">HTML / WAI-ARIA</span>
-            <span class="stack-item">스크린리더 (NVDA, VoiceOver)</span>
-          </div>
-        </div>
-        <div class="result-badge">
-          <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">개별 화면이 아닌<br>공통 컴포넌트 개선으로<br>결함 재발 차단</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 2 : 레거시 API 점진 리팩토링 -->
-    <div class="project-card fade-up">
-      <div class="proj-index" aria-hidden="true">02</div>
-      <div>
-        <div class="proj-header">
-          <div class="proj-section-label">진행 중 &nbsp; Backend Developer</div>
-          <h3 class="proj-name">레거시 API 점진 리팩토링 (Strangler 패턴)</h3>
-        </div>
-        <p class="proj-summary">
-          무중단 운영이 전제인 스마트뱅킹 API를 전면 재작성 없이 개선하기 위해,
-          기존 인터페이스를 유지한 채 기능 단위로 내부 구현을 교체해 나가는 점진 이관 프로젝트.
-        </p>
-        <div class="proj-section-label">Background / Problem</div>
-        <div class="proj-text">
-          <ul>
-            <li>오랜 기간 누적된 채널별 분기와 비즈니스 로직이 한 곳에 뒤섞여, 작은 변경에도 영향 범위 파악이 어렵고 회귀 위험이 큼</li>
-            <li>금융 채널 특성상 무중단 운영이 전제라 전면 재작성 방식은 리스크가 과도</li>
-            <li>테스트 자산이 부족해 변경의 안전성을 기계적으로 보장하기 어려운 상태</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Solution / Process</div>
-        <div class="proj-text">
-          <ul>
-            <li>호출 빈도와 장애 이력을 기준으로 이관 우선순위를 정하고, <strong>기존 인터페이스는 그대로 둔 채 내부 구현만 교체</strong>하는 Strangler 방식으로 점진 이관</li>
-            <li>이관 대상마다 <strong>기존 응답과 신규 응답을 비교 검증</strong>한 뒤 전환해, 동작 동등성을 확인하고 넘어가는 절차 확립</li>
-            <li>문제 발생 시 즉시 이전 구현으로 되돌릴 수 있도록 <strong>전환 스위치와 롤백 경로를 먼저 확보</strong>한 뒤 이관 착수</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Result</div>
-        <div class="proj-text">
-          <ul>
-            <li>서비스 중단 없이 레거시 영역을 단계적으로 축소</li>
-            <li>인터페이스를 유지한 이관이라 프론트 영향 없이 서버 내부 구조만 개선</li>
-            <li>비교 검증 절차가 남아, 이후 이관 작업도 같은 방식으로 반복 가능</li>
-            <li>배운 점: 레거시 개선의 성패는 새 코드의 품질보다 <em>롤백 가능성과 검증 절차를 먼저 설계했는가</em>에 달려 있다</li>
-          </ul>
-        </div>
-      </div>
-      <div class="proj-sidebar">
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Period</div>
-          <div class="proj-period">진행 중</div>
-        </div>
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Tech Stack</div>
-          <div class="stack-list">
-            <span class="stack-item">Java</span>
-            <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">JUnit</span>
-            <span class="stack-item">PostgreSQL</span>
-          </div>
-        </div>
-        <div class="result-badge">
-          <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">무중단 운영을 유지하며<br>레거시 영역<br>단계적 축소</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 3 : 공공마이데이터 -->
-    <div class="project-card fade-up">
-      <div class="proj-index" aria-hidden="true">03</div>
-      <div>
-        <div class="proj-header">
-          <div class="proj-section-label">2026.04 ~ 2026.06 &nbsp; Fullstack Developer</div>
-          <h3 class="proj-name">공공마이데이터 연동 및 전자서명 통합 인증</h3>
-        </div>
-        <p class="proj-summary">
-          공공마이데이터를 스마트뱅킹 수신/여신 상품 가입 흐름에 연동하고, 공동, 금융, 간편 인증서 3종 경로를
-          하나의 통합 인증 플로우로 묶어 고객 편의성과 보안 신뢰도를 동시에 높인 프로젝트.
-        </p>
-        <div class="proj-section-label">Background / Problem</div>
-        <div class="proj-text">
-          <ul>
-            <li>인증서 종류(공동, 금융, 간편)마다 서명과 검증 경로가 제각각이라 화면과 로직이 분기되어 유지보수 부담 증가</li>
-            <li>상품 가입에 필요한 공공기관 정보를 고객이 직접 준비하고 제출해야 해 이탈이 발생하는 구조</li>
-            <li>전자서명 데이터의 위변조 방지와 신뢰 검증을 클라이언트에만 의존할 수 없는 보안 요구</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Solution / Process</div>
-        <div class="proj-text">
-          <ul>
-            <li>공동, 금융, 간편 3종 인증서 경로를 <strong>공통 인터페이스로 추상화</strong>해 하나의 통합 인증 플로우로 정리</li>
-            <li>전자서명(PKCS7) 결과를 <strong>백엔드에서 재검증하는 서버 사이드 라운드트립 구조</strong>로 설계해 위변조 방지와 신뢰 검증을 아키텍처 수준에서 보장</li>
-            <li>운영 배포 전 보안 점검을 주도해 로그에 남던 토큰과 개인정보를 마스킹 처리하고, <strong>공용 기기에서의 토큰 교차 사용 가능성을 선제 식별</strong>해 사용자 식별 요소를 포함한 저장 키 구조로 보완</li>
-            <li>공공마이데이터로 수집한 정보를 수신/여신 상품 가입 페이지에 연동해 고객 입력 부담 최소화</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Result</div>
-        <div class="proj-text">
-          <ul>
-            <li>분기되어 있던 인증서 경로를 단일 플로우로 통합해 화면과 유지보수 복잡도 감소</li>
-            <li>전자서명 검증을 서버에서 최종 확인하는 구조로 금융 보안 신뢰 수준 강화</li>
-            <li>공공마이데이터 연동으로 상품 가입 과정의 고객 입력 단계 간소화</li>
-            <li>배운 점: 인증과 보안 도메인에서는 <em>편의성과 검증 신뢰를 함께 설계</em>해야 실질적 개선이 된다는 관점</li>
-          </ul>
-        </div>
-      </div>
-      <div class="proj-sidebar">
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2026.04 ~ 2026.06</div>
-        </div>
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Tech Stack</div>
-          <div class="stack-list">
-            <span class="stack-item">Vue.js</span>
-            <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">Java</span>
-            <span class="stack-item">PostgreSQL</span>
-            <span class="stack-item">전자서명 / PKCS7</span>
-          </div>
-        </div>
-        <div class="result-badge">
-          <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">3종 인증서 경로를<br>단일 인증 플로우로<br>통합</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 4 : 운영자 페이지 -->
-    <div class="project-card fade-up">
-      <div class="proj-index" aria-hidden="true">04</div>
-      <div>
-        <div class="proj-header">
-          <div class="proj-section-label">2026.02 ~ 2026.03 &nbsp; Fullstack Developer</div>
-          <h3 class="proj-name">운영자 페이지(백오피스) 자체개선</h3>
-        </div>
-        <p class="proj-summary">
-          채널별로 각각 작성해야 했던 공지사항과 팝업 등록 방식을 공통 템플릿 구조로 개선해,
-          현업의 반복 업무를 줄이고 운영 효율을 높인 프로젝트.
-        </p>
-        <div class="proj-section-label">Background / Problem</div>
-        <div class="proj-text">
-          <ul>
-            <li>공지사항과 팝업 등록 시 채널마다 작성 방식이 달라, 같은 내용을 각각 반복 입력해야 함</li>
-            <li>요청받은 개선 범위는 아니었지만, 운영을 지원하며 현업의 반복 비효율을 직접 관찰하고 개선 과제로 발굴</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Solution / Process</div>
-        <div class="proj-text">
-          <ul>
-            <li>채널별로 분리된 등록 방식을 분석해 <strong>하나의 데이터로 전 채널에 공통 반영</strong>되는 구조 설계</li>
-            <li>채널 분기 처리로 모바일웹, 인터넷 PC, 모바일앱 화면에 각각 맞게 렌더링하는 크로스채널 대응</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Result</div>
-        <div class="proj-text">
-          <ul>
-            <li>한 번의 작성으로 전체 채널 반영이 가능해져 반복 입력 횟수 대폭 감소</li>
-            <li>요청받은 기능을 넘어 반복 비효율을 스스로 발견해 개선한 오너십</li>
-            <li>배운 점: 기능 추가보다 <em>반복 업무를 줄이는 방향</em>으로 문제를 바라봐야 더 큰 개선 효과</li>
-          </ul>
-        </div>
-      </div>
-      <div class="proj-sidebar">
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2026.02 ~ 2026.03</div>
-        </div>
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Tech Stack</div>
-          <div class="stack-list">
-            <span class="stack-item">Vue.js</span>
-            <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">JavaScript</span>
-            <span class="stack-item">Java</span>
-            <span class="stack-item">PostgreSQL</span>
-          </div>
-        </div>
-        <div class="result-badge">
-          <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">1회 작성으로<br>전 채널 동시 반영<br>운영 효율 극대화</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 5 : 모바일 신분증 -->
-    <div class="project-card fade-up">
-      <div class="proj-index" aria-hidden="true">05</div>
-      <div>
-        <div class="proj-header">
-          <div class="proj-section-label">2025.09 ~ 2025.10 &nbsp; Fullstack Developer</div>
-          <h3 class="proj-name">모바일 신분증 도입 프로젝트</h3>
-        </div>
-        <p class="proj-summary">
-          하나저축은행 원큐앱 내부에 모바일 신분증 기반 인증 방식을 추가 도입한 개발.
-          기존 실물 신분증 단독 방식에서 확장해 고객 편의성을 높이는 인증 채널을 구축했습니다.
-        </p>
-        <div class="proj-section-label">Background / Problem</div>
-        <div class="proj-text">
-          <ul>
-            <li>기존 인증 방식이 실물 신분증 하나로 제한되어 고객 불편을 야기</li>
-            <li>App2App 방식은 네이티브 개발자 2명 공수가 필요하고, 앱 심사로 운영 배포에 제약 발생</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Solution / Process</div>
-        <div class="proj-text">
-          <ul>
-            <li>개발 공수와 운영 유연성, 대응 속도를 고려해 App2App 대신 <strong>Web2App(웹뷰) 방식을 자처하여 구현</strong></li>
-            <li>iOS와 Android에서 상이하게 동작하는 <strong>네이티브 브릿지의 콜백 시점과 데이터 규격 차이</strong>를 각 OS 네이티브 개발자와 협업해 통합</li>
-          </ul>
-        </div>
-        <div class="proj-section-label">Result</div>
-        <div class="proj-text">
-          <ul>
-            <li>앱 심사 없이 즉각 대응 가능한 운영 배포 환경 구성</li>
-            <li>네이티브 2명의 공수 없이 웹 개발자 1명으로 운영 개발이 가능한 구조 확보</li>
-            <li>인증과 개발 흐름을 웹으로 통일해 개발 난이도를 낮춤</li>
-            <li>배운 점: 구현 방식을 스스로 자처하고 도입까지 끝까지 책임진 오너십</li>
-          </ul>
-        </div>
-      </div>
-      <div class="proj-sidebar">
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Period</div>
-          <div class="proj-period">2025.09 ~ 2025.10</div>
-        </div>
-        <div class="proj-meta-block">
-          <div class="proj-meta-label">Tech Stack</div>
-          <div class="stack-list">
-            <span class="stack-item">Vue.js</span>
-            <span class="stack-item">WebView Bridge</span>
-            <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">Java</span>
-            <span class="stack-item">PostgreSQL</span>
-          </div>
-        </div>
-        <div class="result-badge">
-          <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">웹 개발자 1명으로<br>전체 운영 개발 가능한<br>구조 확보</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECT 6 : Webpack 빌드 최적화 -->
-    <div class="project-card fade-up">
-      <div class="proj-index" aria-hidden="true">06</div>
-      <div>
-        <div class="proj-header">
-          <div class="proj-section-label">2025.04 ~ 2025.05 &nbsp; Fullstack Developer</div>
+          <div class="proj-section-label">2025.04 ~ 2025.05 &nbsp; Frontend</div>
           <h3 class="proj-name">Webpack 빌드 최적화: 라우터 코드 스플리팅 개선</h3>
         </div>
         <p class="proj-summary">
           Vue 라우터 lazy-load의 변수 기반 동적 import가 Webpack context 모듈을 만들어 폴더 전체를 스캔하고 파싱하던 구조를,
-          정적 경로와 고정 청크명으로 리팩터링해 풀빌드 시간을 5분대에서 1분대로 단축한 프로젝트.
+          정적 경로와 고정 청크명으로 바꿔 풀빌드 시간을 5분대에서 1분대로 줄인 작업. 이 개선으로 2025년 상반기 우수직원에 선정됐습니다.
         </p>
         <div class="proj-section-label">Background / Problem</div>
         <div class="proj-text">
           <ul>
-            <li>라우터 lazy-load에서 변수로 경로와 청크명을 구성해, Webpack이 context 모듈을 생성하고 해당 폴더의 모든 후보 파일을 스캔하고 파싱</li>
+            <li>라우터 lazy-load에서 경로와 청크명을 변수로 구성해, Webpack이 context 모듈을 생성하고 해당 폴더의 모든 후보 파일을 스캔하고 파싱</li>
             <li>풀빌드에 약 5분이 소요되고, 청크 경계와 이름이 자주 바뀌어 캐시 적중률이 낮음</li>
+            <li>폐쇄망이라 빌드 인프라 증설이나 신규 번들러 도입으로 우회하기 어려운 조건</li>
           </ul>
         </div>
         <div class="proj-section-label">Solution / Process</div>
         <div class="proj-text">
           <ul>
-            <li>변수 경로 동적 import를 <strong>정적 파일 경로</strong>로, 변수 섞인 청크명을 <strong>고정 webpackChunkName</strong>으로 통일해 정적 분석이 가능하도록 변경</li>
-            <li>라우트별 독립 청크 그래프를 안정화해 모듈 스캔과 파싱량, 해시 변동을 최소화하고 캐시 적중률 상승</li>
+            <li>변수 경로 동적 import를 <strong>정적 파일 경로</strong>로, 변수가 섞인 청크명을 <strong>고정 webpackChunkName</strong>으로 통일해 정적 분석이 가능하도록 변경</li>
+            <li>라우트별 독립 청크 그래프를 안정화해 모듈 스캔과 파싱량, 해시 변동을 최소화하고 캐시 적중률 개선</li>
             <li>동적 페이지가 필요한 경우 화이트리스트 매핑 객체로 한정된 집합만 로드하도록 제한</li>
           </ul>
         </div>
         <div class="proj-section-label">Result</div>
         <div class="proj-text">
           <ul>
-            <li>정적 분석이 가능해져 필요한 파일만 빌드하고, 캐시 적중률 상승으로 재빌드 시간 감소</li>
-            <li><strong>풀빌드 시간 약 80% 단축 (5분대에서 1분대로)</strong>, 하루 수차례 배포하는 팀 전체의 대기 시간 절감</li>
-            <li>배운 점: 번들러의 동작 원리(context 모듈, 정적 분석)를 이해하고 근본 원인을 제거하면 큰 성능 개선으로 이어진다는 점</li>
+            <li><strong>풀빌드 시간 약 80% 단축 (5분대에서 1분대로)</strong></li>
+            <li>절대값보다 누적 효과가 큰 개선. 웹 개발자 4명이 하루 3회 빌드한다고 보면 하루 약 48분, 월 20영업일 기준 약 16시간의 대기 시간이 사라집니다 <span class="est">팀 규모와 배포 빈도 기준 추정</span></li>
+            <li>정적 분석이 가능해져 변경된 라우트만 다시 빌드되고, 해시가 안정되어 재빌드 시간도 함께 감소</li>
+            <li>배운 점: 번들러의 동작 원리(context 모듈, 정적 분석)를 이해하고 원인을 제거하면, 도구를 바꾸지 않고도 큰 개선이 가능하다는 것</li>
           </ul>
         </div>
       </div>
@@ -1076,14 +885,369 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Vue.js</span>
+            <span class="stack-item">Vue 2</span>
             <span class="stack-item">Webpack</span>
+            <span class="stack-item">Vue Router</span>
             <span class="stack-item">JavaScript</span>
           </div>
         </div>
         <div class="result-badge">
           <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">풀빌드 시간<br><span style="font-size:1.2rem;font-weight:600;">약 80%</span> 단축</div>
+          <div class="rb-text">풀빌드 시간<br><span style="font-size:1.2rem;font-weight:600;">약 80%</span> 단축<br>(우수직원 선정 사유)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 : 웹 접근성 -->
+    <div class="project-card fade-up">
+      <div class="proj-index" aria-hidden="true">02</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2025, 2026 심사 대응 (2026.07 완료) &nbsp; Frontend</div>
+          <h3 class="proj-name">스마트뱅킹 웹 접근성(KWCAG) 개선</h3>
+        </div>
+        <p class="proj-summary">
+          외부 심사기관의 접근성 진단 결과를 받아, 스크린리더와 키보드만 쓰는 고객도 금융 거래를 끝까지 완주할 수 있도록
+          스마트뱅킹 WebView 화면과 공통 컴포넌트를 개선한 작업. 2025년에 이어 2026년 심사 대응도 7월에 완료했습니다.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>진단은 외부 심사기관이 수행하고, 저는 지적 사항을 해석해 실제 코드 개선을 담당</li>
+            <li>운영 중인 금융 화면이라 CSS와 기존 동작, API 계약을 건드리지 않으면서 마크업만으로 해결해야 하는 제약</li>
+            <li>지적된 화면만 그때그때 고치면 신규 화면에서 같은 유형이 반복되는 구조</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>지적 사항을 유형별로 묶어 <strong>거래 완주를 막는 항목부터</strong> 순차 개선</li>
+            <li>Vue 2에서 <code>:aria-pressed</code>에 불리언 <code>false</code>를 바인딩하면 속성 자체가 DOM에서 제거되어 토글 상태가 읽히지 않는 문제를, 문자열 바인딩으로 전환해 해결. 의미상 맞지 않는 위치에 붙어 있던 속성도 함께 정리</li>
+            <li>전체 화면 모달에 dialog 역할과 포커스 트랩 패턴을 적용해, 스크린리더 포커스가 뒤쪽 콘텐츠로 빠져나가지 않도록 조정</li>
+            <li>CSS 가상요소로 그려진 장식 아이콘은 대체 텍스트를 줄 수 없어, 기존 off-screen 숨김 클래스를 활용해 의미만 읽히게 처리. CSS는 한 줄도 바꾸지 않음</li>
+            <li>반복되는 위반은 화면 단위가 아니라 <strong>공통 컴포넌트 레벨에서 수정</strong>해 재발을 차단</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>2025년, 2026년 두 차례 접근성 심사 대응을 기한 내 완료</li>
+            <li>iOS VoiceOver, Android TalkBack 환경에서 주요 거래 흐름을 실제로 완주하며 검증</li>
+            <li>개선 기준을 정리해 화면 개발 시점부터 접근성이 적용되도록 팀에 공유</li>
+            <li>배운 점: 접근성은 나중에 덧붙이는 기능이 아니라 <em>마크업 품질의 결과</em>이고, 프레임워크의 속성 바인딩 규칙 같은 세부가 결과를 좌우한다는 것</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2025, 2026 심사 대응<br>(2026.07 완료)</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">HTML / WAI-ARIA</span>
+            <span class="stack-item">JavaScript</span>
+            <span class="stack-item">VoiceOver / TalkBack</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">2년 연속 접근성<br>심사 대응 완료<br>(CSS, 동작 무변경)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 : 공공마이데이터 -->
+    <div class="project-card fade-up">
+      <div class="proj-index" aria-hidden="true">03</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2026.04 ~ 2026.06 &nbsp; Fullstack</div>
+          <h3 class="proj-name">공공마이데이터 연동 및 전자서명 통합 인증</h3>
+        </div>
+        <p class="proj-summary">
+          공공마이데이터를 수신, 여신 상품 가입 흐름에 연동하고, 공동, 금융, 간편 인증서 3종 경로를
+          하나의 인증 흐름으로 묶어 고객 편의성과 검증 신뢰도를 함께 확보한 프로젝트.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>인증서 종류(공동, 금융, 간편)마다 서명과 검증 경로가 달라 화면과 로직이 분기되고 유지보수 비용이 누적</li>
+            <li>상품 가입에 필요한 공공기관 서류를 고객이 직접 준비해 제출해야 해, 가입 흐름 중간에 이탈이 발생하는 구조</li>
+            <li>전자서명 결과의 신뢰 검증을 클라이언트에만 맡길 수 없는 금융 보안 요구</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>3종 인증서 경로를 <strong>공통 인터페이스로 추상화</strong>해 화면에서는 하나의 흐름으로 다루도록 정리</li>
+            <li>전자서명(PKCS7) 결과를 <strong>백엔드에서 다시 검증하는 서버 사이드 라운드트립 구조</strong>로 구성해, 최종 신뢰 앵커를 서버에 둠</li>
+            <li>인증서 SDK가 동일한 서명 데이터로 콜백을 두 번 발화해 재전송 방지 로직에 걸리는 문제를, 프론트에서 마지막 처리 데이터를 비교하는 중복 처리 가드로 해결</li>
+            <li>배포 전 점검 항목으로 <strong>토큰의 저장 범위와 로그 노출 정책</strong>을 정의하고, 사용자 식별 요소를 포함한 저장 키 구조를 적용</li>
+            <li>공공마이데이터로 확보한 정보를 상품 가입 페이지에 연동해 고객이 직접 입력하고 제출하던 단계를 축소</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>분기되어 있던 3종 인증서 경로를 단일 흐름으로 통합해 화면과 유지보수 복잡도 감소</li>
+            <li>공공마이데이터 거래 4종 연동을 운영 배포까지 완료</li>
+            <li>전자서명 검증의 최종 판단을 서버에 두는 구조로 정리</li>
+            <li>배운 점: 인증 도메인에서는 <em>편의성과 검증 신뢰를 함께 설계</em>해야 실질적 개선이 된다는 것. 편의만 높이면 검증이 얇아지고, 검증만 세우면 고객이 이탈합니다</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2026.04 ~ 2026.06</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">Spring Boot</span>
+            <span class="stack-item">Java 8</span>
+            <span class="stack-item">PostgreSQL</span>
+            <span class="stack-item">전자서명 / PKCS7</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">3종 인증서 경로를<br>단일 인증 흐름으로<br>통합</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 4 : 모바일 신분증 -->
+    <div class="project-card fade-up">
+      <div class="proj-index" aria-hidden="true">04</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2025.09 ~ 2025.10 &nbsp; Fullstack</div>
+          <h3 class="proj-name">모바일 신분증 도입 프로젝트</h3>
+        </div>
+        <p class="proj-summary">
+          하나저축은행 원큐앱에 모바일 신분증 인증 방식을 추가한 프로젝트.
+          App2App 대신 Web2App(웹뷰) 방식을 제안하고 채택되어, 구현과 운영 배포까지 담당했습니다.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>기존 인증 방식이 실물 신분증 하나로 제한되어 고객 불편이 있었음</li>
+            <li>App2App 방식은 iOS, Android 네이티브 개발자 2명의 공수가 필요하고, 앱 심사 때문에 운영 대응 주기가 길어지는 구조</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>개발 공수와 운영 유연성, 대응 속도를 근거로 <strong>Web2App(웹뷰) 방식을 제안</strong>하고, 선임 검토를 거쳐 채택된 뒤 구현을 맡음</li>
+            <li>iOS와 Android에서 서로 다르게 동작하는 <strong>네이티브 브리지의 콜백 시점과 데이터 규격 차이</strong>를 각 OS 담당자와 맞춰 하나의 웹 인터페이스로 통합</li>
+            <li>iOS에서 넘어온 한글이 NFD로 정규화되어 문자열 비교가 실패하는 문제 등 WebView 고유의 함정을 확인하고 방어 코드 반영</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>앱 심사 없이 즉시 대응할 수 있는 운영 배포 환경 확보</li>
+            <li><strong>네이티브 2명의 공수 없이 웹 개발자 1명으로</strong> 이후 운영 개발이 가능한 구조</li>
+            <li>인증 흐름을 웹으로 통일해 채널 간 유지보수 지점을 줄임</li>
+            <li>배운 점: 구현 방식 선택은 기능 난이도가 아니라 <em>이후 운영 비용</em>으로 판단해야 설득이 된다는 것</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2025.09 ~ 2025.10</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">WebView Bridge</span>
+            <span class="stack-item">Spring Boot</span>
+            <span class="stack-item">Java 8</span>
+            <span class="stack-item">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">네이티브 2명 공수를<br>웹 1명 구조로<br>전환</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 5 : 운영자 페이지 -->
+    <div class="project-card fade-up">
+      <div class="proj-index" aria-hidden="true">05</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2026.02 ~ 진행 중 &nbsp; Fullstack</div>
+          <h3 class="proj-name">운영자 페이지(백오피스) 자체개선</h3>
+        </div>
+        <p class="proj-summary">
+          요청받은 과제가 아니라, 운영을 지원하며 발견한 현업의 반복 업무를 하나씩 기능으로 바꿔 나가는 작업.
+          공지와 팝업의 채널 공통 등록에서 시작해 MAU/DAU 조회, 이미지 직접 삽입까지 이어지고 있습니다.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>공지사항과 팝업을 채널마다 각각 등록해야 해, 같은 내용을 반복 입력하는 구조</li>
+            <li>이용 지표 확인이나 이미지 교체처럼 자주 발생하는 요청이 매번 개발자 작업으로 넘어오던 상황</li>
+            <li>ICT 정책 변경으로 운영 목적의 직접 DB 조회에 결재가 필요해지면서, 기존 운영 업무를 어드민 기능으로 옮길 필요가 커짐</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>채널별로 분리돼 있던 등록 방식을 분석해, <strong>한 번 작성하면 전 채널에 반영되는 공통 구조</strong>로 재설계하고 채널 분기로 모바일웹, 인터넷뱅킹, 앱 화면에 각각 맞게 렌더링</li>
+            <li><strong>MAU/DAU 조회 기능</strong>을 추가해, 현업이 개발자를 거치지 않고 직접 이용 지표를 확인하도록 변경</li>
+            <li><strong>팝업 이미지 직접 삽입 기능</strong>을 추가. 이미지 저장소와 채널 조회 API를 분리하고, 접속 도메인으로 환경을 판별해 개발과 운영에서 같은 코드가 동작하도록 구성</li>
+            <li>분기별 규제 공시 데이터를 코드와 JSON에 하드코딩하던 방식에서 DB 관리로 이관. 누적 500여 건의 과거 데이터를 함께 이관하고, 계산된 수치는 원본 그대로 저장해 화면에서 재계산하지 않도록 정리</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>공지와 팝업 등록이 <strong>3개 채널 반복 입력에서 1회 등록으로</strong> 축소</li>
+            <li>지표 조회와 이미지 교체가 현업 자체 처리로 전환되어, 개발자 경유 단계가 사라짐</li>
+            <li>현업으로부터 긍정적인 평가를 받았고, 같은 방식으로 비효율 항목을 계속 발굴해 개선 중</li>
+            <li>배운 점: 기능을 더하는 것보다 <em>반복을 없애는 방향</em>이 체감 효과가 크고, 개선 대상은 요청서가 아니라 운영 지원 과정에서 발견된다는 것</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2026.02 ~ 진행 중</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Vue 2 / Element UI</span>
+            <span class="stack-item">Spring Boot</span>
+            <span class="stack-item">Java 8</span>
+            <span class="stack-item">MyBatis</span>
+            <span class="stack-item">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">3개 채널 반복 등록을<br>1회 등록으로 축소<br>현업 자체 처리 전환</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 6 : 레거시 API 점진 리팩토링 -->
+    <div class="project-card fade-up">
+      <div class="proj-index" aria-hidden="true">06</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2026.07 ~ 진행 중 &nbsp; Backend</div>
+          <h3 class="proj-name">레거시 API 점진 리팩토링 (Strangler 패턴)</h3>
+        </div>
+        <p class="proj-summary">
+          무중단 운영이 전제인 스마트뱅킹 API를, 전면 재작성 없이 기존 인터페이스를 유지한 채
+          기능 단위로 내부 구현만 교체해 나가는 점진 이관 작업.
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>약 2,000줄 규모의 컨트롤러에 채널별 분기와 비즈니스 로직이 함께 들어 있어, 작은 변경에도 영향 범위 파악에 시간이 걸림</li>
+            <li>금융 채널 특성상 무중단 운영이 전제라 전면 재작성은 리스크가 과도</li>
+            <li>운영 중 서비스라 자동화된 회귀 테스트에 기댈 수 없어, 변경의 안전성을 별도 절차로 확보해야 하는 조건</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>URL과 JSON 계약을 동결한 채 <strong>내부 구현만 단계적으로 분리</strong>하는 Strangler 방식 채택. 유틸과 생성기 같은 순수 로직부터 추출해 위험이 낮은 순서로 진행</li>
+            <li>이관 전후의 <strong>정상 거래 응답을 비교(골든 전문 diff)</strong>해 동작 동등성을 확인하고 넘어가는 절차를 먼저 만들고 착수</li>
+            <li>문제 발생 시 즉시 되돌릴 수 있도록 <strong>롤백 경로를 먼저 확보</strong>한 뒤 이관 시작</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>서비스 중단 없이 레거시 영역을 단계적으로 축소하는 중</li>
+            <li>인터페이스를 유지한 이관이라 프론트와 외부 연동 영향 없이 서버 내부 구조만 개선</li>
+            <li>비교 검증 절차가 자산으로 남아, 이후 이관도 같은 방식으로 반복 가능</li>
+            <li>배운 점: 레거시 개선의 성패는 새 코드의 품질보다 <em>롤백 가능성과 검증 절차를 먼저 설계했는가</em>에 달려 있다는 것</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2026.07 ~ 진행 중</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Java 8</span>
+            <span class="stack-item">Spring Boot</span>
+            <span class="stack-item">MyBatis</span>
+            <span class="stack-item">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">무중단 운영을 유지하며<br>레거시 영역<br>단계적 축소</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 7 : 상시 운영 대응 -->
+    <div class="project-card fade-up">
+      <div class="proj-index" aria-hidden="true">07</div>
+      <div>
+        <div class="proj-header">
+          <div class="proj-section-label">2024.11 ~ 현재 &nbsp; Fullstack</div>
+          <h3 class="proj-name">스마트뱅킹 채널 상시 운영 및 정책 대응</h3>
+        </div>
+        <p class="proj-summary">
+          위 프로젝트들과 병행해 온 상시 업무. 현업 요청 처리와 금융 정책 변경 대응, 제휴 채널 연동 정정 등
+          채널을 계속 돌아가게 만드는 일이며, 실제 근무 기간 대부분을 관통하는 배경 업무입니다.
+        </p>
+        <div class="proj-section-label">주요 대응 유형</div>
+        <div class="proj-text">
+          <ul>
+            <li><strong>금융 정책, 규제 대응</strong>: 상품 구조 변경, 소비자보호 관련 화면, 분기 공시 항목 등 대외 요건 변경에 맞춘 화면과 서버 반영</li>
+            <li><strong>현업 요청 처리</strong>: 이벤트 페이지, 상품 표기, 공지와 팝업 등 운영 요청의 개발 대응</li>
+            <li><strong>제휴 채널 연동</strong>: 제휴사가 잘못 알고 있던 진입 URL 규격을 오픈 전에 확인하고 정정. URL은 코드가 아니라 계약이라는 관점에서, 문서와 실제 구현의 차이를 먼저 맞춤</li>
+            <li><strong>구조적 이슈 정리</strong>: 예외 처리 체계, 라우터 가드 순서, 빌드 설정처럼 반복 재발하는 함정을 문서로 남겨 팀이 같은 지점에서 막히지 않도록 정리</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>입사 이후 채널 운영 대응을 지속하며, 별도 프로젝트와 병행 진행</li>
+            <li>운영 대응 과정에서 발견한 비효율이 운영자 페이지 개선 과제로 이어짐</li>
+            <li>배운 점: 서비스 구조를 가장 빠르게 익히는 방법은 운영 대응이라는 것. 어디가 자주 깨지고 어디를 손대면 위험한지는 문서가 아니라 요청 이력에 남아 있습니다</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2024.11 ~ 현재</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">JSP</span>
+            <span class="stack-item">Spring Boot</span>
+            <span class="stack-item">Java 8</span>
+            <span class="stack-item">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">1년 9개월간<br>채널 상시 운영 대응<br>병행</div>
         </div>
       </div>
     </div>
@@ -1092,11 +1256,11 @@
 </section>
 
 <!-- ══ SIDE PROJECT ══ -->
-<section id="side" style="background:#e8ecf4; padding-top:0;">
+<section id="side" style="background:#e8ecf4; padding-top:0;" aria-labelledby="side-title">
   <div class="container">
     <div class="projects-header fade-up" style="margin-bottom:2.2rem">
       <p class="section-eyebrow">// 사이드 프로젝트 (업무 외, 사내 CoP)</p>
-      <h2 class="section-title" style="color:var(--ink)">Side Project</h2>
+      <h2 class="section-title" id="side-title" style="color:var(--ink)">Side Project</h2>
     </div>
 
     <div class="project-card side fade-up">
@@ -1108,31 +1272,32 @@
           <h3 class="proj-name">SBOM 기반 사내 오픈소스 취약점 관리 플랫폼</h3>
         </div>
         <p class="proj-summary">
-          업무 외 사내 학습 모임(CoP)에서 팀장을 맡아 진행하는 사이드 프로젝트. 사내 오픈소스(OSS) 자산을 SBOM으로 가시화하고,
-          AI를 활용해 취약점을 조기 탐지하여 Slack과 이메일로 자동 알림하는 보안 플랫폼의 프론트엔드를 단독으로 설계하고 개발하고 있습니다.
+          업무 외 사내 학습 모임(CoP)에서 팀장을 맡아 진행하는 사이드 프로젝트. 사내 오픈소스 자산을 SBOM으로 가시화하고,
+          취약점을 조기에 탐지해 Slack과 이메일로 알리는 플랫폼의 프론트엔드를 단독으로 맡고 있습니다.
+          실무에서 쓰지 못하는 React와 TypeScript를 실제 제품 수준으로 다루는 자리이기도 합니다.
         </p>
         <div class="proj-section-label">Background / Problem</div>
         <div class="proj-text">
           <ul>
-            <li>사내에서 사용하는 오픈소스 의존성의 취약점을 수작업으로 추적하기 어렵고, 자산 현황과 위험을 한눈에 파악할 수단이 부재</li>
+            <li>사내에서 쓰는 오픈소스 의존성의 취약점을 수작업으로 추적하기 어렵고, 자산 현황을 한눈에 볼 수단이 없음</li>
             <li>취약점 공개 시점과 사내 인지 시점의 간극으로 대응이 지연되는 문제</li>
           </ul>
         </div>
         <div class="proj-section-label">Solution / Process</div>
         <div class="proj-text">
           <ul>
-            <li>SBOM(SPDX/CycloneDX) 기반으로 OSS 구성요소를 수집하고 자산 현황을 대시보드로 가시화</li>
-            <li>OSV, GitHub Advisory 등 취약점 DB와 매칭하고 AI(Claude/OpenAI API)로 영향도를 분석해 조기 탐지, Slack과 이메일로 자동 알림</li>
-            <li>팀장으로서 개발 컨벤션(브랜치 전략, 커밋/PR 규칙, 네이밍)과 마일스톤을 수립하고, TypeScript와 Next.js 프론트엔드를 단독으로 설계하고 구현</li>
+            <li>SBOM(SPDX, CycloneDX) 기반으로 오픈소스 구성요소를 수집하고 자산 현황을 대시보드로 가시화</li>
+            <li>OSV, GitHub Advisory 등 취약점 DB와 매칭하고 AI로 영향도를 분석해 조기 탐지, Slack과 이메일로 자동 알림</li>
+            <li>팀장으로서 브랜치 전략과 커밋, PR 규칙, 마일스톤을 정하고 코드 리뷰를 운영. TypeScript와 Next.js 프론트엔드는 단독으로 설계하고 구현</li>
           </ul>
         </div>
         <div class="proj-section-label">Result</div>
         <div class="proj-text">
           <ul>
-            <li>SBOM으로 사내 OSS 자산과 취약점 현황을 한눈에 파악하는 가시성 확보</li>
-            <li>AI 기반 조기 탐지와 자동 알림으로 취약점 대응 리드타임 단축</li>
-            <li>팀장으로서 협업 규칙과 개발 프로세스를 정립하고 프론트엔드 아키텍처를 주도</li>
-            <li>배운 점: 도메인 복잡도가 높은 보안 문제도 표준(SBOM)과 자동화, AI를 결합하면 실질적 운영 효율로 이어진다는 관점</li>
+            <li>SBOM으로 사내 오픈소스 자산과 취약점 현황을 한눈에 파악하는 가시성 확보</li>
+            <li>조기 탐지와 자동 알림으로 취약점 대응 리드타임 단축</li>
+            <li>협업 규칙과 개발 프로세스를 정립하고 프론트엔드 구조를 담당</li>
+            <li>배운 점: 도메인 복잡도가 높은 문제도 표준(SBOM)과 자동화를 결합하면 운영 가능한 형태가 된다는 것</li>
           </ul>
         </div>
       </div>
@@ -1162,16 +1327,16 @@
 </section>
 
 <!-- ══ HOW I WORK ══ -->
-<section id="workstyle">
+<section id="workstyle" aria-labelledby="workstyle-title">
   <div class="container">
     <div class="fade-up" style="margin-bottom:3rem">
       <p class="section-eyebrow">// 일하는 방식</p>
-      <h2 class="section-title" style="color:var(--ink)">How I work</h2>
+      <h2 class="section-title" id="workstyle-title" style="color:var(--ink)">How I work</h2>
     </div>
     <div class="work-grid fade-up">
       <div class="work-item">
         <h3>기록을 팀의 자산으로</h3>
-        <p>파트 정기회의 회의록과 플랫폼 아키텍처 문서를 도맡아 작성하고 관리합니다. 흩어진 맥락을 문서로 남겨, 누가 봐도 같은 그림을 그릴 수 있는 팀을 만듭니다.</p>
+        <p>파트 정기회의 회의록과 플랫폼 아키텍처 문서를 맡아 작성하고 관리합니다. 흩어진 맥락을 문서로 남겨야 누가 봐도 같은 그림을 그릴 수 있다고 봅니다.</p>
       </div>
       <div class="work-item">
         <h3>AI로 반복 업무를 자동화</h3>
@@ -1186,18 +1351,22 @@
 </section>
 
 <!-- ══ CLOSING ══ -->
-<section id="closing">
+<section id="closing" aria-labelledby="closing-title">
   <div class="closing-bg" aria-hidden="true">Dev</div>
   <div class="container" style="position:relative;z-index:1">
     <div class="fade-up">
       <p class="closing-eyebrow">// Let's build something great</p>
-      <h2 class="closing-title">
-        더 나은 서비스를 위해<br><em>끊임없이 고민</em>하겠습니다.
+      <h2 class="closing-title" id="closing-title">
+        제약이 적은 환경에서는<br><em>어디까지 갈 수 있을지</em> 확인하고 싶습니다.
       </h2>
       <p class="closing-desc">
-        사용자 친화적인 시각, 문제를 근본까지 개선하는 오너십, 그리고 기록과 자동화로
-        팀의 자산을 만드는 습관으로 함께하는 조직의 성장에 기여하겠습니다.
-        새로운 기회와 협업에 항상 열려 있습니다.
+        폐쇄망, 레거시, 무중단 운영이라는 조건 안에서 빌드 시간을 줄이고, 요청받지 않은 개선을 찾아내고,
+        더 나은 구현 방식을 근거로 설득해 왔습니다. 제약이 강했던 만큼 왜 이렇게 만드는지를 매번 설명해야 했고,
+        그 습관이 지금의 판단 기준이 됐습니다.
+      </p>
+      <p class="closing-desc">
+        프론트엔드를 중심에 두되, 서버와 게이트웨이 구조를 함께 읽는 개발자로 기여하고 싶습니다.
+        화면 뒤에서 무슨 일이 일어나는지 알면, 더 나은 화면을 만들 수 있다고 생각합니다.
       </p>
       <div class="closing-links">
         <button type="button" class="clink clink-primary" id="copy-email-btn" data-email="hys1693359@gmail.com">이메일 복사하기</button>
@@ -1209,36 +1378,44 @@
 
 </main>
 
-<footer>© 2026 성창민, Fullstack Developer</footer>
+<footer>© 2026 성창민, Frontend Developer</footer>
 
 <script>
   // JS 활성 여부 표시: JS가 없는 환경에서는 fade-up 요소가 항상 보이도록 CSS와 짝을 이룸
   document.documentElement.classList.add('js');
 
   // Scroll-triggered fade-up (동작 줄이기 설정 시 즉시 표시)
-  const fadeEls = document.querySelectorAll('.fade-up');
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) {
-    fadeEls.forEach(el => el.classList.add('visible'));
+  var fadeEls = document.querySelectorAll('.fade-up');
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(fadeEls, function (el) { el.classList.add('visible'); });
   } else {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.12 });
-    fadeEls.forEach(el => observer.observe(el));
+    Array.prototype.forEach.call(fadeEls, function (el) { observer.observe(el); });
   }
 
+  // 인쇄 직전에는 페이드 상태를 모두 해제 (아직 노출되지 않은 섹션이 빈 채로 출력되는 것 방지)
+  window.addEventListener('beforeprint', function () {
+    Array.prototype.forEach.call(fadeEls, function (el) { el.classList.add('visible'); });
+  });
+
   // Copy email address from closing CTA.
-  const copyEmailBtn = document.getElementById('copy-email-btn');
+  var copyEmailBtn = document.getElementById('copy-email-btn');
   if (copyEmailBtn) {
-    copyEmailBtn.addEventListener('click', async () => {
-      const email = copyEmailBtn.dataset.email || '';
+    copyEmailBtn.addEventListener('click', function () {
+      var email = copyEmailBtn.dataset.email || '';
       if (!email) return;
 
-      try {
-        await navigator.clipboard.writeText(email);
-        copyEmailBtn.textContent = '이메일 복사 완료!';
-        setTimeout(() => { copyEmailBtn.textContent = '이메일 복사하기'; }, 1500);
-      } catch (error) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(function () {
+          copyEmailBtn.textContent = '이메일 복사 완료';
+          setTimeout(function () { copyEmailBtn.textContent = '이메일 복사하기'; }, 1500);
+        }).catch(function () {
+          window.prompt('아래 이메일을 복사해 주세요.', email);
+        });
+      } else {
         window.prompt('아래 이메일을 복사해 주세요.', email);
       }
     });
