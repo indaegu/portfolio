@@ -733,9 +733,15 @@
               </div>
             </div>
             <div class="skill-row">
+              <div class="skill-cat">Mobile</div>
+              <div class="skill-pills">
+                <span class="pill">Kotlin</span><span class="pill">Jetpack Compose</span>
+              </div>
+            </div>
+            <div class="skill-row">
               <div class="skill-cat">Data / Monitoring</div>
               <div class="skill-pills">
-                <span class="pill">Oracle</span><span class="pill">MySQL</span><span class="pill">Prometheus</span><span class="pill">Grafana</span>
+                <span class="pill">Oracle</span><span class="pill">MySQL</span><span class="pill">Supabase</span><span class="pill">Prometheus</span><span class="pill">Grafana</span>
               </div>
             </div>
           </div>
@@ -812,8 +818,9 @@
             </li>
           </ul>
           <p class="earlier-note">
-            <b>사이드 프로젝트 (사내 CoP)</b><br>
-            SBOM 기반 오픈소스 취약점 관리 플랫폼 (팀장, 프론트엔드 단독, 2026.04 ~ 진행 중)
+            <b>사이드 프로젝트</b><br>
+            수신호 — 농업용수 물관리 AI 코치 (KRC AI 디지털 혁신 공모전 출품, 웹 · 안드로이드 단독 개발, 2026.07)<br>
+            SBOM 기반 오픈소스 취약점 관리 플랫폼 (사내 CoP 팀장, 프론트엔드 단독, 2026.04 ~ 진행 중)
           </p>
           <p class="earlier-note">
             <b>그 외 개인 / 학습 프로젝트</b><br>
@@ -1255,12 +1262,79 @@
 <section id="side" style="background:#e8ecf4; padding-top:0;" aria-labelledby="side-title">
   <div class="container">
     <div class="projects-header fade-up" style="margin-bottom:2.2rem">
-      <p class="section-eyebrow">// 사이드 프로젝트 (업무 외, 사내 CoP)</p>
+      <p class="section-eyebrow">// 사이드 프로젝트 (업무 외)</p>
       <h2 class="section-title" id="side-title" style="color:var(--ink)">Side Project</h2>
     </div>
 
     <div class="project-card side fade-up">
-      <div class="proj-index" aria-hidden="true">S</div>
+      <div class="proj-index" aria-hidden="true">S1</div>
+      <div>
+        <div class="proj-header">
+          <span class="side-tag">Side Project (공모전 출품)</span>
+          <div class="proj-section-label">2026.07 &nbsp; 기획 · 설계 · 개발 전 영역</div>
+          <h3 class="proj-name">수신호 — 농업용수 물관리 AI 코치</h3>
+        </div>
+        <p class="proj-summary">
+          제3회 KRC AI 디지털 혁신 공모전 출품작. 한국농어촌공사 공공데이터로 우리 지역 저수지 사정을 보여주고,
+          앞으로의 흐름과 오늘 할 일을 알려주는 서비스입니다. 웹과 안드로이드 앱을 하나의 모노레포에서
+          OpenAPI 계약으로 묶어 혼자 설계하고 구현했습니다.
+          <a href="https://3rd-krc-ai-digital-web.vercel.app/" target="_blank" rel="noopener noreferrer">서비스 바로가기</a> ·
+          <a href="https://github.com/indaegu/3rd-krc-ai-digital" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>저수율 데이터는 공개돼 있지만 숫자와 그래프뿐이라, 정작 물을 대는 농업인은 &ldquo;지금 물을 대도 되는지&rdquo;를 판단하기 어려움</li>
+            <li>공식 가뭄 정보는 월 단위 공표라 오늘 값이 비어 있는 날이 많고, 예보는 지역 단위여서 내 저수지 사정과 어긋남</li>
+            <li>주 사용자가 고령 농업인이라 작은 글씨와 전문 용어, 로그인 절차가 그대로 진입 장벽</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>저수율 예측 모델 5종(naive, 이동평균, 선형, 지수평활, 감쇠추세)을 154개 시군 · 770개 시점 · 23,100 표본으로 rolling-origin 백테스트해 성능이 가장 좋은 모델을 채택</li>
+            <li>공표가 없는 날은 저수지 실측 수위로 지역 값을 추정. 학습 · 검증 · 시험 구간을 시간순으로 3분할해 게이트를 통과한 지역만 사용하고, 통과 기준과 오차를 화면에 함께 표기</li>
+            <li>Claude API로 수치를 쉬운 문장과 행동 3가지로 바꾸되, 단계와 숫자는 서버가 확정하고 LLM은 표현만 담당. 캐시 · 예산 가드를 두고 어떤 실패 경로에서도 정적 코치로 응답을 유지</li>
+            <li>OpenAPI 하나를 계약의 단일 출처로 두고 웹(Next.js)과 안드로이드(Compose)가 같은 타입을 공유. 계약 · 문서 · 예시 · 픽스처의 수치가 어긋나면 CI가 실패하도록 검사 추가</li>
+            <li>회원가입 없이 기기에 코드 2개(시군 · 저수지)만 저장하고 주소 원문은 남기지 않음. 접근성은 명도 대비, 큰 글꼴, 스크린리더 기준으로 맞춤</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>예측 오차 7일 1.85%p · 14일 3.05%p · 30일 4.32%p로 재현 가능한 근거를 확보하고 리포트를 저장소에 커밋</li>
+            <li>지역 추정은 홀드아웃 오차 0.74%p, 가뭄 단계 일치율 100%. 기준을 통과한 70개 시군에만 적용해 과신을 차단</li>
+            <li>웹과 안드로이드 양쪽에서 같은 계약으로 동작하는 서비스를 배포하고, 통신이 끊겨도 마지막 화면을 유지하도록 처리</li>
+            <li>배운 점: 예측 서비스에서 정말 어려운 것은 모델이 아니라 &ldquo;틀릴 수 있음&rdquo;을 사용자에게 정직하게 전달하는 설계라는 것</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2026.07</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">TypeScript</span>
+            <span class="stack-item">Next.js</span>
+            <span class="stack-item">Kotlin / Compose</span>
+            <span class="stack-item">OpenAPI</span>
+            <span class="stack-item">Supabase</span>
+            <span class="stack-item">Claude API</span>
+            <span class="stack-item">Vercel</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">웹 · 안드로이드<br>단독 개발로<br>공공데이터 예측 서비스 배포</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card side fade-up">
+      <div class="proj-index" aria-hidden="true">S2</div>
       <div>
         <div class="proj-header">
           <span class="side-tag">Side Project (사내 CoP)</span>
