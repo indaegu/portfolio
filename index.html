@@ -3,8 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!--
+  [검색 노출 차단]
+  재직 중 공개를 전제로, 링크를 아는 사람만 접근하도록 검색엔진 색인을 막습니다.
+  링크 전달과 미리보기는 정상 동작하며, 구글/네이버 검색 결과에는 노출되지 않습니다.
+  공개 노출을 원하게 되면 아래 robots 줄만 삭제하세요. (robots.txt도 함께 정리)
+-->
+<meta name="robots" content="noindex, nofollow">
+
 <title>성창민 | Frontend Developer Portfolio</title>
-<meta name="description" content="폐쇄망 금융 스마트뱅킹 WebView 환경의 프론트엔드 개발자 포트폴리오. Webpack 풀빌드 약 80% 단축, 공공마이데이터 연동과 전자서명 통합 인증, 웹 접근성 심사 대응.">
+<meta name="description" content="“원래 이렇게 해요”를 그냥 넘기지 않는 프론트엔드 개발자 성창민의 포트폴리오. 폐쇄망 금융 스마트뱅킹에서 풀빌드 5분을 1분으로, 3개 채널 반복 등록을 1회로 줄였습니다. 공공마이데이터 연동, 전자서명 통합 인증, 웹 접근성 인증 갱신심사 통과.">
 <meta name="theme-color" content="#0b1020">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -22,7 +31,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="성창민 포트폴리오">
 <meta property="og:title" content="성창민 | Frontend Developer">
-<meta property="og:description" content="폐쇄망 금융 스마트뱅킹 환경의 프론트엔드 개발자. 빌드 최적화, 공공마이데이터 연동, 전자서명 통합 인증, 웹 접근성 개선 경험.">
+<meta property="og:description" content="“원래 이렇게 해요”를 그냥 넘기지 않는 프론트엔드 개발자. 폐쇄망 금융 스마트뱅킹에서 풀빌드 5분을 1분으로, 3개 채널 반복 등록을 1회로 줄였습니다.">
 <meta property="og:url" content="https://indaegu.github.io/portfolio/">
 <meta property="og:image" content="https://indaegu.github.io/portfolio/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -30,10 +39,29 @@
 <meta property="og:image:alt" content="성창민 프론트엔드 개발자 포트폴리오">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="성창민 | Frontend Developer">
-<meta name="twitter:description" content="폐쇄망 금융 스마트뱅킹 환경의 프론트엔드 개발자. 빌드 최적화, 공공마이데이터 연동, 전자서명 통합 인증, 웹 접근성 개선 경험.">
+<meta name="twitter:description" content="“원래 이렇게 해요”를 그냥 넘기지 않는 프론트엔드 개발자. 폐쇄망 금융 스마트뱅킹에서 풀빌드 5분을 1분으로, 3개 채널 반복 등록을 1회로 줄였습니다.">
 <meta name="twitter:image" content="https://indaegu.github.io/portfolio/og-image.png">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<script>
+  /* 첫 페인트 전에 실행되어야 하는 것만 여기 둔다.
+     js  : JS가 살아있음을 알려 CSS가 리빌 초기 상태를 적용하게 한다 (JS 없으면 전부 보임)
+     booting : 페이지 전환 패널이 화면을 덮은 상태로 시작. 본문 아래 스크립트에서 해제한다.
+     스크립트가 중간에 죽어도 화면이 덮인 채 남지 않도록 타임아웃 안전장치를 둔다. */
+  (function () {
+    var d = document.documentElement;
+    d.className += ' js';
+    try {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        d.className += ' booting';
+        setTimeout(function () {
+          d.className = d.className.replace(/\bbooting\b/, '');
+        }, 2500);
+      }
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root {
     --ink: #0b1020;
@@ -43,6 +71,7 @@
     --light: #d9e2ff;
     --muted: #4d5670;        /* 명도 대비 확보를 위해 기존 #56617e 대비 한 단계 어둡게 */
     --line: rgba(20,42,110,0.14);
+    --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -94,6 +123,8 @@
     transition: color .2s;
   }
   .nav-links a:hover { color: var(--accent); }
+  /* 좁은 화면에서만 짧은 라벨로 교체 (링크를 없애지 않고 폭만 줄인다) */
+  .nav-narrow { display: none; }
 
   /* ── SECTIONS ── */
   section { padding: 6.5rem 0; scroll-margin-top: 4.6rem; /* 고정 nav에 제목이 가려지지 않도록 */ }
@@ -135,7 +166,9 @@
   .hero-title {
     font-family: 'Pretendard', sans-serif;
     font-weight: 800;
-    font-size: clamp(2.8rem, 6.4vw, 4.6rem);
+    /* 문구가 4줄이라 기존 4.6rem이면 세로로 너무 길어진다.
+       가장 긴 줄(“원래 이렇게 해요”를)이 가용폭 730px에 들어가는 선에서 최대로 잡았다. */
+    font-size: clamp(2.4rem, 5.6vw, 4rem);
     line-height: 1.16;
     letter-spacing: -0.015em;
     color: var(--ink);
@@ -353,9 +386,26 @@
     text-transform: uppercase; font-family: 'Pretendard', sans-serif;
   }
   .role-badge.fullstack {
-    border-color: var(--accent);
+    border-color: var(--accent2);
     color: var(--accent2);
-    background: rgba(46,95,255,.14);
+    background: rgba(46,95,255,.16);
+  }
+  /* Frontend / Backend / Fullstack 세 역할이 시각적으로 구분되도록 분리 */
+  .role-badge.backend {
+    border-color: #6b4fb8;
+    color: #4b3287;
+    background: rgba(107,79,184,.10);
+  }
+
+  /* 본문 중 코드 식별자 표기 (Pretendard 본문과 크기를 맞춤) */
+  .proj-text code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: .92em;
+    background: rgba(20,42,110,.06);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: .05em .34em;
+    word-break: break-all;
   }
   .earlier-note {
     font-size: .82rem; color: var(--muted); margin-top: 1.2rem; line-height: 1.85;
@@ -434,12 +484,91 @@
   }
   .result-badge .rb-text { font-size: .86rem; line-height: 1.7; }
 
+  /* ── DEEP DIVE (깊게 파고든 문제) ── */
+  #deepdive { background: var(--paper); }
+  .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; }
+  .dd-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent);
+    padding: 2rem 1.8rem;
+    display: flex; flex-direction: column;
+  }
+  .dd-tag {
+    display: inline-block; align-self: flex-start;
+    background: rgba(46,95,255,.1); color: var(--accent2);
+    border: 1px solid rgba(46,95,255,.25);
+    font-size: .66rem; letter-spacing: .1em;
+    padding: .2rem .6rem; margin-bottom: .9rem;
+  }
+  .dd-title {
+    font-size: 1.08rem; font-weight: 700; color: var(--ink);
+    line-height: 1.45; margin-bottom: 1.2rem; word-break: keep-all;
+  }
+  .dd-row { margin-bottom: .95rem; }
+  .dd-row:last-child { margin-bottom: 0; }
+  .dd-label {
+    font-size: .63rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .3rem; font-weight: 600;
+  }
+  .dd-body { font-size: .84rem; line-height: 1.85; color: var(--ink); }
+  .dd-body em { font-style: normal; color: var(--accent2); font-weight: 600; }
+  .dd-learn {
+    margin-top: 1.1rem; padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-size: .82rem; line-height: 1.8; color: var(--muted);
+  }
+  .dd-learn b { color: var(--ink); font-weight: 600; }
+
+  /* 프로젝트 스크린샷 갤러리 (이미지가 없으면 JS가 통째로 제거) */
+  .proj-shots { margin-top: 1.4rem; }
+  .proj-shots-label {
+    font-family: 'Pretendard', sans-serif;
+    font-size: .63rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .6rem;
+  }
+  .shot-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: .7rem;
+  }
+  .shot {
+    margin: 0; border: 1px solid var(--line); background: #fff;
+    overflow: hidden; transition: border-color .2s, transform .2s;
+  }
+  .shot:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .shot a { display: block; text-decoration: none; }
+  .shot img { width: 100%; height: auto; display: block; }
+  .shot figcaption {
+    font-size: .66rem; line-height: 1.5; color: var(--muted);
+    padding: .45rem .6rem; border-top: 1px solid var(--line);
+  }
+
+  /* 사이드 프로젝트 외부 링크 */
+  .proj-links { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.1rem; }
+  .proj-link {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-size: .72rem; letter-spacing: .04em;
+    border: 1px solid var(--accent); color: var(--accent2);
+    background: rgba(46,95,255,.07);
+    padding: .34rem .8rem; text-decoration: none;
+    transition: background .2s, color .2s;
+  }
+  .proj-link:hover { background: var(--accent); color: #fff; }
+
   /* ── HOW I WORK ── */
   #workstyle { background: var(--paper); }
   .work-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4rem;
   }
-  .work-item { border-top: 2px solid var(--accent); padding-top: 1.3rem; }
+  /* hover 글로우가 텍스트 경계에서 직선으로 잘리지 않도록 실제 카드 형태를 갖춘다.
+     여백 없이 border-top만 있으면 조명이 글자 끝에서 뚝 끊긴다. */
+  .work-item {
+    border-top: 2px solid var(--accent);
+    border-radius: 2px 2px 16px 16px;
+    padding: 1.35rem 1.3rem 1.6rem;
+    transition: transform .4s var(--ease-out-expo), background .4s ease;
+  }
+  .work-item:hover { transform: translateY(-4px); }
   .work-item h3 {
     font-family: 'Pretendard', sans-serif;
     font-size: 1.06rem; font-weight: 700; color: var(--ink);
@@ -500,45 +629,452 @@
     font-family: 'Pretendard', sans-serif; font-size: .76rem; letter-spacing: .06em;
   }
 
-  /* ── ANIMATIONS ── */
-  /* JS가 없는 환경에서도 콘텐츠가 보이도록, 페이드 효과는 html.js에서만 적용 */
+  /* ══════════════════════════════════════════════════════════
+     ANIMATIONS
+     설계 원칙 세 가지
+       1. transform과 opacity만 애니메이션한다 (레이아웃과 페인트 유발 금지)
+       2. prefers-reduced-motion에서는 전부 멈춘다
+       3. JS나 최신 CSS가 없어도 콘텐츠는 항상 보인다 (점진적 향상)
+     스크롤 연동은 CSS scroll-driven animation(animation-timeline)을 우선 사용하고,
+     미지원 브라우저에서만 JS로 대체한다. 지원 시 컴포지터에서 처리되어
+     메인 스레드가 바빠도 프레임이 끊기지 않는다.
+     ══════════════════════════════════════════════════════════ */
+
+  /* ── 스크롤 진행 바 ── */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; z-index: 150;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, #6f93ff 55%, var(--accent2) 100%);
+    transform: scaleX(0); transform-origin: 0 50%;
+    will-change: transform;
+  }
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      animation: progress-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+  @keyframes progress-grow { to { transform: scaleX(1); } }
+
+  /* ── 히어로 배경 그라데이션 오브 ── */
+  .hero-orb {
+    position: absolute; border-radius: 50%;
+    pointer-events: none; z-index: 0;
+    filter: blur(70px);
+    will-change: transform;
+  }
+  .hero-orb.o1 {
+    width: 44vw; height: 44vw; max-width: 580px; max-height: 580px;
+    left: -9vw; top: 2vh;
+    background: radial-gradient(circle, rgba(46,95,255,.30), transparent 68%);
+    animation: drift-a 21s ease-in-out infinite;
+  }
+  .hero-orb.o2 {
+    width: 36vw; height: 36vw; max-width: 470px; max-height: 470px;
+    right: 1vw; bottom: 0;
+    background: radial-gradient(circle, rgba(20,42,110,.24), transparent 68%);
+    animation: drift-b 27s ease-in-out infinite;
+  }
+  @keyframes drift-a {
+    0%, 100% { transform: translate3d(0,0,0) scale(1); }
+    50%      { transform: translate3d(6vw, 4vh, 0) scale(1.14); }
+  }
+  @keyframes drift-b {
+    0%, 100% { transform: translate3d(0,0,0) scale(1); }
+    50%      { transform: translate3d(-5vw, -4vh, 0) scale(1.1); }
+  }
+
+  /* 히어로가 화면 밖이면 오브 애니메이션을 멈춘다.
+     blur(70px)는 매 프레임 합성 비용이 있어, 안 보이는 동안 돌릴 이유가 없다. */
+  #hero.offscreen .hero-orb { animation-play-state: paused; }
+
+  /* 히어로 콘텐츠는 오브 위에 */
+  .hero-inner { position: relative; z-index: 1; }
+
+  /* 배경 대형 텍스트: 스크롤에 따라 서서히 밀림 */
+  @supports (animation-timeline: scroll()) {
+    .hero-bg-text {
+      animation: bg-drift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+    }
+    @keyframes bg-drift { to { transform: translateY(-50%) translateX(-7%); opacity: .4; } }
+  }
+
+  /* ── 히어로 등장 시퀀스 ── */
+  /* 제목: 각 줄을 마스크 안에서 밀어 올림 */
+  .hero-title .line { display: block; overflow: hidden; padding-bottom: .08em; }
+  .hero-title .line-in { display: block; }
+  html.js .hero-title .line-in {
+    transform: translateY(118%);
+    animation: line-rise 1.05s var(--ease-out-expo) forwards;
+  }
+  html.js .hero-title .line:nth-child(1) .line-in { animation-delay: .15s; }
+  html.js .hero-title .line:nth-child(2) .line-in { animation-delay: .26s; }
+  html.js .hero-title .line:nth-child(3) .line-in { animation-delay: .37s; }
+  html.js .hero-title .line:nth-child(4) .line-in { animation-delay: .48s; }
+  @keyframes line-rise { to { transform: translateY(0); } }
+
+  /* 나머지 히어로 요소: --i 순서대로 계단식 등장 */
+  html.js .hero-rise {
+    opacity: 0; transform: translateY(20px);
+    animation: hero-rise .9s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--i, 0) * .11s);
+  }
+  @keyframes hero-rise { to { opacity: 1; transform: none; } }
+
+  /* 스크롤 인디케이터는 등장과 상하 반복을 함께 돌려야 하므로 별도로 선언한다.
+     .hero-rise를 붙이면 animation 단축 속성이 기존 nudge를 덮어써 반복이 사라진다. */
+  /* hero-rise 키프레임은 transform:none으로 끝나므로 그대로 쓰면
+     .hero-scroll의 translateX(-50%) 중앙 정렬이 풀린다. 전용 키프레임을 둔다. */
+  html.js .hero-scroll {
+    opacity: 0;
+    animation: hero-scroll-in .9s var(--ease-out-expo) .88s forwards,
+               nudge 2s ease-in-out 1.8s infinite;
+  }
+  @keyframes hero-scroll-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  /* ── 스크롤 진입 리빌 ── */
   .fade-up { opacity: 1; transform: none; }
   html.js .fade-up {
-    opacity: 0; transform: translateY(28px);
-    transition: opacity .7s ease, transform .7s ease;
+    opacity: 0; transform: translateY(32px);
+    transition: opacity .85s var(--ease-out-expo), transform .85s var(--ease-out-expo);
   }
   html.js .fade-up.visible { opacity: 1; transform: none; }
 
-  /* 접근성: 사용자 설정에서 동작 줄이기를 켠 경우 애니메이션 제거 */
+  /* 자식 요소를 순서대로 밀어 올리는 컨테이너.
+     transition으로 구현하면 이 규칙(명시도 0,2,1)이 카드 자신의 transition 선언
+     (.dd-card 등, 0,1,0)을 통째로 덮어써서 hover의 box-shadow 전환이 사라진다.
+     그래서 리빌은 animation으로 처리하고, 끝나면 .revealed로 걷어내 카드에 제어권을 돌려준다. */
+  html.js .stagger > * { opacity: 0; }
+  html.js .stagger.visible > *:not(.revealed) {
+    animation: stagger-rise .75s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 105ms);
+  }
+  /* opacity만 고정한다. transform을 여기서 선언하면 hover의 translateY를 이겨버린다 */
+  html.js .stagger > .revealed { opacity: 1; }
+  @keyframes stagger-rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── 카드 스포트라이트 (커서 위치를 CSS 변수로 받아 조명) ── */
+  .spotlight { position: relative; isolation: isolate; }
+  .spotlight::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    border-radius: inherit;   /* 카드가 둥글면 조명도 같이 둥글게 잘린다 */
+    background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(46,95,255,.14), transparent 62%);
+    opacity: 0; transition: opacity .45s ease;
+    pointer-events: none;
+  }
+  .spotlight:hover::before { opacity: 1; }
+  /* 어두운 섹션에서는 밝은 톤으로 */
+  #keywords .spotlight::before {
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(122,162,255,.20), transparent 60%);
+  }
+  /* How I work 카드는 작아서 큰 원을 쓰면 가장자리에서 알파가 남은 채 잘린다.
+     카드 안에서 다 사라지도록 반경을 줄이고 감쇠를 넓게 잡는다. */
+  #workstyle .spotlight::before {
+    background: radial-gradient(170px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(46,95,255,.19), transparent 68%);
+  }
+
+  /* 키워드 카드: 커서 방향으로 미세하게 기울어짐 */
+  .keyword-card {
+    transform-style: preserve-3d;
+    transition: transform .35s var(--ease-out-expo), background .35s;
+  }
+  html.js .keyword-card.tilting {
+    transform: perspective(900px)
+               rotateX(calc(var(--ty, 0) * 4deg))
+               rotateY(calc(var(--tx, 0) * 4deg))
+               translateY(-4px);
+    transition: transform .12s linear, background .35s;
+  }
+  .keyword-num { transition: transform .5s var(--ease-out-expo), color .4s; }
+  .keyword-card:hover .keyword-num { transform: translateY(4px) scale(1.1); color: rgba(217,226,255,.13); }
+
+  /* ── Deep Dive 카드 ── */
+  .dd-card {
+    transition: transform .4s var(--ease-out-expo), box-shadow .4s ease, border-color .3s;
+  }
+  .dd-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 22px 48px -22px rgba(20,42,110,.4);
+  }
+
+  /* ── 프로젝트 카드 ── */
+  /* hover 시 좌측 액센트 바.
+     left:0으로 두면 본문 텍스트 시작선과 겹치므로 컨테이너 여백 쪽으로 빼내고,
+     카드 패딩(3.2rem)을 제외한 콘텐츠 높이에만 맞춘다.
+     그라데이션이 완전 투명까지 떨어지면 바가 얇아지는 것처럼 보여서, 하단만 살짝 흐리게 한다. */
+  /* scaleY로 자라게 하면 브라우저가 레이어를 축소 상태로 래스터화해 늘리기 때문에,
+     애니메이션 중에는 3px 선이 뭉개져 두껍게 보이다가 끝나는 순간 또렷한 3px로 다시 그려진다.
+     그 재래스터 순간이 "굵기가 뚝 얇아지는" 현상이다.
+     clip-path는 래스터 크기를 바꾸지 않으므로 처음부터 끝까지 폭이 일정하다. */
+  .project-card::after {
+    content: ''; position: absolute;
+    left: -1.5rem; top: 3.2rem; bottom: 3.2rem;
+    width: 3px; border-radius: 3px;
+    background: linear-gradient(180deg,
+                var(--accent) 0%, var(--accent) 68%, rgba(46,95,255,.22) 100%);
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path .55s var(--ease-out-expo);
+    pointer-events: none;
+  }
+  .project-card:hover::after { clip-path: inset(0 0 0 0); }
+  .proj-index { transition: transform .5s var(--ease-out-expo), color .4s; }
+  .project-card:hover .proj-index { transform: translateY(-6px) scale(1.09); color: rgba(46,95,255,.16); }
+
+  /* ── 내비게이션 ── */
+  nav {
+    transition: transform .45s var(--ease-out-expo), background .3s ease, box-shadow .3s ease;
+    will-change: transform;
+  }
+  nav.nav-hidden { transform: translateY(-101%); }
+  nav.nav-scrolled {
+    background: rgba(242,244,248,.96);
+    box-shadow: 0 6px 26px -16px rgba(20,42,110,.45);
+  }
+  .nav-links a { position: relative; }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; bottom: -6px;
+    width: 100%; height: 1.5px; background: var(--accent);
+    transform: scaleX(0); transform-origin: right center;
+    transition: transform .4s var(--ease-out-expo);
+  }
+  .nav-links a:hover::after,
+  .nav-links a.active::after { transform: scaleX(1); transform-origin: left center; }
+  .nav-links a.active { color: var(--accent); }
+
+  /* ── CTA 버튼 광택 ── */
+  .hero-cta { position: relative; overflow: hidden; }
+  .hero-cta > * { position: relative; z-index: 1; }
+  .hero-cta::after {
+    content: ''; position: absolute; top: 0; left: -130%;
+    width: 55%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+    transform: skewX(-22deg);
+  }
+  .hero-cta:hover::after { animation: shine .95s ease; }
+  @keyframes shine { to { left: 170%; } }
+
+  /* ── 숫자 카운트업이 끝난 뒤 한 번 강조 ── */
+  .count-pop { display: inline-block; animation: count-pop .5s var(--ease-out-expo); }
+  @keyframes count-pop {
+    0% { transform: scale(1); } 45% { transform: scale(1.16); } 100% { transform: scale(1); }
+  }
+
+  /* ── 섹션 아이브로우 커서 ──
+     WCAG 2.2.2는 5초 넘게 깜빡이는 콘텐츠에 정지 수단을 요구한다.
+     무한 반복 대신 4회(약 4.4초)만 깜빡이고 켜진 상태로 멈추게 해 조건을 피한다. */
+  .section-eyebrow::after {
+    content: ''; display: inline-block;
+    width: 7px; height: 1em; margin-left: .4rem;
+    background: var(--accent); vertical-align: -.16em;
+    animation: blink 1.1s steps(1) 4;
+  }
+  @keyframes blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+
+  /* ══════════════════════════════════════════════════════════
+     연출 레이어 (관성 스크롤 / WebGL / 커스텀 커서 / 페이지 전환)
+     모두 JS가 조건부로 켠다. 클래스가 안 붙으면 아무 일도 일어나지 않으므로
+     JS 미실행, 터치 기기, 동작 줄이기, 인쇄 환경에서는 자동으로 원래 문서가 된다.
+     ══════════════════════════════════════════════════════════ */
+
+  /* ── 관성 스크롤 ──
+     네이티브 스크롤바는 그대로 두고(body 높이를 콘텐츠 높이로 맞춤),
+     보이는 콘텐츠만 transform으로 따라오게 해서 관성을 만든다. */
+  html.smooth { scroll-behavior: auto; }
+  html.smooth #smooth-wrapper {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100vh;
+    overflow: hidden; z-index: 1;
+  }
+  html.smooth #smooth-content { will-change: transform; }
+
+  /* 관성 스크롤이 켜지면 진행 바는 JS가 보간값으로 직접 그린다
+     (CSS scroll-timeline은 실제 스크롤을 읽어 콘텐츠보다 앞서가므로 어긋난다) */
+  @supports (animation-timeline: scroll()) {
+    html.smooth .scroll-progress { animation: none; }
+  }
+
+  /* ── WebGL 히어로 배경 ── */
+  .hero-gl {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%; display: block;
+    opacity: 0; transition: opacity 1.4s ease;
+  }
+  .hero-gl.ready { opacity: 1; }
+  /* WebGL이 켜지면 CSS 오브는 역할이 끝난다 */
+  html.gl-on .hero-orb { display: none; }
+
+  /* ── 페이지 전환 패널 ── */
+  .transition-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    display: none; pointer-events: none;
+  }
+  html.js .transition-overlay { display: flex; }
+  .transition-overlay .tp {
+    flex: 1 1 20%;
+    background: var(--ink);
+    transform: translateY(-101%);
+  }
+  /* 최초 로드: 덮인 상태에서 위로 걷힘 */
+  html.js.booting .transition-overlay .tp {
+    transform: translateY(0);
+    animation: panel-up .95s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--p) * .075s);
+  }
+  /* 메뉴 이동: 아래에서 올라와 덮음 */
+  .transition-overlay.entering .tp {
+    animation: panel-in .5s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--p) * .05s);
+  }
+  /* 이동 완료: 다시 위로 걷힘 */
+  .transition-overlay.leaving .tp {
+    transform: translateY(0);
+    animation: panel-up .6s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--p) * .05s);
+  }
+  @keyframes panel-up { to { transform: translateY(-101%); } }
+  @keyframes panel-in { from { transform: translateY(101%); } to { transform: translateY(0); } }
+
+  /* 전환 패널이 덮여 있는 동안 히어로 시퀀스가 먼저 끝나버리지 않도록 대기 */
+  html.js.booting .hero-title .line-in,
+  html.js.booting .hero-rise,
+  html.js.booting .hero-scroll { animation-play-state: paused; }
+
+  /* ── 커스텀 커서 ── */
+  .cursor-dot, .cursor-ring { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    html.cursor-on, html.cursor-on * { cursor: none !important; }
+    html.cursor-on .cursor-dot,
+    html.cursor-on .cursor-ring {
+      display: grid; place-items: center;
+      position: fixed; top: 0; left: 0; z-index: 400;
+      border-radius: 50%; pointer-events: none;
+      will-change: transform;
+    }
+    html.cursor-on .cursor-dot {
+      width: 6px; height: 6px; background: var(--accent);
+      margin: -3px 0 0 -3px;
+    }
+    html.cursor-on .cursor-ring {
+      width: 38px; height: 38px; margin: -19px 0 0 -19px;
+      border: 1px solid rgba(46,95,255,.55);
+      transition: width .32s var(--ease-out-expo), height .32s var(--ease-out-expo),
+                  margin .32s var(--ease-out-expo), background .32s ease, border-color .32s ease;
+    }
+    /* 링크와 버튼 위 */
+    html.cursor-on .cursor-ring.hot {
+      width: 62px; height: 62px; margin: -31px 0 0 -31px;
+      background: rgba(46,95,255,.13); border-color: var(--accent);
+    }
+    /* 어두운 섹션 위에서는 반전 */
+    html.cursor-on .cursor-dot.on-dark { background: var(--light); }
+    html.cursor-on .cursor-ring.on-dark { border-color: rgba(217,226,255,.6); }
+  }
+
+  /* ── 자석 버튼 ──
+     hero-rise 애니메이션이 forwards로 transform을 붙들고 있으면 인라인 transform이 먹지 않는다.
+     등장이 끝나면 JS가 .risen으로 교체해 제어권을 넘긴다. */
+  html.js .risen { opacity: 1; animation: none; }
+  .magnetic { transition: transform .45s var(--ease-out-expo); }
+  .magnetic.pulling { transition: transform .12s linear; }
+
+  /* ══ 접근성: 동작 줄이기 설정이면 전부 정지 ══ */
+  /* 웹 접근성을 다루는 포트폴리오이므로, 이 블록이 위 모든 효과보다 우선한다 */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    html.js .fade-up { opacity: 1; transform: none; transition: none; }
-    .hero-scroll, .hero-scroll::after { animation: none; }
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      animation-delay: 0s !important;
+      transition-duration: .001ms !important;
+      transition-delay: 0s !important;
+    }
+    html.js .fade-up,
+    html.js .stagger > *,
+    html.js .hero-rise { opacity: 1 !important; transform: none !important; }
+    html.js .hero-title .line-in { transform: none !important; }
+    html.js .keyword-card.tilting { transform: none !important; }
+    .hero-orb, .scroll-progress, .section-eyebrow::after { display: none !important; }
+    .spotlight::before { display: none !important; }
+    /* 연출 레이어도 전부 끈다 */
+    .transition-overlay, .cursor-dot, .cursor-ring, .hero-gl { display: none !important; }
+    html.smooth #smooth-wrapper { position: static !important; height: auto !important; overflow: visible !important; }
+    html.smooth #smooth-content { transform: none !important; }
+    html.cursor-on, html.cursor-on * { cursor: auto !important; }
+    .hero-scroll, .hero-scroll::after { animation: none !important; }
     .hero-cta:hover { transform: none; }
+    .dd-card:hover, .work-item:hover, .project-card:hover .proj-index { transform: none; }
+    .project-card::after { display: none !important; }
+    html.js .stagger > *, html.js .stagger.visible > *:not(.revealed) {
+      opacity: 1 !important; transform: none !important; animation: none !important;
+    }
   }
 
   /* ── RESPONSIVE ── */
   @media(max-width:900px) {
-    nav { padding: .9rem 1.3rem; }
-    .nav-links { gap: 1rem; }
+    /* 링크가 5개라 좁은 화면에서 로고를 덮으므로, 크기를 줄이고 가로 스크롤을 허용한다.
+       (숨기면 섹션 이동 수단이 사라지므로 접근 가능한 상태로 남긴다) */
+    nav { padding: .8rem 1rem; gap: .9rem; }
+    .nav-name { flex: 0 0 auto; }
+    .nav-name img { height: 18px; }
+    /* justify-content:flex-end와 overflow-x를 함께 쓰면 넘친 내용이 왼쪽으로 잘려
+       스크롤로도 닿지 않는다. margin-left:auto로 오른쪽에 붙이고 내부는 flex-start로 둔다. */
+    .nav-links {
+      gap: .62rem; flex: 0 1 auto; margin-left: auto;
+      overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+      padding-bottom: 2px;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { font-size: .62rem; letter-spacing: .02em; white-space: nowrap; }
+    .nav-wide { display: none; }
+    .nav-narrow { display: inline; }
+    .nav-links a::after { bottom: -3px; }
     .nav-links a { font-size: .74rem; letter-spacing: .08em; }
     section { padding: 4.5rem 0; }
     .container { padding: 0 1.4rem; }
     .hero-inner { grid-template-columns: 1fr; padding: 0 1.4rem; gap: 2rem; }
     .hero-bg-text { display: none; }
-    .hero-title { font-size: clamp(2.3rem, 9vw, 3.4rem); }
-    .hero-meta { display: none; }
+    /* 360px에서도 가장 긴 줄이 한 줄에 들어가야 의미 단위 줄바꿈이 유지된다 */
+    .hero-title { font-size: clamp(2.05rem, 8vw, 2.9rem); }
+    /* 모바일에서도 첫 화면에 연락처가 남도록 숨기지 않고 가로 배치로 전환 */
+    .hero-meta {
+      flex-direction: row; flex-wrap: wrap; gap: .5rem 1.2rem;
+      padding-bottom: 0; margin-top: .4rem;
+    }
     .keywords-grid { grid-template-columns: 1fr; }
     .keyword-card { padding: 2rem 1.5rem; }
     .keyword-num { font-size: 2.6rem; }
     .resume-grid { grid-template-columns: 1fr; gap: 3rem; }
     .project-card { grid-template-columns: 1fr; gap: 1.6rem; padding: 2.6rem 0; }
+    /* 모바일은 컨테이너 여백이 좁으므로 바를 덜 빼낸다 */
+    .project-card::after { left: -.7rem; top: 2.6rem; bottom: 2.6rem; width: 2px; }
     .proj-sidebar { padding-top: 0; }
     .proj-index { font-size: 2.3rem; top: 1.1rem; }
+    .dd-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+    .dd-card { padding: 1.6rem 1.3rem; }
     .work-grid { grid-template-columns: 1fr; gap: 2rem; }
     .closing-bg { display: none; }
     #closing { padding: 5rem 0; }
   }
+  /* 아주 좁은 화면에서 메뉴가 넘칠 때만, 더 있다는 힌트로 오른쪽 끝을 흐린다.
+     (넘치지 않으면 마스크가 걸려도 시각적 변화가 없다) */
+  @media(max-width:400px) {
+    .nav-links {
+      -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 16px), transparent 100%);
+              mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 16px), transparent 100%);
+    }
+  }
+
   @media(max-width:480px) {
     .container { padding: 0 1.1rem; }
     .hero-inner { padding: 0 1.1rem; }
@@ -561,9 +1097,18 @@
     .hero-inner { display: block !important; padding: 0 !important; max-width: none !important; }
     .container { max-width: none !important; padding: 0 !important; }
 
-    #keywords, #resume, #projects, #side, #workstyle, #closing {
+    #keywords, #resume, #projects, #deepdive, #side, #workstyle, #closing {
       background: #fff !important; color: #000 !important;
     }
+    .dd-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .dd-card {
+      border: 1px solid #bbb !important; border-top: 2px solid #666 !important;
+      padding: .9rem !important; page-break-inside: avoid;
+    }
+    .dd-tag { background: none !important; color: #000 !important; border: 1px solid #999; }
+    .dd-label { color: #000 !important; }
+    .proj-link { border: 1px solid #999 !important; background: none !important; color: #000 !important; }
+    .proj-link::after { content: ' (' attr(href) ')'; font-size: .9em; color: #555; }
     .keyword-title, .keyword-desc, .closing-title, .closing-desc,
     .section-title, .closing-eyebrow, .section-eyebrow, .hero-label { color: #000 !important; }
 
@@ -590,7 +1135,24 @@
     .work-item { page-break-inside: avoid; }
     .pill { background: none !important; border: 1px solid #ccc !important; }
 
-    .fade-up, html.js .fade-up { opacity: 1 !important; transform: none !important; transition: none !important; }
+    /* 애니메이션 잔재가 인쇄물에 빈 영역으로 남지 않도록 전부 해제 */
+    .fade-up, html.js .fade-up,
+    html.js .stagger > *, html.js .stagger.visible > *:not(.revealed),
+    html.js .hero-rise, html.js .hero-title .line-in {
+      opacity: 1 !important; transform: none !important;
+      transition: none !important; animation: none !important;
+    }
+    .hero-title .line { overflow: visible !important; }
+    .scroll-progress, .hero-orb, .section-eyebrow::after { display: none !important; }
+    .spotlight::before, .project-card::after { display: none !important; }
+    nav.nav-hidden { transform: none !important; }
+    /* 연출 레이어는 인쇄에서 제외하고, 관성 스크롤 래퍼는 일반 흐름으로 되돌린다 */
+    .transition-overlay, .cursor-dot, .cursor-ring, .hero-gl { display: none !important; }
+    html.smooth #smooth-wrapper {
+      position: static !important; height: auto !important; overflow: visible !important;
+    }
+    html.smooth #smooth-content { transform: none !important; will-change: auto !important; }
+    html.cursor-on, html.cursor-on * { cursor: auto !important; }
     a { color: #000 !important; text-decoration: none !important; }
     footer { background: #fff !important; color: #555 !important; border-top: 1px solid #ccc; }
   }
@@ -600,43 +1162,69 @@
 
 <a class="skip-link" href="#main">본문 바로가기</a>
 
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<!-- 페이지 전환 패널: 최초 로드 시 걷히고, 메뉴 이동 시 덮었다가 다시 걷힌다 -->
+<div class="transition-overlay" aria-hidden="true">
+  <span class="tp" style="--p:0"></span>
+  <span class="tp" style="--p:1"></span>
+  <span class="tp" style="--p:2"></span>
+  <span class="tp" style="--p:3"></span>
+  <span class="tp" style="--p:4"></span>
+</div>
+
+<!-- 커스텀 커서 (마우스 환경에서만 JS가 활성화) -->
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
 <nav aria-label="주요 메뉴">
   <a class="nav-name" href="#top"><img src="logo.png" alt="성창민 포트폴리오 홈"></a>
   <ul class="nav-links" role="list">
     <li><a href="#keywords">About</a></li>
     <li><a href="#resume">Resume</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#deepdive"><span class="nav-wide">Deep Dive</span><span class="nav-narrow" aria-hidden="true">Deep</span></a></li>
     <li><a href="#closing">Contact</a></li>
   </ul>
 </nav>
+
+<div id="smooth-wrapper">
+<div id="smooth-content">
 
 <main id="main">
 
 <!-- ══ PAGE 1 : HERO ══ -->
 <section id="hero" aria-labelledby="hero-title">
+  <canvas class="hero-gl" aria-hidden="true"></canvas>
+  <div class="hero-orb o1" aria-hidden="true"></div>
+  <div class="hero-orb o2" aria-hidden="true"></div>
   <div class="hero-bg-text" aria-hidden="true">DEV</div>
   <div class="hero-inner">
     <div>
-      <p class="hero-label">Frontend Developer Portfolio 2026</p>
+      <p class="hero-label hero-rise" style="--i:0">Frontend Developer Portfolio 2026</p>
+      <!-- 줄바꿈은 의미 단위로 고정한다.
+           자동 줄바꿈에 맡기면 폭에 따라 "해요"를 / 그냥 처럼 어색한 지점에서 끊긴다.
+           각 줄이 데스크톱 가용폭(약 730px)과 360px 모바일 양쪽에 모두 들어가도록 나눴다. -->
       <h1 class="hero-title" id="hero-title">
-        <span class="line">사용자 경험과</span>
-        <span class="line">금융의 신뢰를 함께 만드는</span>
-        <span class="line">개발자, <em>성창민</em>입니다.</span>
+        <span class="line"><span class="line-in">“원래 이렇게 해요”를</span></span>
+        <span class="line"><span class="line-in">그냥 넘기지 않는</span></span>
+        <span class="line"><span class="line-in">프론트엔드 개발자,</span></span>
+        <span class="line"><span class="line-in"><em>성창민</em>입니다.</span></span>
       </h1>
-      <p class="hero-pitch">
+      <p class="hero-pitch hero-rise" style="--i:4">
         제약이 많은 폐쇄망 금융권에서 스마트뱅킹 채널을 만들고 있습니다.
         그 안에서 <strong>풀빌드 5분대를 1분대로</strong> 줄였고,
         공동, 금융, 간편 <strong>3종 인증서를 하나의 인증 흐름으로</strong> 정리했습니다.
         프론트엔드를 중심에 두되, 화면 뒤의 서버와 게이트웨이 구조까지 읽으며 만듭니다.
       </p>
-      <a class="hero-cta" href="#projects">
+      <a class="hero-cta hero-rise" style="--i:5" href="#projects">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false">
           <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         프로젝트 보기
       </a>
     </div>
-    <div class="hero-meta">
+    <div class="hero-meta hero-rise" style="--i:6">
       <div class="meta-item">E-MAIL <span>hys1693359@gmail.com</span></div>
       <div class="meta-item">GITHUB <a href="https://github.com/indaegu" target="_blank" rel="noopener noreferrer">github.com/indaegu</a></div>
     </div>
@@ -651,20 +1239,20 @@
       <p class="section-eyebrow">// 나를 정의하는 세 가지</p>
       <h2 class="section-title" id="keywords-title">What defines me</h2>
     </div>
-    <div class="keywords-grid fade-up">
-      <div class="keyword-card">
+    <div class="keywords-grid stagger">
+      <div class="keyword-card spotlight">
         <div class="keyword-num" aria-hidden="true">01</div>
         <div class="keyword-tag">Ownership</div>
         <h3 class="keyword-title">끝까지 맡는</h3>
         <p class="keyword-desc">구현 방식을 제안하는 단계부터 개발, 운영 배포, 이후 대응까지 이어서 맡습니다. 모바일 신분증을 Web2App으로 가자고 제안해 선임 검토를 거쳐 채택됐고, 요청받지 않았던 운영자 페이지 개선도 직접 발굴해 지금까지 이어오고 있습니다.</p>
       </div>
-      <div class="keyword-card">
+      <div class="keyword-card spotlight">
         <div class="keyword-num" aria-hidden="true">02</div>
         <div class="keyword-tag">Fintech Security</div>
         <h3 class="keyword-title">금융 보안을 아는</h3>
         <p class="keyword-desc">폐쇄망 스마트뱅킹에서 전자서명(PKCS7) 서버 재검증 구조와 공동, 금융, 간편 3종 인증 통합을 맡았습니다. 토큰의 저장 범위와 로그 노출 정책을 배포 전 점검 항목으로 정의하는 등, 편의성과 검증 신뢰를 함께 설계해야 실질적 개선이 된다고 봅니다.</p>
       </div>
-      <div class="keyword-card">
+      <div class="keyword-card spotlight">
         <div class="keyword-num" aria-hidden="true">03</div>
         <div class="keyword-tag">Impact-Driven</div>
         <h3 class="keyword-title">근본을 개선하는</h3>
@@ -697,17 +1285,17 @@
           <h3 class="resume-block-title">Tech Stack</h3>
 
           <div class="skill-group">
-            <div class="skill-group-title">실무 <span>(하나저축은행 비대면 채널)</span></div>
+            <div class="skill-group-title">실무 <span>(하나저축은행 비대면 채널, 프론트와 서버 모두 담당)</span></div>
             <div class="skill-row">
               <div class="skill-cat">Language</div>
               <div class="skill-pills">
-                <span class="pill">JavaScript</span><span class="pill">Java 8</span>
+                <span class="pill">JavaScript</span><span class="pill">Java</span>
               </div>
             </div>
             <div class="skill-row">
               <div class="skill-cat">Frontend</div>
               <div class="skill-pills">
-                <span class="pill">Vue 2</span><span class="pill">Webpack</span><span class="pill">WAI-ARIA</span>
+                <span class="pill">Vue.js</span><span class="pill">Webpack</span><span class="pill">WAI-ARIA</span>
               </div>
             </div>
             <div class="skill-row">
@@ -791,7 +1379,7 @@
               <span class="pl-period">2026.02 ~ 진행 중</span>
             </li>
             <li>
-              <span class="pl-name">레거시 API 점진 리팩토링 (Strangler 패턴)<br><span class="role-badge">Backend</span></span>
+              <span class="pl-name">레거시 API 점진 리팩토링 (Strangler 패턴)<br><span class="role-badge backend">Backend</span></span>
               <span class="pl-period">2026.01 ~ 진행 중</span>
             </li>
             <li>
@@ -803,8 +1391,12 @@
               <span class="pl-period">2025.09 ~ 2025.10</span>
             </li>
             <li>
-              <span class="pl-name">Webpack 빌드 최적화 (라우터 코드 스플리팅 개선)<br><span class="role-badge fullstack">Fullstack</span></span>
+              <span class="pl-name">Webpack 빌드 최적화 (라우터 코드 스플리팅 개선)<br><span class="role-badge">Frontend</span></span>
               <span class="pl-period">2025.04 ~ 2025.05</span>
+            </li>
+            <li>
+              <span class="pl-name">신분증 사본판별 솔루션 도입 및 연동<br><span class="role-badge fullstack">Fullstack</span></span>
+              <span class="pl-period">2025.02 ~ 2025.03</span>
             </li>
             <li>
               <span class="pl-name">스마트뱅킹 채널 상시 운영 및 정책 대응<br><span class="role-badge fullstack">Fullstack</span></span>
@@ -812,12 +1404,14 @@
             </li>
           </ul>
           <p class="earlier-note">
-            <b>사이드 프로젝트 (사내 CoP)</b><br>
-            SBOM 기반 오픈소스 취약점 관리 플랫폼 (팀장, 프론트엔드 단독, 2026.04 ~ 진행 중)
+            <b>사이드 프로젝트</b><br>
+            수신호, 저수지 물 정보 기반 농업용수 부족 예측 서비스 (제3회 KRC AI 디지털 혁신 공모전 출품, Next.js와 Android 모노레포, 2026.07,
+            <a href="https://github.com/indaegu/3rd-krc-ai-digital" target="_blank" rel="noopener noreferrer">코드 공개</a>)<br>
+            SBOM 기반 오픈소스 취약점 관리 플랫폼 (사내 CoP, 팀장 겸 프론트엔드 단독, 2026.04 ~ 진행 중)
           </p>
           <p class="earlier-note">
             <b>그 외 개인 / 학습 프로젝트</b><br>
-            카드 혜택 극대화 서비스 HANARO (Oracle PL/SQL 최적화로 응답 속도 80% 개선), 통합 여행 플랫폼 Journey Mate, CNN 폰트 추천 웹, 물물교환 가치잇솝, OCR 간편 계좌이체
+            카드 혜택 극대화 서비스 HANARO (Oracle PL/SQL 최적화로 응답 속도 80% 개선), 통합 여행 플랫폼 Journey Mate, OCR 간편 계좌이체
           </p>
         </div>
       </div>
@@ -880,7 +1474,7 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">Vue.js</span>
             <span class="stack-item">Webpack</span>
             <span class="stack-item">Vue Router</span>
             <span class="stack-item">JavaScript</span>
@@ -889,7 +1483,7 @@
         </div>
         <div class="result-badge">
           <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">풀빌드 시간<br><span style="font-size:1.2rem;font-weight:600;">약 80%</span> 단축<br>(우수직원 선정 사유)</div>
+          <div class="rb-text">풀빌드 시간<br><span style="font-size:1.2rem;font-weight:600;">약 <span data-count="80" data-suffix="%">80%</span></span> 단축<br>(우수직원 선정 사유)</div>
         </div>
       </div>
     </div>
@@ -918,16 +1512,16 @@
         <div class="proj-text">
           <ul>
             <li>지적 사항을 유형별로 묶어 <strong>거래 완주를 막는 항목부터</strong> 순차 개선</li>
-            <li>Vue 2에서 <code>:aria-pressed</code>에 불리언 <code>false</code>를 바인딩하면 속성 자체가 DOM에서 제거되어 토글 상태가 읽히지 않는 문제를, 문자열 바인딩으로 전환해 해결. 의미상 맞지 않는 위치에 붙어 있던 속성도 함께 정리</li>
+            <li>Vue에서 <code>:aria-pressed</code>에 불리언 <code>false</code>를 바인딩하면 속성 자체가 DOM에서 제거되어 토글 상태가 읽히지 않는 문제를, 문자열 바인딩으로 전환해 해결. 의미상 맞지 않는 위치에 붙어 있던 속성도 함께 정리</li>
             <li>전체 화면 모달에 dialog 역할과 포커스 트랩 패턴을 적용해, 스크린리더 포커스가 뒤쪽 콘텐츠로 빠져나가지 않도록 조정</li>
-            <li>CSS 가상요소로 그려진 장식 아이콘은 대체 텍스트를 줄 수 없어, 기존 off-screen 숨김 클래스를 활용해 의미만 읽히게 처리. CSS는 한 줄도 바꾸지 않음</li>
+            <li>CSS 가상요소로 그려진 장식 아이콘은 대체 텍스트를 줄 수 없어, 기존 off-screen 숨김 클래스를 활용해 의미만 읽히게 처리</li>
             <li>반복되는 위반은 화면 단위가 아니라 <strong>공통 컴포넌트 레벨에서 수정</strong>해 재발을 차단</li>
           </ul>
         </div>
         <div class="proj-section-label">Result</div>
         <div class="proj-text">
           <ul>
-            <li>2025년, 2026년 두 차례 접근성 심사 대응을 기한 내 완료</li>
+            <li><strong>2026년 정보통신 접근성 인증 갱신심사 통과</strong> (2025년 1차에 이은 2년 연속 대응)</li>
             <li>iOS VoiceOver, Android TalkBack 환경에서 주요 거래 흐름을 실제로 완주하며 검증</li>
             <li>개선 기준을 정리해 화면 개발 시점부터 접근성이 적용되도록 팀에 공유</li>
             <li>배운 점: 접근성은 나중에 덧붙이는 기능이 아니라 <em>마크업 품질의 결과</em>이고, 프레임워크의 속성 바인딩 규칙 같은 세부가 결과를 좌우한다는 것</li>
@@ -942,7 +1536,7 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">Vue.js</span>
             <span class="stack-item">HTML / WAI-ARIA</span>
             <span class="stack-item">JavaScript</span>
             <span class="stack-item">VoiceOver / TalkBack</span>
@@ -950,7 +1544,7 @@
         </div>
         <div class="result-badge">
           <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">2년 연속 접근성<br>심사 대응 완료<br>(CSS, 동작 무변경)</div>
+          <div class="rb-text">정보통신 접근성<br>인증 갱신심사<br><span style="font-size:1.05rem;font-weight:600;">통과</span></div>
         </div>
       </div>
     </div>
@@ -1003,9 +1597,9 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">Vue.js</span>
             <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">Java 8</span>
+            <span class="stack-item">Java</span>
             <span class="stack-item">PostgreSQL</span>
             <span class="stack-item">전자서명 / PKCS7</span>
           </div>
@@ -1062,10 +1656,10 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">Vue.js</span>
             <span class="stack-item">WebView Bridge</span>
             <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">Java 8</span>
+            <span class="stack-item">Java</span>
             <span class="stack-item">PostgreSQL</span>
           </div>
         </div>
@@ -1093,7 +1687,7 @@
           <ul>
             <li>공지사항과 팝업을 채널마다 각각 등록해야 해, 같은 내용을 반복 입력하는 구조</li>
             <li>이용 지표 확인이나 이미지 교체처럼 자주 발생하는 요청이 매번 개발자 작업으로 넘어오던 상황</li>
-            <li>ICT 정책 변경으로 운영 목적의 직접 DB 조회에 결재가 필요해지면서, 기존 운영 업무를 어드민 기능으로 옮길 필요가 커짐</li>
+            <li>내부 데이터 접근 통제가 강화되면서, 기존에 직접 조회로 처리하던 운영 업무를 어드민 기능으로 옮길 필요가 커짐</li>
           </ul>
         </div>
         <div class="proj-section-label">Solution / Process</div>
@@ -1102,14 +1696,17 @@
             <li>채널별로 분리돼 있던 등록 방식을 분석해, <strong>한 번 작성하면 전 채널에 반영되는 공통 구조</strong>로 재설계하고 채널 분기로 모바일웹, 인터넷뱅킹, 앱 화면에 각각 맞게 렌더링</li>
             <li><strong>MAU/DAU 조회 기능</strong>을 추가해, 현업이 개발자를 거치지 않고 직접 이용 지표를 확인하도록 변경</li>
             <li><strong>팝업 이미지 직접 삽입 기능</strong>을 추가. 이미지 저장소와 채널 조회 API를 분리하고, 접속 도메인으로 환경을 판별해 개발과 운영에서 같은 코드가 동작하도록 구성</li>
-            <li>분기별 규제 공시 데이터를 코드와 JSON에 하드코딩하던 방식에서 DB 관리로 이관. 누적 500여 건의 과거 데이터를 함께 이관하고, 계산된 수치는 원본 그대로 저장해 화면에서 재계산하지 않도록 정리</li>
+            <li>분기별 규제 공시 데이터를 코드와 JSON에 하드코딩하던 방식에서 <strong>DB 관리로 이관</strong>. 테이블 설계와 <strong>41개 분기 전수 조사</strong>가 필요해 팀에서 선뜻 맡기 어려워하던 건이었지만, 한 번 정리해두면 분기마다 반복되던 작업이 사라진다고 판단해 자원했습니다</li>
+            <li>이관 과정에서 <strong>누적 500여 건</strong>의 과거 데이터를 옮기고, 이미 계산되어 공시된 수치는 원본 그대로 저장해 화면에서 재계산하지 않도록 설계. 과거 공시 표기를 그대로 보존하는 것이 정확도보다 우선이라고 봤습니다</li>
           </ul>
         </div>
         <div class="proj-section-label">Result</div>
         <div class="proj-text">
           <ul>
+            <li>1차 개선 범위(전 채널 팝업 일원화, 이미지 직접 삽입, MAU/DAU 조회)를 <strong>2026.07 운영 배포 완료</strong></li>
             <li>공지와 팝업 등록이 <strong>3개 채널 반복 입력에서 1회 등록으로</strong> 축소</li>
             <li>지표 조회와 이미지 교체가 현업 자체 처리로 전환되어, 개발자 경유 단계가 사라짐</li>
+            <li>분기 공시 데이터가 DB로 넘어오면서, 매 분기 코드를 수정하고 배포하던 작업이 데이터 등록으로 대체됨</li>
             <li>현업으로부터 긍정적인 평가를 받았고, 같은 방식으로 비효율 항목을 계속 발굴해 개선 중</li>
             <li>배운 점: 기능을 더하는 것보다 <em>반복을 없애는 방향</em>이 체감 효과가 크고, 개선 대상은 요청서가 아니라 운영 지원 과정에서 발견된다는 것</li>
           </ul>
@@ -1123,9 +1720,9 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Vue 2 / Element UI</span>
+            <span class="stack-item">Vue.js / Element UI</span>
             <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">Java 8</span>
+            <span class="stack-item">Java</span>
             <span class="stack-item">MyBatis</span>
             <span class="stack-item">PostgreSQL</span>
           </div>
@@ -1183,7 +1780,7 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Java 8</span>
+            <span class="stack-item">Java</span>
             <span class="stack-item">Spring Boot</span>
             <span class="stack-item">MyBatis</span>
             <span class="stack-item">PostgreSQL</span>
@@ -1205,24 +1802,28 @@
           <h3 class="proj-name">스마트뱅킹 채널 상시 운영 및 정책 대응</h3>
         </div>
         <p class="proj-summary">
-          위 프로젝트들과 병행해 온 상시 업무. 현업 요청 처리와 금융 정책 변경 대응, 제휴 채널 연동 정정 등
-          채널을 계속 돌아가게 만드는 일이며, 실제 근무 기간 대부분을 관통하는 배경 업무입니다.
+          위 프로젝트들과 병행해 온 상시 업무. 입사 이후 <strong>크고 작은 개발 건 약 230건</strong>을 처리했습니다.
+          다만 요건대로 쳐내는 데 그치지 않고, 반복되는 요청은 그때마다 프로그램으로 바꿔
+          다음부터는 요청 자체가 발생하지 않게 만드는 방향으로 일해 왔습니다.
         </p>
         <div class="proj-section-label">주요 대응 유형</div>
         <div class="proj-text">
           <ul>
+            <li><strong>서비스 신규 오픈</strong>: 안심차단 비대면 신청(2025.10 ~ 2026.03), 금리인하요구권 신청(2025.08 ~ 2025.10) 등 신규 서비스를 화면부터 서버 연동까지 담당</li>
+            <li><strong>외부 솔루션 도입 주도</strong>: 신분증 사본판별 솔루션을 붙이면서, 우리 구조에 맞는 연동 방식을 먼저 정리한 뒤 솔루션사 담당자와 직접 소통하며 규격을 맞춰 나감. 중간 전달을 거치지 않아 확인과 수정 주기가 짧아졌고, 그만큼 빠르게 오픈</li>
             <li><strong>금융 정책, 규제 대응</strong>: 상품 구조 변경, 소비자보호 관련 화면, 분기 공시 항목 등 대외 요건 변경에 맞춘 화면과 서버 반영</li>
-            <li><strong>현업 요청 처리</strong>: 이벤트 페이지, 상품 표기, 공지와 팝업 등 운영 요청의 개발 대응</li>
-            <li><strong>제휴 채널 연동</strong>: 제휴사가 잘못 알고 있던 진입 URL 규격을 오픈 전에 확인하고 정정. URL은 코드가 아니라 계약이라는 관점에서, 문서와 실제 구현의 차이를 먼저 맞춤</li>
-            <li><strong>구조적 이슈 정리</strong>: 예외 처리 체계, 라우터 가드 순서, 빌드 설정처럼 반복 재발하는 함정을 문서로 남겨 팀이 같은 지점에서 막히지 않도록 정리</li>
+            <li><strong>인증, 인가 구조 정리</strong>: 인증이 필요 없는 경로가 보안 필터 자체를 통과하지 않도록, 게이트웨이 계층에서 인가 방어선의 적용 범위를 다시 정리</li>
+            <li><strong>제휴 채널 연동</strong>: 제휴사가 잘못 인지하고 있던 진입 URL 규격을 오픈 전에 확인하고 정정. URL은 코드가 아니라 계약이라는 관점에서, 문서와 실제 구현의 차이를 먼저 맞춤</li>
+            <li><strong>구조적 이슈 정리</strong>: 예외 처리 체계, 라우터 가드 순서, 빌드 설정처럼 반복 재발하는 함정을 문서로 남기고, 신입 온보딩 문서도 직접 작성해 팀이 같은 지점에서 막히지 않도록 정리</li>
           </ul>
         </div>
         <div class="proj-section-label">Result</div>
         <div class="proj-text">
           <ul>
-            <li>입사 이후 채널 운영 대응을 지속하며, 별도 프로젝트와 병행 진행</li>
-            <li>운영 대응 과정에서 발견한 비효율이 운영자 페이지 개선 과제로 이어짐</li>
-            <li>배운 점: 서비스 구조를 가장 빠르게 익히는 방법은 운영 대응이라는 것. 어디가 자주 깨지고 어디를 손대면 위험한지는 문서가 아니라 요청 이력에 남아 있습니다</li>
+            <li><strong>2024.12부터 2025.12까지 약 170건, 2026년 8월까지 약 60건</strong>의 개발 건을 별도 프로젝트와 병행 처리</li>
+            <li>그룹 공동 이벤트 배너에서 저축은행 채널로 진입하지 못하는 규격 오류를 <strong>오픈 전에 발견해 정정</strong>. 이후 제휴 개발 건에서 같은 문제가 재발하지 않도록 진입 URL을 단일 규격으로 통일</li>
+            <li>수기로 처리하던 운영 업무를 어드민 기능으로 옮기는 흐름을 만들어, 운영 요청이 개발자를 거치지 않고 현업에서 끝나도록 전환</li>
+            <li>배운 점: 서비스 구조를 가장 빠르게 익히는 방법은 운영 대응이라는 것. 어디가 자주 깨지고 어디를 손대면 위험한지는 문서가 아니라 요청 이력에 남아 있습니다. 그리고 <em>같은 요청이 세 번 오면 그건 기능 요청이 아니라 구조 문제</em>라는 기준이 생겼습니다</li>
           </ul>
         </div>
       </div>
@@ -1234,16 +1835,18 @@
         <div class="proj-meta-block">
           <div class="proj-meta-label">Tech Stack</div>
           <div class="stack-list">
-            <span class="stack-item">Vue 2</span>
+            <span class="stack-item">Vue.js</span>
             <span class="stack-item">JSP</span>
             <span class="stack-item">Spring Boot</span>
-            <span class="stack-item">Java 8</span>
+            <span class="stack-item">Spring Security</span>
+            <span class="stack-item">Spring Cloud (Zuul, Eureka)</span>
+            <span class="stack-item">Java</span>
             <span class="stack-item">PostgreSQL</span>
           </div>
         </div>
         <div class="result-badge">
           <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">1년 9개월간<br>채널 상시 운영 대응<br>병행</div>
+          <div class="rb-text">개발 건<br><span style="font-size:1.2rem;font-weight:600;">약 <span data-count="230" data-suffix="건">230건</span></span> 처리<br>(프로젝트와 병행)</div>
         </div>
       </div>
     </div>
@@ -1251,16 +1854,212 @@
   </div>
 </section>
 
+<!-- ══ DEEP DIVE ══ -->
+<section id="deepdive" aria-labelledby="deepdive-title">
+  <div class="container">
+    <div class="projects-header fade-up">
+      <p class="section-eyebrow">// 깊게 파고든 문제</p>
+      <h2 class="section-title" id="deepdive-title" style="color:var(--ink)">Deep Dive</h2>
+      <p class="proj-summary" style="max-width:640px;margin-top:-1.8rem;">
+        기능을 만든 이야기보다, 막혔을 때 어떻게 원인을 좁혔고 무엇을 근거로 방식을 골랐는지가
+        저를 더 정확히 설명한다고 생각합니다. 그중 두 가지입니다.
+      </p>
+    </div>
+
+    <div class="dd-grid stagger">
+
+      <!-- DD 1 : 오케스트레이터 래퍼 -->
+      <div class="dd-card spotlight">
+        <span class="dd-tag">Vue 컴포넌트 설계</span>
+        <h3 class="dd-title">수정하면 안 되는 컴포넌트를, 수정하지 않고 확장하기</h3>
+
+        <div class="dd-row">
+          <div class="dd-label">문제</div>
+          <div class="dd-body">
+            인증서 선택부터 서명, 발급까지 이어지는 흐름을 여러 상품 화면에 붙여야 했습니다.
+            그런데 기존 인증 모달이 <em>부모 컴포넌트의 특정 메서드를 직접 호출하는 구조</em>여서,
+            화면마다 같은 코드를 복사해야 했고 성공과 취소가 같은 경로로 들어와 구분조차 되지 않았습니다.
+          </div>
+        </div>
+
+        <div class="dd-row">
+          <div class="dd-label">제약</div>
+          <div class="dd-body">
+            그 모달은 이미 운영에서 검증된 코드였습니다. 금융 화면에서 회귀 위험을 감수하며 원본을 고치는 선택은 하고 싶지 않았습니다.
+          </div>
+        </div>
+
+        <div class="dd-row">
+          <div class="dd-label">해결</div>
+          <div class="dd-body">
+            모달을 자식으로 감싸는 <em>오케스트레이터 래퍼</em>를 만들어, 부모 계약 구현을 래퍼 한 곳으로 모았습니다.
+            바깥에는 열기 호출과 성공, 취소, 실패 이벤트만 노출해 상품 화면이 모달의 존재를 몰라도 되도록 의존성을 역전시켰고,
+            중복 콜백 방어 같은 공통 로직도 래퍼에 집약했습니다.
+          </div>
+        </div>
+
+        <div class="dd-row">
+          <div class="dd-label">결과</div>
+          <div class="dd-body">
+            상품별 복사 코드가 사라졌고, 외부 명세나 서명 포맷이 바뀌어도 한 파일만 고치면 전 상품에 반영됩니다.
+            새 상품 추가는 메타 한 줄과 핸들러 등록으로 끝납니다. 기존 모달은 한 줄도 수정하지 않았습니다.
+          </div>
+        </div>
+
+        <p class="dd-learn">
+          <b>배운 점.</b> 고칠 수 없는 코드는 감싸서 의존을 뒤집으면 된다.
+          원본을 건드리지 않고 확장하는 쪽이, 잘 짜인 리팩터링보다 안전할 때가 있다.
+        </p>
+      </div>
+
+      <!-- DD 2 : WebView 레이스 컨디션 -->
+      <div class="dd-card spotlight">
+        <span class="dd-tag">WebView 네이티브 브리지</span>
+        <h3 class="dd-title">첫 진입에서만 재현되는 버그, 새로고침하면 정상</h3>
+
+        <div class="dd-row">
+          <div class="dd-label">문제</div>
+          <div class="dd-body">
+            캐시를 지우고 앱에 처음 들어가면 일부 화면의 조회가 실패했습니다.
+            그런데 새로고침하면 정상이었습니다. <em>첫 진입에서만</em> 재현되는 패턴이었습니다.
+          </div>
+        </div>
+
+        <div class="dd-row">
+          <div class="dd-label">원인</div>
+          <div class="dd-body">
+            네이티브가 로그인 세션값을 저장소에 쓰는 시점과, Vue 컴포넌트의 mounted가 실행되는 시점 사이의
+            <em>레이스 컨디션</em>이었습니다. WebView의 JS가 먼저 실행되면 읽는 순간 값이 비어 있고,
+            새로고침 때는 이미 써진 뒤라 정상이었던 것입니다.
+          </div>
+        </div>
+
+        <div class="dd-row">
+          <div class="dd-label">해결</div>
+          <div class="dd-body">
+            두 가지 안을 설계하고 트레이드오프로 골랐습니다. 하나는 필수 키가 들어올 때까지 짧은 간격으로 확인하는
+            <em>폴링에 최대 대기 타임아웃 가드</em>를 둔 방식으로, 네이티브 수정 없이 즉시 적용할 수 있었습니다.
+            다른 하나는 네이티브가 세팅 완료를 알려주는 <em>브리지 콜백</em>으로, 정확하지만 양측 협의가 필요했습니다.
+            사용자 영향을 먼저 막는 게 우선이라 폴링으로 배포하고, 이후 네이티브 팀과 협의해 콜백으로 전환하는 단계를 밟았습니다.
+          </div>
+        </div>
+
+        <div class="dd-row">
+          <div class="dd-label">결과</div>
+          <div class="dd-body">
+            첫 진입 실패 제거. 급한 불을 끄는 방식과 옳은 방식을 대립시키지 않고, 순서를 나눠 둘 다 취했습니다.
+          </div>
+        </div>
+
+        <p class="dd-learn">
+          <b>배운 점.</b> 컴포넌트가 마운트된 시점은 데이터가 준비된 시점이 아니다.
+          외부에 의존해 무언가를 기다릴 때는 반드시 타임아웃 가드를 둔다.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ══ SIDE PROJECT ══ -->
-<section id="side" style="background:#e8ecf4; padding-top:0;" aria-labelledby="side-title">
+<section id="side" style="background:#e8ecf4;" aria-labelledby="side-title">
   <div class="container">
     <div class="projects-header fade-up" style="margin-bottom:2.2rem">
       <p class="section-eyebrow">// 사이드 프로젝트 (업무 외, 사내 CoP)</p>
       <h2 class="section-title" id="side-title" style="color:var(--ink)">Side Project</h2>
     </div>
 
+    <!-- SIDE 1 : KRC AI 디지털 혁신 공모전 (공개 저장소) -->
     <div class="project-card side fade-up">
-      <div class="proj-index" aria-hidden="true">S</div>
+      <div class="proj-index" aria-hidden="true">S1</div>
+      <div>
+        <div class="proj-header">
+          <span class="side-tag">Side Project (공모전 출품)</span>
+          <div class="proj-section-label">2026.07 &nbsp; 기획, 프론트엔드, 앱 전 영역</div>
+          <h3 class="proj-name">수신호: 저수지 물 정보 기반 농업용수 부족 예측 서비스</h3>
+        </div>
+        <p class="proj-summary">
+          제3회 KRC AI 디지털 혁신 공모전 출품작. 공공데이터의 저수지 수위 추세를 분석해 가뭄 단계 도달 시점을 예측하고,
+          농업인이 지금 무엇을 해야 하는지 쉬운 말로 안내하는 서비스입니다.
+          Next.js 웹과 Android 네이티브 앱을 하나의 모노레포에서 함께 만들었고, <strong>저장소와 배포 URL 모두 공개되어 있습니다.</strong>
+        </p>
+        <div class="proj-section-label">Solution / Process</div>
+        <div class="proj-text">
+          <ul>
+            <li>웹(Next.js)과 Android(Kotlin, Jetpack Compose)를 <strong>단일 모노레포</strong>로 구성하고, 두 클라이언트가 공유하는 <strong>OpenAPI 계약 패키지를 별도로 분리</strong>해 규격 변경이 양쪽에 동시에 반영되도록 구성</li>
+            <li>공공데이터 5종(저수지 수위 API, 가뭄 지도, 시설 정보 등)을 수집해 수위 추세로 가뭄 단계 도달 시점을 산출</li>
+            <li>LLM 응답에 <strong>정적 폴백 경로</strong>를 둬, 외부 API가 실패해도 서비스가 빈 화면으로 죽지 않도록 설계</li>
+            <li>회원가입과 로그인을 두지 않고 위치 정보도 서버에 저장하지 않는 구조로, <strong>수집하지 않는 것이 가장 확실한 보호</strong>라는 원칙을 적용</li>
+          </ul>
+        </div>
+        <div class="proj-section-label">Result</div>
+        <div class="proj-text">
+          <ul>
+            <li>웹 배포와 서명된 Android APK 릴리즈까지 완료해, 코드부터 실제 동작까지 전 과정을 공개 검증 가능한 상태로 마무리</li>
+            <li>실무에서 다루지 못하는 TypeScript, Next.js, 모노레포, 계약 우선 개발을 <strong>제품을 끝까지 내보내는 형태로</strong> 경험</li>
+            <li>배운 점: 클라이언트가 둘 이상이면 <em>규격을 코드로 공유하는 것</em>이 문서로 맞추는 것보다 확실하다는 것</li>
+          </ul>
+        </div>
+        <!--
+          [스크린샷 넣는 법] shots/ 폴더에 아래 파일명으로 이미지를 저장하면 이 영역이 자동으로 나타납니다.
+          파일이 없는 동안에는 JS가 갤러리를 통째로 제거하므로 깨진 이미지가 보이지 않습니다.
+        -->
+        <div class="proj-shots" data-shots>
+          <div class="proj-shots-label">Screenshots</div>
+          <div class="shot-grid">
+            <figure class="shot">
+              <a href="shots/krc-web-home.png" target="_blank" rel="noopener noreferrer">
+                <img src="shots/krc-web-home.png" alt="수신호 웹 메인 화면. 저수지 수위와 가뭄 단계 예측 정보" loading="lazy">
+              </a>
+              <figcaption>웹 메인. 수위 추세와 가뭄 단계 예측</figcaption>
+            </figure>
+            <figure class="shot">
+              <a href="shots/krc-web-detail.png" target="_blank" rel="noopener noreferrer">
+                <img src="shots/krc-web-detail.png" alt="수신호 웹 상세 화면. 저수지별 정보와 권장 조치 안내" loading="lazy">
+              </a>
+              <figcaption>저수지 상세와 권장 조치 안내</figcaption>
+            </figure>
+            <figure class="shot">
+              <a href="shots/krc-android.png" target="_blank" rel="noopener noreferrer">
+                <img src="shots/krc-android.png" alt="수신호 Android 네이티브 앱 화면" loading="lazy">
+              </a>
+              <figcaption>Android 네이티브 앱 (Jetpack Compose)</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="proj-links">
+          <a class="proj-link" href="https://3rd-krc-ai-digital-web.vercel.app/" target="_blank" rel="noopener noreferrer">배포된 웹 열기</a>
+          <a class="proj-link" href="https://github.com/indaegu/3rd-krc-ai-digital" target="_blank" rel="noopener noreferrer">GitHub 저장소</a>
+          <a class="proj-link" href="https://github.com/indaegu/3rd-krc-ai-digital/releases" target="_blank" rel="noopener noreferrer">Android APK 릴리즈</a>
+        </div>
+      </div>
+      <div class="proj-sidebar">
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Period</div>
+          <div class="proj-period">2026.07</div>
+        </div>
+        <div class="proj-meta-block">
+          <div class="proj-meta-label">Tech Stack</div>
+          <div class="stack-list">
+            <span class="stack-item">TypeScript</span>
+            <span class="stack-item">Next.js</span>
+            <span class="stack-item">모노레포 / OpenAPI 계약</span>
+            <span class="stack-item">Kotlin / Jetpack Compose</span>
+            <span class="stack-item">Supabase (PostgreSQL)</span>
+            <span class="stack-item">Claude API</span>
+          </div>
+        </div>
+        <div class="result-badge">
+          <div class="rb-label">Key Outcome</div>
+          <div class="rb-text">웹과 네이티브 앱을<br>모노레포로 동시 출시<br>(코드 전체 공개)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDE 2 : SBOM 플랫폼 (사내 CoP) -->
+    <div class="project-card side fade-up">
+      <div class="proj-index" aria-hidden="true">S2</div>
       <div>
         <div class="proj-header">
           <span class="side-tag">Side Project (사내 CoP)</span>
@@ -1270,7 +2069,7 @@
         <p class="proj-summary">
           업무 외 사내 학습 모임(CoP)에서 팀장을 맡아 진행하는 사이드 프로젝트. 사내 오픈소스 자산을 SBOM으로 가시화하고,
           취약점을 조기에 탐지해 Slack과 이메일로 알리는 플랫폼의 프론트엔드를 단독으로 맡고 있습니다.
-          실무에서 쓰지 못하는 React와 TypeScript를 실제 제품 수준으로 다루는 자리이기도 합니다.
+          React와 TypeScript로 상태 관리와 서버 상태 동기화, 컴포넌트 구조까지 직접 설계하며 제품 수준으로 다루고 있습니다.
         </p>
         <div class="proj-section-label">Background / Problem</div>
         <div class="proj-text">
@@ -1295,6 +2094,29 @@
             <li>협업 규칙과 개발 프로세스를 정립하고 프론트엔드 구조를 담당</li>
             <li>배운 점: 도메인 복잡도가 높은 문제도 표준(SBOM)과 자동화를 결합하면 운영 가능한 형태가 된다는 것</li>
           </ul>
+        </div>
+
+        <!--
+          [스크린샷 넣는 법] shots/ 폴더에 아래 파일명으로 저장하면 자동으로 나타납니다.
+          주의: 사내 자산이므로 실제 저장소명, 실제 패키지명, 실제 CVE 번호가 보이면 안 됩니다.
+          더미 데이터 화면이거나 해당 부분을 가린 컷만 사용하세요. (shots/README.md 참고)
+        -->
+        <div class="proj-shots" data-shots>
+          <div class="proj-shots-label">Screenshots</div>
+          <div class="shot-grid">
+            <figure class="shot">
+              <a href="shots/sbom-dashboard.png" target="_blank" rel="noopener noreferrer">
+                <img src="shots/sbom-dashboard.png" alt="SBOM 플랫폼 대시보드 화면. 오픈소스 자산 현황 요약" loading="lazy">
+              </a>
+              <figcaption>대시보드. 오픈소스 자산 현황 요약</figcaption>
+            </figure>
+            <figure class="shot">
+              <a href="shots/sbom-vuln-list.png" target="_blank" rel="noopener noreferrer">
+                <img src="shots/sbom-vuln-list.png" alt="SBOM 플랫폼 취약점 목록 화면" loading="lazy">
+              </a>
+              <figcaption>취약점 목록과 영향도 분류</figcaption>
+            </figure>
+          </div>
         </div>
       </div>
       <div class="proj-sidebar">
@@ -1329,16 +2151,16 @@
       <p class="section-eyebrow">// 일하는 방식</p>
       <h2 class="section-title" id="workstyle-title" style="color:var(--ink)">How I work</h2>
     </div>
-    <div class="work-grid fade-up">
-      <div class="work-item">
+    <div class="work-grid stagger">
+      <div class="work-item spotlight">
         <h3>기록을 팀의 자산으로</h3>
-        <p>파트 정기회의 회의록과 플랫폼 아키텍처 문서를 맡아 작성하고 관리합니다. 흩어진 맥락을 문서로 남겨야 누가 봐도 같은 그림을 그릴 수 있다고 봅니다.</p>
+        <p>파트 정기회의 회의록, 플랫폼 아키텍처 문서, 그리고 신입사원 온보딩 문서를 맡아 작성하고 관리합니다. 폐쇄망에서는 검색으로 알 수 없는 맥락이 많아, 문서가 없으면 매번 사람에게 물어야 합니다. 그 비용을 줄이는 일이라고 봅니다.</p>
       </div>
-      <div class="work-item">
-        <h3>AI로 반복 업무를 자동화</h3>
-        <p>회의록 정리처럼 반복되는 문서 작업을 AI 도구로 파이프라인화해 팀의 문서 작업 시간을 줄였습니다. 새 도구는 팀 생산성 관점에서 검증하고 도입합니다.</p>
+      <div class="work-item spotlight">
+        <h3>AI를 성장 루프로 쓰기</h3>
+        <p>AI를 개발 전반에 쓰다 보니 결과물만 받아 쓰면 제 판단력이 정체된다는 걸 느꼈습니다. 그래서 협업 지침 자체를 다시 설계했습니다. 규모 있는 작업 전에는 AI가 저에게 역으로 요구사항을 인터뷰하게 해 맹점을 먼저 찾고, PR 전에는 변경 이유와 영향 범위를 설명할 수 있는지 퀴즈로 검증합니다. 속도는 유지하되 이해도가 같이 올라가는 구조를 만드는 것이 목표입니다.</p>
       </div>
-      <div class="work-item">
+      <div class="work-item spotlight">
         <h3>함께 성장하는 개발 문화</h3>
         <p>사내 CoP 팀장으로 브랜치 전략과 커밋, PR 규칙을 세우고 코드 리뷰를 진행합니다. 좋은 컨벤션이 좋은 코드보다 오래 남는다고 믿습니다.</p>
       </div>
@@ -1361,8 +2183,8 @@
         그 습관이 지금의 판단 기준이 됐습니다.
       </p>
       <p class="closing-desc">
-        프론트엔드를 중심에 두되, 서버와 게이트웨이 구조를 함께 읽는 개발자로 기여하고 싶습니다.
-        화면 뒤에서 무슨 일이 일어나는지 알면, 더 나은 화면을 만들 수 있다고 생각합니다.
+        프론트엔드를 주 전공으로 두되, 계정계로 이어지는 비즈니스 로직과 게이트웨이 구조까지 직접 다뤄 왔습니다.
+        화면 뒤에서 무슨 일이 일어나는지 알면 더 나은 화면을 만들 수 있고, 필요하면 그 뒤까지 맡을 수 있습니다.
       </p>
       <div class="closing-links">
         <button type="button" class="clink clink-primary" id="copy-email-btn" data-email="hys1693359@gmail.com">이메일 복사하기</button>
@@ -1376,25 +2198,616 @@
 
 <footer>© 2026 성창민, Frontend Developer</footer>
 
-<script>
-  // JS 활성 여부 표시: JS가 없는 환경에서는 fade-up 요소가 항상 보이도록 CSS와 짝을 이룸
-  document.documentElement.classList.add('js');
+</div><!-- /#smooth-content -->
+</div><!-- /#smooth-wrapper -->
 
-  // Scroll-triggered fade-up (동작 줄이기 설정 시 즉시 표시)
-  var fadeEls = document.querySelectorAll('.fade-up');
+<script>
+  // 'js' 클래스는 <head>에서 이미 붙였다 (첫 페인트 전에 적용되어야 하므로).
+  // 전환 패널이 걷히기 시작할 즈음 히어로 시퀀스를 풀어준다.
+  setTimeout(function () {
+    document.documentElement.classList.remove('booting');
+  }, 620);
+
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var revealEls = document.querySelectorAll('.fade-up, .stagger');
+  var showAll = function () {
+    Array.prototype.forEach.call(revealEls, function (el) {
+      el.classList.add('visible');
+      Array.prototype.forEach.call(el.children, function (c) { c.classList.add('revealed'); });
+    });
+  };
+
+  // stagger 컨테이너의 자식에 순서 인덱스를 부여 (CSS transition-delay 계산용)
+  Array.prototype.forEach.call(document.querySelectorAll('.stagger'), function (box) {
+    Array.prototype.forEach.call(box.children, function (child, i) {
+      child.style.setProperty('--i', i);
+    });
+  });
+
+  // ── 스크롤 진입 리빌 ──
   if (prefersReduced || !('IntersectionObserver' in window)) {
-    Array.prototype.forEach.call(fadeEls, function (el) { el.classList.add('visible'); });
+    showAll();
   } else {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12 });
-    Array.prototype.forEach.call(fadeEls, function (el) { observer.observe(el); });
+    // 리빌 애니메이션이 끝나면 .revealed를 붙여 걷어낸다.
+    // 그래야 카드가 자기 hover 전환(box-shadow, transform)을 다시 소유한다.
+    var handOver = function (box) {
+      Array.prototype.forEach.call(box.children, function (child) {
+        var done = function () { child.classList.add('revealed'); };
+        child.addEventListener('animationend', done, { once: true });
+        // 애니메이션이 시작조차 못 한 경우(탭 비활성 등)를 위한 안전장치
+        setTimeout(done, 105 * (parseInt(child.style.getPropertyValue('--i'), 10) || 0) + 1100);
+      });
+    };
+
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        if (e.target.classList.contains('stagger')) handOver(e.target);
+        revealObserver.unobserve(e.target); // 한 번 보이면 관찰 중단
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    Array.prototype.forEach.call(revealEls, function (el) { revealObserver.observe(el); });
   }
 
-  // 인쇄 직전에는 페이드 상태를 모두 해제 (아직 노출되지 않은 섹션이 빈 채로 출력되는 것 방지)
-  window.addEventListener('beforeprint', function () {
-    Array.prototype.forEach.call(fadeEls, function (el) { el.classList.add('visible'); });
+  // 인쇄 직전에는 리빌 상태를 모두 해제 (아직 노출되지 않은 섹션이 빈 채로 출력되는 것 방지)
+  window.addEventListener('beforeprint', showAll);
+
+  // ── 스크롤 진행 바: CSS scroll-timeline 미지원 브라우저 대체 ──
+  var progressBar = document.querySelector('.scroll-progress');
+  var supportsScrollTimeline =
+    window.CSS && CSS.supports && CSS.supports('animation-timeline', 'scroll()');
+  // 관성 스크롤이 켜지면 진행 바는 그쪽 루프가 보간값으로 그리므로 여기서는 손대지 않는다
+  var willSmooth = !prefersReduced && finePointer &&
+                   !('ontouchstart' in window) && !navigator.maxTouchPoints;
+
+  if (progressBar && !supportsScrollTimeline && !prefersReduced && !willSmooth) {
+    var progressTick = function () {
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - doc.clientHeight;
+      var ratio = max > 0 ? doc.scrollTop / max : 0;
+      progressBar.style.transform = 'scaleX(' + ratio + ')';
+    };
+    window.addEventListener('scroll', progressTick, { passive: true });
+    window.addEventListener('resize', progressTick);
+    progressTick();
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     연출 레이어
+     터치 기기와 동작 줄이기 환경에서는 켜지 않는다.
+     ══════════════════════════════════════════════════════════ */
+  var isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  var richMotion = !prefersReduced && finePointer && !isTouch;
+  var lerp = function (a, b, t) { return a + (b - a) * t; };
+  // 관성 스크롤 루프에 얹어서 매 프레임 돌릴 작업들 (스크롤 이벤트보다 정확하게 따라온다)
+  var frameTasks = [];
+
+  // ── 1. 관성 스크롤 ──────────────────────────────────────────
+  var wrapper = document.getElementById('smooth-wrapper');
+  var content = document.getElementById('smooth-content');
+  var smoothOn = false;
+  var scrollNow = 0;          // 화면에 실제로 그려진 위치 (보간값)
+  var progressBar2 = document.querySelector('.scroll-progress');
+
+  // 다른 로직이 "지금 보이는 스크롤 위치"를 물어볼 때 쓰는 단일 창구
+  var visualScroll = function () { return smoothOn ? scrollNow : window.pageYOffset; };
+
+  if (richMotion && wrapper && content) {
+    smoothOn = true;
+    document.documentElement.classList.add('smooth');
+
+    var syncBodyHeight = function () {
+      document.body.style.height = content.getBoundingClientRect().height + 'px';
+    };
+    syncBodyHeight();
+    scrollNow = window.pageYOffset;
+
+    if ('ResizeObserver' in window) new ResizeObserver(syncBodyHeight).observe(content);
+    window.addEventListener('resize', syncBodyHeight);
+    window.addEventListener('load', syncBodyHeight);
+
+    var smoothLoop = function () {
+      var target = window.pageYOffset;
+      scrollNow = lerp(scrollNow, target, 0.09);
+      // 0.05px 미만이면 붙여버려 서브픽셀 진동과 무한 리페인트를 막는다
+      if (Math.abs(target - scrollNow) < 0.05) scrollNow = target;
+
+      content.style.transform = 'translate3d(0,' + (-scrollNow).toFixed(2) + 'px,0)';
+
+      if (progressBar2) {
+        var max = document.body.scrollHeight - window.innerHeight;
+        progressBar2.style.transform = 'scaleX(' + (max > 0 ? scrollNow / max : 0) + ')';
+      }
+      for (var fi = 0; fi < frameTasks.length; fi++) frameTasks[fi]();
+      requestAnimationFrame(smoothLoop);
+    };
+    requestAnimationFrame(smoothLoop);
+
+    // 인쇄 시에는 transform을 걷어내야 내용이 잘리지 않는다
+    window.addEventListener('beforeprint', function () {
+      content.style.transform = 'none';
+      document.body.style.height = 'auto';
+    });
+    window.addEventListener('afterprint', function () {
+      syncBodyHeight();
+    });
+  }
+
+  // ── 히어로가 화면 밖이면 배경 오브 애니메이션 정지 (합성 비용 절약) ──
+  var heroEl = document.getElementById('hero');
+  if (heroEl && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      heroEl.classList.toggle('offscreen', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(heroEl);
+  }
+
+  // ── 내비게이션: 아래로 스크롤 시 숨김, 위로 스크롤 시 표시 + 현재 섹션 표시 ──
+  var navEl = document.querySelector('nav');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  var sectionFor = {};
+  Array.prototype.forEach.call(navLinks, function (link) {
+    var id = link.getAttribute('href');
+    if (id && id.charAt(0) === '#') {
+      var target = document.querySelector(id);
+      if (target) sectionFor[id] = target;
+    }
+  });
+
+  var lastY = window.pageYOffset;
+  var navTicking = false;
+
+  var navUpdate = function () {
+    // 관성 스크롤이 켜져 있으면 실제 스크롤이 아니라 "보이는 위치"를 기준으로 판단해야
+    // 내비 숨김과 현재 섹션 표시가 화면과 어긋나지 않는다
+    var y = visualScroll();
+
+    navEl.classList.toggle('nav-scrolled', y > 24);
+    // 히어로 구간에서는 항상 표시. 아래로 충분히 내릴 때만 숨김
+    if (!prefersReduced) {
+      var goingDown = y > lastY && y > window.innerHeight * 0.6;
+      navEl.classList.toggle('nav-hidden', goingDown);
+    }
+    lastY = y;
+
+    // 현재 화면 중앙에 걸린 섹션을 활성화
+    var mid = y + window.innerHeight / 2.4;
+    var activeId = null;
+    for (var id in sectionFor) {
+      var el = sectionFor[id];
+      var top = el.offsetTop;
+      if (mid >= top && mid < top + el.offsetHeight) activeId = id;
+    }
+    Array.prototype.forEach.call(navLinks, function (link) {
+      link.classList.toggle('active', link.getAttribute('href') === activeId);
+    });
+
+    navTicking = false;
+  };
+
+  if (navEl) {
+    window.addEventListener('scroll', function () {
+      if (navTicking) return;
+      navTicking = true;
+      window.requestAnimationFrame(navUpdate);
+    }, { passive: true });
+    navUpdate();
+  }
+
+  // ── 카드 스포트라이트 + 키워드 카드 기울임 (마우스 환경에서만) ──
+  if (finePointer && !prefersReduced) {
+    Array.prototype.forEach.call(document.querySelectorAll('.spotlight'), function (card) {
+      var isTilt = card.classList.contains('keyword-card');
+
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+
+        card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+
+        if (isTilt) {
+          // -0.5 ~ 0.5 범위로 정규화해 회전량으로 사용. y축은 부호를 뒤집어야 자연스럽다
+          card.style.setProperty('--tx', (px - 0.5).toFixed(3));
+          card.style.setProperty('--ty', (0.5 - py).toFixed(3));
+          card.classList.add('tilting');
+        }
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.classList.remove('tilting');
+        card.style.removeProperty('--tx');
+        card.style.removeProperty('--ty');
+      });
+    });
+  }
+
+  // 관성 스크롤이 켜졌으면 내비 갱신을 프레임 루프에 얹는다.
+  // 스크롤 이벤트는 사용자가 멈춘 순간 끊기지만 보간은 계속되므로, 그 구간이 어긋난다.
+  if (smoothOn && navEl) frameTasks.push(navUpdate);
+
+  // ── 2. WebGL 히어로 배경 ────────────────────────────────────
+  // 외부 라이브러리 없이 풀스크린 쿼드 하나에 프래그먼트 셰이더로 흐르는 파동을 그린다.
+  (function () {
+    var canvas = document.querySelector('.hero-gl');
+    if (!canvas || !richMotion) return;
+
+    var glOpts = { antialias: false, alpha: false, depth: false, stencil: false,
+                   powerPreference: 'low-power' };
+    var gl = canvas.getContext('webgl', glOpts)
+          || canvas.getContext('experimental-webgl', glOpts);
+    if (!gl) return;   // 미지원이면 CSS 오브가 그대로 남는다
+
+    var VERT =
+      'attribute vec2 p;' +
+      'void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
+
+    var FRAG = [
+      'precision highp float;',
+      'uniform vec2 u_res;',
+      'uniform float u_time;',
+      'uniform vec2 u_mouse;',
+      // 값 노이즈와 fbm. 라이브러리 없이 부드러운 흐름을 만들기 위한 최소 구성
+      'float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }',
+      'float noise(vec2 p){',
+      '  vec2 i = floor(p), f = fract(p);',
+      '  vec2 u = f * f * (3.0 - 2.0 * f);',
+      '  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),',
+      '             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);',
+      '}',
+      'float fbm(vec2 p){',
+      '  float v = 0.0, a = 0.5;',
+      '  for (int i = 0; i < 5; i++) { v += a * noise(p); p *= 2.03; a *= 0.5; }',
+      '  return v;',
+      '}',
+      'void main(){',
+      '  vec2 uv = gl_FragCoord.xy / u_res.xy;',
+      '  vec2 st = uv; st.x *= u_res.x / u_res.y;',
+      '  float t = u_time * 0.075;',
+      // 도메인 워핑: fbm 결과로 좌표를 한 번 더 휘어 물결처럼 흐르게 한다
+      '  vec2 q = vec2(fbm(st * 1.5 + t), fbm(st * 1.5 + vec2(3.1, 1.7) - t));',
+      '  vec2 r = vec2(fbm(st * 2.4 + q * 2.0 + vec2(1.7, 9.2) + t * 0.8),',
+      '                fbm(st * 2.4 + q * 2.0 + vec2(8.3, 2.8) - t * 0.6));',
+      '  float f = fbm(st * 2.2 + r * 1.8);',
+      // 커서 주변을 부풀린다
+      '  float m = 1.0 - smoothstep(0.0, 0.5, distance(st, u_mouse));',
+      '  f += m * 0.16;',
+      // fbm은 0.5 근처에 몰려 있어 그대로 쓰면 대비가 거의 없다. 중앙을 기준으로 펼친다
+      '  float k = clamp((f - 0.42) * 2.6, -1.0, 1.0);',
+      // 워핑된 필드로 결(ridge)을 만들어 물결이 눈에 보이게 한다
+      '  float band = sin((f * 5.0 + r.x * 2.4 - u_time * 0.28) * 6.2831);',
+      '  band = smoothstep(-0.35, 0.85, band);',
+      '  vec3 paper  = vec3(0.949, 0.957, 0.973);',
+      '  vec3 mist   = vec3(0.796, 0.851, 0.980);',
+      '  vec3 accent = vec3(0.180, 0.373, 1.000);',
+      '  vec3 deep   = vec3(0.078, 0.165, 0.431);',
+      // 배경은 어디까지나 배경이다. 히어로 전체에 텍스트가 깔려 있으므로
+      // 채도를 강하게 올리면 본문과 연락처의 명도 대비가 무너진다.
+      '  vec3 col = mix(paper, mist, smoothstep(-0.7, 0.6, k) * 0.80);',
+      '  col = mix(col, accent, smoothstep(0.25, 1.0, k) * 0.20);',
+      '  col = mix(col, deep, band * smoothstep(0.70, 1.0, k) * 0.09);',
+      '  col = mix(col, vec3(1.0), (1.0 - band) * smoothstep(0.0, 0.8, k) * 0.12);',
+      // 본문과 CTA, 연락처가 놓이는 중앙 가로 띠를 특히 옅게 눌러 가독성을 지킨다
+      '  float mid = 1.0 - smoothstep(0.0, 0.46, abs(uv.y - 0.46));',
+      '  col = mix(col, paper, mid * 0.50);',
+      // 전체를 한 단계 더 눌러 은은한 기운만 남긴다
+      '  col = mix(col, paper, 0.18);',
+      '  gl_FragColor = vec4(col, 1.0);',
+      '}'
+    ].join('\n');
+
+    var prog = null, uRes = null, uTime = null, uMouse = null;
+    var mouse = [0.5, 0.5], mouseT = [0.5, 0.5];
+    var heroSection = document.getElementById('hero');
+    var start = null, lostCount = 0, alive = false;
+
+    var compile = function (type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (gl.getShaderParameter(s, gl.COMPILE_STATUS)) return s;
+      gl.deleteShader(s);
+      return null;
+    };
+
+    // 컨텍스트가 복구되면 셰이더, 버퍼, 유니폼을 처음부터 다시 만들어야 한다
+    var build = function () {
+      var vs = compile(gl.VERTEX_SHADER, VERT);
+      var fs = compile(gl.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return false;
+
+      prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false;
+      gl.useProgram(prog);
+
+      var buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+      var loc = gl.getAttribLocation(prog, 'p');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+      uRes = gl.getUniformLocation(prog, 'u_res');
+      uTime = gl.getUniformLocation(prog, 'u_time');
+      uMouse = gl.getUniformLocation(prog, 'u_mouse');
+      return true;
+    };
+
+    var resize = function (force) {
+      // 배경 그라데이션이라 해상도를 낮게 잡아도 티가 안 난다. GPU 부담을 줄인다
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      var w = Math.round(canvas.clientWidth * dpr);
+      var h = Math.round(canvas.clientHeight * dpr);
+      if (!w || !h) return;
+      if (!force && canvas.width === w && canvas.height === h) return;
+      canvas.width = w; canvas.height = h;
+      gl.viewport(0, 0, w, h);
+      if (uRes) gl.uniform2f(uRes, w, h);
+    };
+
+    // WebGL을 포기하고 CSS 오브로 되돌린다
+    var giveUp = function () {
+      alive = false;
+      canvas.classList.remove('ready');
+      document.documentElement.classList.remove('gl-on');
+    };
+
+    // 컨텍스트 유실은 실제로 일어난다(GPU 리셋, 드라이버 교체, 메모리 압박).
+    // preventDefault를 불러야 브라우저가 복구를 시도한다.
+    canvas.addEventListener('webglcontextlost', function (e) {
+      e.preventDefault();
+      lostCount++;
+      giveUp();
+    }, false);
+
+    canvas.addEventListener('webglcontextrestored', function () {
+      // 반복해서 잃는 환경이면 더 시도하지 않고 CSS 배경으로 남긴다
+      if (lostCount > 2) return;
+      if (!build()) { giveUp(); return; }
+      start = null;
+      resize(true);
+      alive = true;
+      document.documentElement.classList.add('gl-on');
+      canvas.classList.add('ready');
+    }, false);
+
+    if (!build()) return;   // 컴파일이나 링크 실패 시 CSS 오브 유지
+
+    window.addEventListener('resize', function () { resize(false); });
+    window.addEventListener('mousemove', function (e) {
+      var r = canvas.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      mouseT[0] = ((e.clientX - r.left) / r.width) * (r.width / r.height);
+      mouseT[1] = 1 - (e.clientY - r.top) / r.height;
+    }, { passive: true });
+
+    var visible = true;
+    if ('IntersectionObserver' in window && heroSection) {
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; },
+        { threshold: 0 }).observe(heroSection);
+    }
+
+    alive = true;
+    document.documentElement.classList.add('gl-on');
+
+    var render = function (now) {
+      requestAnimationFrame(render);
+      if (!alive || gl.isContextLost()) return;
+      if (!visible) return;              // 히어로가 화면 밖이면 GPU를 쉬게 둔다
+      if (start === null) { start = now; resize(true); canvas.classList.add('ready'); }
+      resize(false);
+      mouse[0] = lerp(mouse[0], mouseT[0], 0.06);
+      mouse[1] = lerp(mouse[1], mouseT[1], 0.06);
+      gl.uniform1f(uTime, (now - start) / 1000);
+      gl.uniform2f(uMouse, mouse[0], mouse[1]);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    };
+    requestAnimationFrame(render);
+  })();
+
+  // ── 3. 커스텀 커서 ──────────────────────────────────────────
+  (function () {
+    if (!richMotion) return;
+    var dot = document.querySelector('.cursor-dot');
+    var ring = document.querySelector('.cursor-ring');
+    if (!dot || !ring) return;
+
+    document.documentElement.classList.add('cursor-on');
+
+    var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    var rx = mx, ry = my;
+
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX; my = e.clientY;
+
+      var t = e.target;
+      var closest = t && t.closest ? t.closest.bind(t) : function () { return null; };
+
+      // 어두운 섹션 위에서는 색을 반전한다
+      var onDark = !!closest('#keywords, #closing');
+      dot.classList.toggle('on-dark', onDark);
+      ring.classList.toggle('on-dark', onDark);
+
+      // 링크와 버튼 위에서만 링을 키운다.
+      // 카드 위에서 큰 원이나 라벨을 띄우면 정작 읽어야 할 본문을 가린다.
+      ring.classList.toggle('hot', !!closest('a, button, .pill, .stack-item'));
+    }, { passive: true });
+
+    // 커서가 창을 벗어나면 숨긴다
+    document.addEventListener('mouseleave', function () {
+      dot.style.opacity = ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', function () {
+      dot.style.opacity = ring.style.opacity = '1';
+    });
+
+    var cursorLoop = function () {
+      // 점은 즉시, 링은 지연해서 따라오게 하면 관성이 생긴다
+      rx = lerp(rx, mx, 0.16);
+      ry = lerp(ry, my, 0.16);
+      dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
+      ring.style.transform = 'translate3d(' + rx.toFixed(2) + 'px,' + ry.toFixed(2) + 'px,0)';
+      requestAnimationFrame(cursorLoop);
+    };
+    requestAnimationFrame(cursorLoop);
+  })();
+
+  // ── 4. 자석 버튼 ────────────────────────────────────────────
+  (function () {
+    if (!richMotion) return;
+
+    // 등장 애니메이션이 forwards로 transform을 붙들고 있으면 인라인 transform이 안 먹는다.
+    // 애니메이션이 끝나는 대로 제어권을 넘겨받는다.
+    Array.prototype.forEach.call(document.querySelectorAll('.hero-rise'), function (el) {
+      el.addEventListener('animationend', function () {
+        el.classList.remove('hero-rise');
+        el.classList.add('risen');
+      });
+    });
+
+    var targets = document.querySelectorAll('.hero-cta, .clink, .proj-link');
+    Array.prototype.forEach.call(targets, function (el) {
+      el.classList.add('magnetic');
+      var radius = 70;
+
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width / 2);
+        var dy = e.clientY - (r.top + r.height / 2);
+        if (Math.abs(dx) > r.width / 2 + radius) return;
+        el.classList.add('pulling');
+        el.style.transform = 'translate3d(' + (dx * 0.28).toFixed(1) + 'px,' +
+                             (dy * 0.42).toFixed(1) + 'px,0)';
+      });
+
+      el.addEventListener('mouseleave', function () {
+        el.classList.remove('pulling');
+        el.style.transform = '';
+      });
+    });
+  })();
+
+  // ── 5. 페이지 전환 + 앵커 이동 ──────────────────────────────
+  (function () {
+    var overlay = document.querySelector('.transition-overlay');
+
+    var targetTop = function (el) {
+      // 관성 스크롤에서는 #smooth-wrapper가 offsetParent라 offsetTop이 곧 문서 좌표가 된다
+      var y = 0, node = el;
+      while (node && node !== document.body && node.offsetParent) {
+        y += node.offsetTop; node = node.offsetParent;
+      }
+      return Math.max(0, y - 8);
+    };
+
+    var jumpTo = function (y) {
+      window.scrollTo(0, y);
+      if (smoothOn) scrollNow = y;   // 패널이 덮고 있는 동안 보간 없이 즉시 맞춘다
+    };
+
+    // 메뉴 이동: 패널이 덮었다가 걷히는 전환
+    Array.prototype.forEach.call(document.querySelectorAll('.nav-links a[href^="#"]'), function (a) {
+      a.addEventListener('click', function (e) {
+        var el = document.querySelector(a.getAttribute('href'));
+        if (!el) return;
+        e.preventDefault();
+
+        if (!richMotion || !overlay) { jumpTo(targetTop(el)); return; }
+
+        overlay.classList.remove('leaving');
+        overlay.classList.add('entering');
+        setTimeout(function () {
+          jumpTo(targetTop(el));
+          overlay.classList.remove('entering');
+          overlay.classList.add('leaving');
+          setTimeout(function () { overlay.classList.remove('leaving'); }, 900);
+        }, 700);
+      });
+    });
+
+    // 그 외 앵커(로고, 히어로 CTA, 본문 바로가기): 관성으로 미끄러져 이동
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.hero-cta[href^="#"], .nav-name[href^="#"], .skip-link'),
+      function (a) {
+        a.addEventListener('click', function (e) {
+          var el = document.querySelector(a.getAttribute('href'));
+          if (!el) return;
+          e.preventDefault();
+          window.scrollTo({ top: targetTop(el), behavior: smoothOn ? 'auto' : 'smooth' });
+        });
+      }
+    );
+  })();
+
+  // ── 핵심 수치 카운트업 ──
+  var counters = document.querySelectorAll('[data-count]');
+
+  if (counters.length && 'IntersectionObserver' in window && !prefersReduced) {
+    var runCount = function (el) {
+      var target = parseFloat(el.getAttribute('data-count'));
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1400;
+      var start = null;
+
+      var step = function (now) {
+        if (start === null) start = now;
+        var p = Math.min((now - start) / duration, 1);
+        // easeOutExpo: 초반에 빠르게 오르다 끝에서 부드럽게 멈춤
+        var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+        el.textContent = Math.round(target * eased) + suffix;
+
+        if (p < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          el.textContent = target + suffix;
+          el.classList.add('count-pop');
+        }
+      };
+      window.requestAnimationFrame(step);
+    };
+
+    var countObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        runCount(e.target);
+        countObserver.unobserve(e.target);
+      });
+    }, { threshold: 0.6 });
+
+    Array.prototype.forEach.call(counters, function (el) {
+      el.textContent = '0' + (el.getAttribute('data-suffix') || '');
+      countObserver.observe(el);
+    });
+  }
+
+  // 스크린샷 갤러리: 실제로 로드된 이미지만 남기고, 하나도 없으면 영역 자체를 제거한다.
+  // (이미지를 아직 안 넣었거나 일부만 넣은 상태에서도 깨진 이미지가 노출되지 않도록)
+  Array.prototype.forEach.call(document.querySelectorAll('[data-shots]'), function (gallery) {
+    var figures = gallery.querySelectorAll('.shot');
+    var pending = figures.length;
+
+    var settle = function () {
+      if (--pending > 0) return;
+      if (!gallery.querySelector('.shot')) gallery.parentNode.removeChild(gallery);
+    };
+
+    Array.prototype.forEach.call(figures, function (fig) {
+      var img = fig.querySelector('img');
+      var drop = function () {
+        if (fig.parentNode) fig.parentNode.removeChild(fig);
+        settle();
+      };
+
+      if (img.complete) {
+        // 캐시된 이미지: naturalWidth가 0이면 로드 실패
+        if (img.naturalWidth > 0) settle(); else drop();
+      } else {
+        img.addEventListener('load', settle);
+        img.addEventListener('error', drop);
+      }
+    });
   });
 
   // Copy email address from closing CTA.
