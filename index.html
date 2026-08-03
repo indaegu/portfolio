@@ -1319,9 +1319,15 @@
               </div>
             </div>
             <div class="skill-row">
+              <div class="skill-cat">Mobile</div>
+              <div class="skill-pills">
+                <span class="pill">Kotlin</span><span class="pill">Jetpack Compose</span>
+              </div>
+            </div>
+            <div class="skill-row">
               <div class="skill-cat">Data / Monitoring</div>
               <div class="skill-pills">
-                <span class="pill">Oracle</span><span class="pill">MySQL</span><span class="pill">Prometheus</span><span class="pill">Grafana</span>
+                <span class="pill">Oracle</span><span class="pill">MySQL</span><span class="pill">Supabase</span><span class="pill">Prometheus</span><span class="pill">Grafana</span>
               </div>
             </div>
           </div>
@@ -1403,9 +1409,8 @@
           </ul>
           <p class="earlier-note">
             <b>사이드 프로젝트</b><br>
-            수신호, 저수지 물 정보 기반 농업용수 부족 예측 서비스 (제3회 KRC AI 디지털 혁신 공모전 출품, Next.js와 Android 모노레포, 2026.07,
-            <a href="https://github.com/indaegu/3rd-krc-ai-digital" target="_blank" rel="noopener noreferrer">코드 공개</a>)<br>
-            SBOM 기반 오픈소스 취약점 관리 플랫폼 (사내 CoP, 팀장 겸 프론트엔드 단독, 2026.04 ~ 진행 중)
+            수신호, 농업용수 물관리 AI 코치 (KRC AI 디지털 혁신 공모전 출품, 웹과 안드로이드 단독 개발, 2026.07)<br>
+            SBOM 기반 오픈소스 취약점 관리 플랫폼 (사내 CoP 팀장, 프론트엔드 단독, 2026.04 ~ 진행 중)
           </p>
           <p class="earlier-note">
             <b>그 외 개인 / 학습 프로젝트</b><br>
@@ -1963,7 +1968,7 @@
 <section id="side" style="background:#e8ecf4;" aria-labelledby="side-title">
   <div class="container">
     <div class="projects-header fade-up" style="margin-bottom:2.2rem">
-      <p class="section-eyebrow">// 사이드 프로젝트 (업무 외, 사내 CoP)</p>
+      <p class="section-eyebrow">// 사이드 프로젝트 (업무 외)</p>
       <h2 class="section-title" id="side-title" style="color:var(--ink)">Side Project</h2>
     </div>
 
@@ -1973,29 +1978,39 @@
       <div>
         <div class="proj-header">
           <span class="side-tag">Side Project (공모전 출품)</span>
-          <div class="proj-section-label">2026.07 &nbsp; 기획, 프론트엔드, 앱 전 영역</div>
-          <h3 class="proj-name">수신호: 저수지 물 정보 기반 농업용수 부족 예측 서비스</h3>
+          <div class="proj-section-label">2026.07 &nbsp; 기획, 설계, 개발 전 영역</div>
+          <h3 class="proj-name">수신호, 농업용수 물관리 AI 코치</h3>
         </div>
         <p class="proj-summary">
-          제3회 KRC AI 디지털 혁신 공모전 출품작. 공공데이터의 저수지 수위 추세를 분석해 가뭄 단계 도달 시점을 예측하고,
-          농업인이 지금 무엇을 해야 하는지 쉬운 말로 안내하는 서비스입니다.
-          Next.js 웹과 Android 네이티브 앱을 하나의 모노레포에서 함께 만들었고, <strong>저장소와 배포 URL 모두 공개되어 있습니다.</strong>
+          제3회 KRC AI 디지털 혁신 공모전 출품작. 한국농어촌공사 공공데이터로 우리 지역 저수지 사정을 보여주고,
+          앞으로의 흐름과 오늘 할 일을 알려주는 서비스입니다. 웹과 안드로이드 앱을 하나의 모노레포에서
+          OpenAPI 계약으로 묶어 혼자 설계하고 구현했습니다.
         </p>
+        <div class="proj-section-label">Background / Problem</div>
+        <div class="proj-text">
+          <ul>
+            <li>저수율 데이터는 공개돼 있지만 숫자와 그래프뿐이라, 정작 물을 대는 농업인은 &ldquo;지금 물을 대도 되는지&rdquo;를 판단하기 어려움</li>
+            <li>공식 가뭄 정보는 월 단위 공표라 오늘 값이 비어 있는 날이 많고, 예보는 지역 단위여서 내 저수지 사정과 어긋남</li>
+            <li>주 사용자가 고령 농업인이라 작은 글씨와 전문 용어, 로그인 절차가 그대로 진입 장벽</li>
+          </ul>
+        </div>
         <div class="proj-section-label">Solution / Process</div>
         <div class="proj-text">
           <ul>
-            <li>웹(Next.js)과 Android(Kotlin, Jetpack Compose)를 <strong>단일 모노레포</strong>로 구성하고, 두 클라이언트가 공유하는 <strong>OpenAPI 계약 패키지를 별도로 분리</strong>해 규격 변경이 양쪽에 동시에 반영되도록 구성</li>
-            <li>공공데이터 5종(저수지 수위 API, 가뭄 지도, 시설 정보 등)을 수집해 수위 추세로 가뭄 단계 도달 시점을 산출</li>
-            <li>LLM 응답에 <strong>정적 폴백 경로</strong>를 둬, 외부 API가 실패해도 서비스가 빈 화면으로 죽지 않도록 설계</li>
-            <li>회원가입과 로그인을 두지 않고 위치 정보도 서버에 저장하지 않는 구조로, <strong>수집하지 않는 것이 가장 확실한 보호</strong>라는 원칙을 적용</li>
+            <li>저수율 예측 모델 5종(naive, 이동평균, 선형, 지수평활, 감쇠추세)을 154개 시군, 770개 시점, 23,100 표본으로 rolling-origin 백테스트해 성능이 가장 좋은 모델을 채택</li>
+            <li>공표가 없는 날은 저수지 실측 수위로 지역 값을 추정. 학습, 검증, 시험 구간을 시간순으로 3분할해 게이트를 통과한 지역만 사용하고, 통과 기준과 오차를 화면에 함께 표기</li>
+            <li>Claude API로 수치를 쉬운 문장과 행동 3가지로 바꾸되, 단계와 숫자는 서버가 확정하고 LLM은 표현만 담당. 캐시와 예산 가드를 두고 어떤 실패 경로에서도 정적 코치로 응답을 유지</li>
+            <li>OpenAPI 하나를 계약의 단일 출처로 두고 웹(Next.js)과 안드로이드(Compose)가 같은 타입을 공유. 계약과 문서, 예시, 픽스처의 수치가 어긋나면 CI가 실패하도록 검사 추가</li>
+            <li>회원가입 없이 기기에 코드 2개(시군, 저수지)만 저장하고 주소 원문은 남기지 않음. 접근성은 명도 대비, 큰 글꼴, 스크린리더 기준으로 맞춤</li>
           </ul>
         </div>
         <div class="proj-section-label">Result</div>
         <div class="proj-text">
           <ul>
-            <li>웹 배포와 서명된 Android APK 릴리즈까지 완료해, 코드부터 실제 동작까지 전 과정을 공개 검증 가능한 상태로 마무리</li>
-            <li>실무에서 다루지 못하는 TypeScript, Next.js, 모노레포, 계약 우선 개발을 <strong>제품을 끝까지 내보내는 형태로</strong> 경험</li>
-            <li>배운 점: 클라이언트가 둘 이상이면 <em>규격을 코드로 공유하는 것</em>이 문서로 맞추는 것보다 확실하다는 것</li>
+            <li><strong>예측 오차 7일 1.85%p, 14일 3.05%p, 30일 4.32%p</strong>로 재현 가능한 근거를 확보하고 리포트를 저장소에 커밋</li>
+            <li>지역 추정은 홀드아웃 오차 0.74%p, 가뭄 단계 일치율 100%. 기준을 통과한 70개 시군에만 적용해 과신을 차단</li>
+            <li>웹과 안드로이드 양쪽에서 같은 계약으로 동작하는 서비스를 배포하고, 통신이 끊겨도 마지막 화면을 유지하도록 처리</li>
+            <li>배운 점: 예측 서비스에서 정말 어려운 것은 모델이 아니라 <em>&ldquo;틀릴 수 있음&rdquo;을 사용자에게 정직하게 전달하는 설계</em>라는 것</li>
           </ul>
         </div>
         <!--
@@ -2042,15 +2057,16 @@
           <div class="stack-list">
             <span class="stack-item">TypeScript</span>
             <span class="stack-item">Next.js</span>
+            <span class="stack-item">Kotlin / Compose</span>
             <span class="stack-item">모노레포 / OpenAPI 계약</span>
-            <span class="stack-item">Kotlin / Jetpack Compose</span>
-            <span class="stack-item">Supabase (PostgreSQL)</span>
+            <span class="stack-item">Supabase</span>
             <span class="stack-item">Claude API</span>
+            <span class="stack-item">Vercel</span>
           </div>
         </div>
         <div class="result-badge">
           <div class="rb-label">Key Outcome</div>
-          <div class="rb-text">웹과 네이티브 앱을<br>모노레포로 동시 출시<br>(코드 전체 공개)</div>
+          <div class="rb-text">웹과 안드로이드<br>단독 개발로<br>공공데이터 예측 서비스 배포</div>
         </div>
       </div>
     </div>
