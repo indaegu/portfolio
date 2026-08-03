@@ -166,9 +166,9 @@
   .hero-title {
     font-family: 'Pretendard', sans-serif;
     font-weight: 800;
-    /* 문구가 4줄이라 기존 4.6rem이면 세로로 너무 길어진다.
-       가장 긴 줄(“원래 이렇게 해요”를)이 가용폭 730px에 들어가는 선에서 최대로 잡았다. */
-    font-size: clamp(2.4rem, 5.6vw, 4rem);
+    /* 3줄이라 세로 여유가 생긴 만큼 키웠다.
+       상한은 가장 긴 줄(“원래 이렇게 해요”를)이 가용폭 730px에 들어가는 지점이다. */
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
     line-height: 1.16;
     letter-spacing: -0.015em;
     color: var(--ink);
@@ -710,9 +710,8 @@
     animation: line-rise 1.05s var(--ease-out-expo) forwards;
   }
   html.js .hero-title .line:nth-child(1) .line-in { animation-delay: .15s; }
-  html.js .hero-title .line:nth-child(2) .line-in { animation-delay: .26s; }
-  html.js .hero-title .line:nth-child(3) .line-in { animation-delay: .37s; }
-  html.js .hero-title .line:nth-child(4) .line-in { animation-delay: .48s; }
+  html.js .hero-title .line:nth-child(2) .line-in { animation-delay: .27s; }
+  html.js .hero-title .line:nth-child(3) .line-in { animation-delay: .39s; }
   @keyframes line-rise { to { transform: translateY(0); } }
 
   /* 나머지 히어로 요소: --i 순서대로 계단식 등장 */
@@ -1045,7 +1044,7 @@
     .hero-inner { grid-template-columns: 1fr; padding: 0 1.4rem; gap: 2rem; }
     .hero-bg-text { display: none; }
     /* 360px에서도 가장 긴 줄이 한 줄에 들어가야 의미 단위 줄바꿈이 유지된다 */
-    .hero-title { font-size: clamp(2.05rem, 8vw, 2.9rem); }
+    .hero-title { font-size: clamp(2.15rem, 8.4vw, 3.1rem); }
     /* 모바일에서도 첫 화면에 연락처가 남도록 숨기지 않고 가로 배치로 전환 */
     .hero-meta {
       flex-direction: row; flex-wrap: wrap; gap: .5rem 1.2rem;
@@ -1208,7 +1207,6 @@
       <h1 class="hero-title" id="hero-title">
         <span class="line"><span class="line-in">“원래 이렇게 해요”를</span></span>
         <span class="line"><span class="line-in">그냥 넘기지 않는</span></span>
-        <span class="line"><span class="line-in">프론트엔드 개발자,</span></span>
         <span class="line"><span class="line-in"><em>성창민</em>입니다.</span></span>
       </h1>
       <p class="hero-pitch hero-rise" style="--i:4">
