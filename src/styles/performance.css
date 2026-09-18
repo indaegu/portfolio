@@ -1,0 +1,25 @@
+/* Keep the original visual system; avoid large repaint/compositing surfaces.
+   Appended at build time: no extra stylesheet request or runtime style injection. */
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR',system-ui,sans-serif}
+.site-header{background:#10121b;backdrop-filter:none;-webkit-backdrop-filter:none}
+.hero h1{font-size:clamp(36px,3.8vw,54px);line-height:1.35;letter-spacing:-.045em}
+.hero h1>span{max-width:100%}
+/* A flex item otherwise shrinks horizontally (470 -> 370px), but not vertically.
+   The complete 3D pose exists in CSS, before JavaScript is downloaded. */
+.orbit-set{flex:0 0 470px;min-width:470px;width:470px;height:470px;aspect-ratio:1;transition:none}
+.orbit{box-shadow:none}
+/* Keep cover illustrations static. Only the small CTA responds on hover. */
+.cover-art{transition:none;will-change:auto}
+a.project-cover:hover .cover-art{transform:none}
+.project-cover:hover .water-note{transform:rotate(-7deg)}
+.project-cover:hover .auth-core{transform:none}
+.project-cover:hover .layer-back{transform:translate(20px,-46px) rotateX(14deg) rotateY(-10deg) rotateZ(-6deg)}
+.project-cover:hover .layer-front{transform:rotateX(14deg) rotateY(-10deg) rotateZ(-6deg)}
+.water-note,.auth-core,.module-layer{transition:none}
+@media(max-width:800px){.hero h1{font-size:clamp(30px,5.2vw,42px)}}
+@media(max-width:560px){.hero h1{font-size:clamp(24px,7vw,32px);line-height:1.4}}
+@media print{.hero h1{font-size:26pt}}
+
+/* Preserve local CSS-only progress; unsupported browsers show no misleading bar. */
+@supports(animation-timeline:scroll(root)){.reading-progress{animation:reading-progress linear both;animation-timeline:scroll(root)}}
+@supports not (animation-timeline:scroll(root)){.reading-progress{display:none}}

@@ -1,4 +1,5 @@
-import {mkdir,rm,writeFile,cp,access} from 'node:fs/promises';
+import {mkdir,rm,writeFile,cp,access,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {dirname,resolve} from 'node:path';
 import {profile,projects} from '../src/content/portfolio.mjs';
@@ -25,15 +26,21 @@ export async function build(){
  for(const p of projects)if(p.media){await access(resolve(root,'public',p.media.src));if(p.media.poster)await access(resolve(root,'public',p.media.poster));}
  await rm(out,{recursive:true,force:true});await mkdir(resolve(out,'assets'),{recursive:true});
  await cp(resolve(root,'public'),out,{recursive:true,filter:path=>!path.endsWith('README.md')});
- await cp(resolve(root,'src/styles/site.css'),resolve(out,'assets/site.css'));
- await cp(resolve(root,'src/scripts/site.js'),resolve(out,'assets/site.js'));
+ // Bundle the small overrides into the existing CSS request. No runtime stylesheet injection.
+ const css=(await Promise.all(['site.css','performance.css'].map(name=>readFile(resolve(root,'src/styles',name),'utf8')))).join('\n');
+ const js=await readFile(resolve(root,'src/scripts/site.js'),'utf8');
+ await writeFile(resolve(out,'assets/site.css'),css);
+ await writeFile(resolve(out,'assets/site.js'),js);
+ const hash=value=>createHash('sha256').update(value).digest('hex').slice(0,12);
+ const versions={css:hash(css),js:hash(js)};
+ const versionAssets=html=>html.replaceAll('assets/site.css"',`assets/site.css?v=${versions.css}"`).replaceAll('assets/site.js"',`assets/site.js?v=${versions.js}"`);
  // Preserve existing repository branding when building inside the original checkout.
  for(const name of ['favicon.png','logo.png','og-image.png']){try{await access(resolve(root,name));await cp(resolve(root,name),resolve(out,name));}catch(error){if(error.code!=='ENOENT')throw error;}}
- await writeFile(resolve(out,'index.html'),homePage(base));
- for(const p of projects){const dir=resolve(out,'projects',p.slug);await mkdir(dir,{recursive:true});await writeFile(resolve(dir,'index.html'),projectPage(p,base));}
- await writeFile(resolve(out,'404.html'),notFoundPage(base));await writeFile(resolve(out,'.nojekyll'),'');
+ await writeFile(resolve(out,'index.html'),versionAssets(homePage(base)));
+ for(const p of projects){const dir=resolve(out,'projects',p.slug);await mkdir(dir,{recursive:true});await writeFile(resolve(dir,'index.html'),versionAssets(projectPage(p,base)));}
+ await writeFile(resolve(out,'404.html'),versionAssets(notFoundPage(base)));await writeFile(resolve(out,'.nojekyll'),'');
  await writeFile(resolve(out,'robots.txt'),'# Each page requests noindex; this is not access control.\nUser-agent: *\nAllow: /\n');
- await writeFile(resolve(out,'build-info.json'),JSON.stringify({basePath:base,pages:projects.length+2,contentUpdated:profile.updated},null,2)+'\n');
+ await writeFile(resolve(out,'build-info.json'),JSON.stringify({basePath:base,pages:projects.length+2,contentUpdated:profile.updated,assets:versions},null,2)+'\n');
  console.log(`Built ${projects.length+2} static pages -> dist (base: ${base||'/'})`);return out;
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))await build();
